@@ -9,7 +9,7 @@ function PointerLockControls(camera) {
     var scope = this;
 
     camera.rotation.set(0, 0, 0);
-
+    
     var pitchObject = new THREE.Object3D();
     pitchObject.add(camera);
 

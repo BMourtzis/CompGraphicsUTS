@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { PointerLockControls } from './PointerLockControls';
+import { PointerLockControls } from './controls/pointerLockControls';
 
 var camera, scene, renderer, controls;
 var objects = [];
@@ -33,6 +33,7 @@ if (havePointerLock) {
     document.addEventListener('webkitpointerlockerror', pointerlockerror, false);
 
     console.log(instructions);
+    console.log("instructions")
     instructions.addEventListener('click', function (event) {
             instructions.style.display = 'none';
             // Ask the browser to lock the pointer

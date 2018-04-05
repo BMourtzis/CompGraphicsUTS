@@ -4,9 +4,9 @@
   "description": "Computer Graphics project for UTS using Threejs",
   "private": true,
   "scripts": {
-    "start": "",
+    "start": "webpack-dev-server --open",
     "build": "webpack",
-    "test": ""
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,8 @@
   "homepage": "https://github.com/BMourtzis/CompGraphicsUTS#readme",
   "devDependencies": {
     "webpack": "^4.5.0",
-    "webpack-cli": "^2.0.14"
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
     "three": "^0.91.0"
