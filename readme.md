@@ -1,4 +1,3 @@
-
 ## Topic
 A Museum that goes throw the history of video game characters. The idea is to create models through different eras of video game models, from low poly (like tomb raider) to high poly.
 
@@ -20,3 +19,9 @@ A Museum that goes throw the history of video game characters. The idea is to cr
 - [ ] Add secret room with extra models
 - [ ] Add more rooms to the museum
 - [ ] Add switches for the lights
+
+## Getting Started
+1. Install Node.js version 9.7.1 or above
+2. Open a Console on the directory
+3. Run "npm install" and wait to install all the dependencies
+4. Run "npm start" and wait to compile, a browser tab will open
