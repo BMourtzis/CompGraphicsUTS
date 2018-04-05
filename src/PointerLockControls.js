@@ -1,8 +1,10 @@
+import * as THREE from "three";
+
 /**
  * @author mrdoob / http://mrdoob.com/
  */
 
-THREE.PointerLockControls = function (camera) {
+function PointerLockControls(camera) {
 
     var scope = this;
 
@@ -67,3 +69,5 @@ THREE.PointerLockControls = function (camera) {
     }();
 
 };
+
+export { PointerLockControls };

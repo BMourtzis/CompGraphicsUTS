@@ -1,3 +1,6 @@
+import * as THREE from 'three';
+import { PointerLockControls } from './PointerLockControls';
+
 var camera, scene, renderer, controls;
 var objects = [];
 var raycaster;
@@ -64,7 +67,7 @@ function init() {
     var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
     light.position.set(0.5, 1, 0.75);
     scene.add(light);
-    controls = new THREE.PointerLockControls(camera);
+    controls = new PointerLockControls(camera);
     scene.add(controls.getObject());
 
     var onKeyDown = function (event) {
