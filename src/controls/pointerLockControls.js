@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import { Object3D, Euler, Vector3 } from "three";
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -9,11 +9,11 @@ function PointerLockControls(camera) {
     var scope = this;
 
     camera.rotation.set(0, 0, 0);
-    
-    var pitchObject = new THREE.Object3D();
+
+    var pitchObject = new Object3D();
     pitchObject.add(camera);
 
-    var yawObject = new THREE.Object3D();
+    var yawObject = new Object3D();
     yawObject.position.y = 10;
     yawObject.add(pitchObject);
 
@@ -53,8 +53,8 @@ function PointerLockControls(camera) {
 
         // assumes the camera itself is not rotated
 
-        var direction = new THREE.Vector3(0, 0, -1);
-        var rotation = new THREE.Euler(0, 0, 0, "YXZ");
+        var direction = new Vector3(0, 0, -1);
+        var rotation = new Euler(0, 0, 0, "YXZ");
 
         return function (v) {
 

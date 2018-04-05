@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import { Vector3, Scene, Fog, HemisphereLight, Color, Raycaster, MeshBasicMaterial, Mesh, WebGLRenderer, PlaneGeometry, VertexColors, PerspectiveCamera } from "three";
 import { PointerLockControls } from './controls/pointerLockControls';
 
 var camera, scene, renderer, controls;
@@ -33,7 +33,7 @@ if (havePointerLock) {
     document.addEventListener('webkitpointerlockerror', pointerlockerror, false);
 
     console.log(instructions);
-    console.log("instructions")
+
     instructions.addEventListener('click', function (event) {
             instructions.style.display = 'none';
             // Ask the browser to lock the pointer
@@ -54,18 +54,18 @@ var moveLeft = false;
 var moveRight = false;
 var canJump = false;
 var prevTime = performance.now();
-var velocity = new THREE.Vector3();
-var direction = new THREE.Vector3();
+var velocity = new Vector3();
+var direction = new Vector3();
 
 
 function init() {
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+    camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
 
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff);
-    scene.fog = new THREE.Fog(0xffffff, 0, 750);
+    scene = new Scene();
+    scene.background = new Color(0xffffff);
+    scene.fog = new Fog(0xffffff, 0, 750);
 
-    var light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
+    var light = new HemisphereLight(0xeeeeff, 0x777788, 0.75);
     light.position.set(0.5, 1, 0.75);
     scene.add(light);
     controls = new PointerLockControls(camera);
@@ -117,10 +117,10 @@ function init() {
 
     document.addEventListener('keydown', onKeyDown, false);
     document.addEventListener('keyup', onKeyUp, false);
-    raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0), 0, 10);
+    raycaster = new Raycaster(new Vector3(), new Vector3(0, -1, 0), 0, 10);
 
     // floor
-    var floorGeometry = new THREE.PlaneGeometry(2000, 2000, 100, 100);
+    var floorGeometry = new PlaneGeometry(2000, 2000, 100, 100);
     floorGeometry.rotateX(-Math.PI / 2);
     for (var i = 0, l = floorGeometry.vertices.length; i < l; i++) {
         var vertex = floorGeometry.vertices[i];
@@ -130,15 +130,15 @@ function init() {
     }
     for (var i = 0, l = floorGeometry.faces.length; i < l; i++) {
         var face = floorGeometry.faces[i];
-        face.vertexColors[0] = new THREE.Color().setHSL(Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
-        face.vertexColors[1] = new THREE.Color().setHSL(Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
-        face.vertexColors[2] = new THREE.Color().setHSL(Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
+        face.vertexColors[0] = new Color().setHSL(Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
+        face.vertexColors[1] = new Color().setHSL(Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
+        face.vertexColors[2] = new Color().setHSL(Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
     }
-    var floorMaterial = new THREE.MeshBasicMaterial({ vertexColors: THREE.VertexColors });
-    var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    var floorMaterial = new MeshBasicMaterial({ vertexColors: VertexColors });
+    var floor = new Mesh(floorGeometry, floorMaterial);
     scene.add(floor);
 
-    renderer = new THREE.WebGLRenderer();
+    renderer = new WebGLRenderer();
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);

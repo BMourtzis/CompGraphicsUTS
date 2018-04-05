@@ -3,7 +3,7 @@
 A Museum that goes throw the history of video game characters. The idea is to create models through different eras of video game models, from low poly (like tomb raider) to high poly.
 
 ## Tasks
-- [ ] Move the code into node.js
+- [x] Move the code into node.js
 - [ ] Add Loader for models
 - [ ] Create the museum walls including textures, should be kinda basic
 - [ ] Create Models for the museum
