@@ -23,7 +23,7 @@ var canJump = false;
 var velocity = new Vector3();
 var direction = new Vector3();
 
-function pointerInit(camera) {
+function pointerLockInit(camera) {
   controls = PointerLockControls(camera);
 
   raycaster = new Raycaster(new Vector3(), new Vector3(0, -1, 0), 0, 10);
@@ -211,7 +211,7 @@ function animate() {
 }
 
 export {
-  pointerInit,
+  pointerLockInit,
   controlsEnabled,
   controls
 }

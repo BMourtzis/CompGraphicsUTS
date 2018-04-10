@@ -1,5 +1,5 @@
 import { Vector3, Raycaster, MeshBasicMaterial, Mesh, WebGLRenderer, Vertexolors, PerspectiveCamera } from "three";
-import { pointerInit, controls, controlsEnabled } from "./utils/pointerLockControls";
+import { pointerLockInit, controls, controlsEnabled } from "./utils/pointerLockControls";
 import { SimpleFloor } from "./misc/floors";
 import { SimpleScene } from "./utils/scene";
 
@@ -12,10 +12,8 @@ function init() {
   camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
   scene = new SimpleScene();
 
-  pointerInit(camera);
+  pointerLockInit(camera);
   scene.add(controls.getObject());
-
-
   scene.add(SimpleFloor());
 
   renderer = new WebGLRenderer();
