@@ -2,8 +2,10 @@ import { Vector3, Raycaster, MeshBasicMaterial, Mesh, WebGLRenderer, Vertexolors
 import { pointerLockInit, controls, controlsEnabled } from "./utils/pointerLockControls";
 import { SimpleFloor } from "./misc/floors";
 import { SimpleScene } from "./utils/scene";
+import { renderer } from './utils/renderer';
+import { FBXLoader } from './loaders/FBXLoader';
 
-var camera, scene, renderer;
+var camera, scene;
 
 init();
 animate();
@@ -15,11 +17,11 @@ function init() {
   pointerLockInit(camera);
   scene.add(controls.getObject());
   scene.add(SimpleFloor());
-
-  renderer = new WebGLRenderer();
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+  var loader = new FBXLoader();
+  loader.load("models/cowboy.fbx", (obj) => {
+    console.log(obj);
+    scene.add(obj);
+  });
 }
 
 function animate() {

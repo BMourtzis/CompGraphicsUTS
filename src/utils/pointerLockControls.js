@@ -25,7 +25,6 @@ var direction = new Vector3();
 
 function pointerLockInit(camera) {
   controls = PointerLockControls(camera);
-
   raycaster = new Raycaster(new Vector3(), new Vector3(0, -1, 0), 0, 10);
 
   addPointLock();
