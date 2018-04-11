@@ -2,9 +2,11 @@ import {
 	// Loaders
 	LoaderUtils, FileLoader, TextureLoader, DefaultLoadingManager,
 	//Transform Objects
-	Matrix4, Euler, Quaternion, Vector3, Vector4,
+	Matrix4, Matrix3, Euler, Quaternion, Vector3, Vector4,
 	// Mesh
 	MeshPhongMaterial, MeshLambertMaterial, SkinnedMesh, Mesh,
+	//Textures
+	RepeatWrapping, ClampToEdgeWrapping,
 	// Cameras
 	PerspectiveCamera, OrthographicCamera,
 	//Lights
@@ -20,7 +22,7 @@ import {
 	// Color
 	Color, VertexColors,
 	// Misc
-	Math, Group, PropertyBinding,  Object3D } from 'three';
+	Math, Group, PropertyBinding,  Object3D, EquirectangularReflectionMapping, Float32BufferAttribute, Uint16BufferAttribute } from 'three';
 
 	import { NurbsCurve } from "../libs/NURBSCurve";
 
@@ -261,8 +263,8 @@ function parseTexture( textureNode, loader, images, connections ) {
 		// http://download.autodesk.com/us/fbx/SDKdocs/FBX_SDK_Help/files/fbxsdkref/class_k_fbx_texture.html#889640e63e2e681259ea81061b85143a
 		// 0: repeat(default), 1: clamp
 
-	texture.wrapS = valueU === 0 ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
-	texture.wrapT = valueV === 0 ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;
+	texture.wrapS = valueU === 0 ? RepeatWrapping : ClampToEdgeWrapping;
+	texture.wrapT = valueV === 0 ? RepeatWrapping : ClampToEdgeWrapping;
 
 	if( 'Scaling' in textureNode ) {
 		var values = textureNode.Scaling.value;
@@ -429,7 +431,7 @@ function parseParameters( FBXTree, properties, textureMap, ID, connections ) {
 				break;
 			case 'ReflectionColor':
 				parameters.envMap = getTexture( FBXTree, textureMap, child.ID, connections );
-				parameters.envMap.mapping = THREE.EquirectangularReflectionMapping;
+				parameters.envMap.mapping = EquirectangularReflectionMapping;
 				break;
 			case 'SpecularColor':
 				parameters.specularMap = getTexture( FBXTree, textureMap, child.ID, connections );
@@ -680,13 +682,12 @@ function genGeometry( FBXTree, relationships, geometryNode, skeleton, preTransfo
 		if ( colorInfo ) {
 			var data = getData( polygonVertexIndex, polygonIndex, vertexIndex, colorInfo );
 
-			faceColors.push( data[ 0 ], data[ 1 ], data[ 2 ] );
+			faceColors.push(data[0], data[1], data[2] );
 		}
 
 		if ( skeleton ) {
 			if ( weightTable[ vertexIndex ] !== undefined ) {
 				weightTable[ vertexIndex ].forEach( function ( wt ) {
-
 					weights.push( wt.weight );
 					weightIndices.push( wt.id );
 				} );
@@ -701,12 +702,11 @@ function genGeometry( FBXTree, relationships, geometryNode, skeleton, preTransfo
 				var wIndex = [ 0, 0, 0, 0 ];
 				var Weight = [ 0, 0, 0, 0 ];
 
-				weights.forEach( function ( weight, weightIndex ) {
+				weights.forEach(function(weight, weightIndex) {
 					var currentWeight = weight;
 					var currentIndex = weightIndices[ weightIndex ];
 
-					Weight.forEach( function ( comparedWeight, comparedWeightIndex, comparedWeightArray ) {
-
+					Weight.forEach(function(comparedWeight, comparedWeightIndex, comparedWeightArray) {
 						if ( currentWeight > comparedWeight ) {
 							comparedWeightArray[ comparedWeightIndex ] = currentWeight;
 							currentWeight = comparedWeight;
@@ -715,8 +715,8 @@ function genGeometry( FBXTree, relationships, geometryNode, skeleton, preTransfo
 							wIndex[ comparedWeightIndex ] = currentIndex;
 							currentIndex = tmp;
 						}
-					} );
-				} );
+					});
+				});
 
 				weightIndices = wIndex;
 				weights = Weight;
@@ -870,32 +870,32 @@ function genGeometry( FBXTree, relationships, geometryNode, skeleton, preTransfo
 		}
 	} );
 
-	var geo = new THREE.BufferGeometry();
+	var geo = new BufferGeometry();
 	geo.name = geometryNode.name;
 
-	var positionAttribute = new THREE.Float32BufferAttribute( vertexBuffer, 3 );
+	var positionAttribute = new Float32BufferAttribute( vertexBuffer, 3 );
 
 	preTransform.applyToBufferAttribute( positionAttribute );
 
 	geo.addAttribute( 'position', positionAttribute );
 
 	if ( colorsBuffer.length > 0 ) {
-		geo.addAttribute( 'color', new THREE.Float32BufferAttribute( colorsBuffer, 3 ) );
+		geo.addAttribute( 'color', new Float32BufferAttribute( colorsBuffer, 3 ) );
 	}
 
 	if ( skeleton ) {
-		geo.addAttribute( 'skinIndex', new THREE.Uint16BufferAttribute( weightsIndicesBuffer, 4 ) );
+		geo.addAttribute( 'skinIndex', new Uint16BufferAttribute( weightsIndicesBuffer, 4 ) );
 
-		geo.addAttribute( 'skinWeight', new THREE.Float32BufferAttribute( vertexWeightsBuffer, 4 ) );
+		geo.addAttribute( 'skinWeight', new Float32BufferAttribute( vertexWeightsBuffer, 4 ) );
 
 		// used later to bind the skeleton to the model
 		geo.FBX_Deformer = skeleton;
 	}
 
 	if ( normalBuffer.length > 0 ) {
-		var normalAttribute = new THREE.Float32BufferAttribute( normalBuffer, 3 );
+		var normalAttribute = new Float32BufferAttribute( normalBuffer, 3 );
 
-		var normalMatrix = new THREE.Matrix3().getNormalMatrix( preTransform );
+		var normalMatrix = new Matrix3().getNormalMatrix( preTransform );
 		normalMatrix.applyToBufferAttribute( normalAttribute );
 
 		geo.addAttribute( 'normal', normalAttribute );
@@ -910,7 +910,7 @@ function genGeometry( FBXTree, relationships, geometryNode, skeleton, preTransfo
 			name = 'uv';
 		}
 
-		geo.addAttribute( name, new THREE.Float32BufferAttribute( uvsBuffer[ i ], 2 ) );
+		geo.addAttribute( name, new Float32BufferAttribute( uvsBuffer[ i ], 2 ) );
 	} );
 
 	if ( materialInfo && materialInfo.mappingType !== 'AllSame' ) {
@@ -1250,7 +1250,7 @@ function buildSkeleton( relationships, skeletons, id, name ) {
 					bone.matrixWorld.copy( rawBone.transformLink );
 
 					// set name and id here - otherwise in cases where "subBone" is created it will not have a name / id
-					bone.name = THREE.PropertyBinding.sanitizeNodeName( name );
+					bone.name = PropertyBinding.sanitizeNodeName( name );
 					bone.ID = id;
 
 					skeleton.bones[ i ] = bone;

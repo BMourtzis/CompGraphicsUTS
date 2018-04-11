@@ -1,4 +1,4 @@
-import { Vector3, Raycaster, MeshBasicMaterial, Mesh, WebGLRenderer, Vertexolors, PerspectiveCamera } from "three";
+import { PerspectiveCamera } from "three";
 import { pointerLockInit, controls, controlsEnabled } from "./utils/pointerLockControls";
 import { SimpleFloor } from "./misc/floors";
 import { SimpleScene } from "./utils/scene";
@@ -18,8 +18,7 @@ function init() {
   scene.add(controls.getObject());
   scene.add(SimpleFloor());
   var loader = new FBXLoader();
-  loader.load("models/cowboy.fbx", (obj) => {
-    console.log(obj);
+  loader.load("models/CoffeMug.fbx", (obj) => {
     scene.add(obj);
   });
 }
@@ -28,7 +27,6 @@ function animate() {
   requestAnimationFrame(animate);
   if(controlsEnabled) {
     controls.animate();
-
   }
   renderer.render(scene, camera);
 }

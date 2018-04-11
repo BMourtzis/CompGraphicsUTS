@@ -3,7 +3,7 @@ A Museum that goes throw the history of video game characters. The idea is to cr
 
 ## Tasks
 - [x] Move the code into node.js
-- [ ] Add Loader for models
+- [x] Add Loader for models
 - [ ] Create the museum walls including textures, should be kinda basic
 - [ ] Create Models for the museum
   - [ ] Tomb Raider
