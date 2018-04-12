@@ -1,9 +1,5 @@
-import {
-  Object3D,
-  Euler,
-  Vector3,
-  Raycaster
-} from "three";
+import { Object3D, Euler, Vector3, Raycaster } from "three";
+import { engine, camera, scene } from "./engine";
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -23,12 +19,15 @@ var canJump = false;
 var velocity = new Vector3();
 var direction = new Vector3();
 
-function pointerLockInit(camera) {
-  controls = PointerLockControls(camera);
+function pointerLockInit() {
+  controls = PointerLockControls();
   raycaster = new Raycaster(new Vector3(), new Vector3(0, -1, 0), 0, 10);
+
+  scene.add(controls.getObject());
 
   addPointLock();
   addMoveEvents();
+  engine.addUpdate("controls", update);
 }
 
 function addPointLock() {
@@ -125,7 +124,7 @@ function addMoveEvents() {
   document.addEventListener('keyup', onKeyUp, false);
 }
 
-function PointerLockControls(camera) {
+function PointerLockControls() {
   camera.rotation.set(0, 0, 0);
 
   var pitchObject = new Object3D();
@@ -153,8 +152,7 @@ function PointerLockControls(camera) {
       v.copy(direction).applyEuler(rotation);
 
       return v;
-    },
-    animate: animate
+    }
   };
 
   var onMouseMove = (event) => {
@@ -174,7 +172,7 @@ function PointerLockControls(camera) {
   return obj;
 };
 
-function animate() {
+function update() {
   raycaster.ray.origin.copy(controls.getObject().position);
   raycaster.ray.origin.y -= 10;
   var intersections = raycaster.intersectObjects(objects);
