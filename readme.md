@@ -39,3 +39,5 @@ When you are trying to load a model, enter the path as if your current directory
 
 ### Scripts
 Index.js initializes a script called engine, which creates the 3 most important components: camera, scene and the WebGL Renderer. It also adds some additional configurations like fog, and a window resize event. The engine script exposes 4 objects: scene, camera, renderer and engine. The engine object has 2 functions: the init, which initialises the objects and crates the update loop and the addUpdate, which adds functions to the update loop.
+
+There is an example file under the src directory that explains how to create a new component

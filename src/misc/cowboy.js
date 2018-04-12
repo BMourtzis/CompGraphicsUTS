@@ -12,4 +12,6 @@ function Cowboy() {
   });
 }
 
-export { Cowboy }
+export {
+  Cowboy
+}
