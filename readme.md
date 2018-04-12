@@ -4,6 +4,7 @@ A Museum that goes throw the history of video game characters. The idea is to cr
 ## Tasks
 - [x] Move the code into node.js
 - [x] Add Loader for models
+- [x] Configure the Engine
 - [ ] Create the museum walls including textures, should be kinda basic
 - [ ] Create Models for the museum
   - [ ] Tomb Raider
@@ -28,8 +29,13 @@ A Museum that goes throw the history of video game characters. The idea is to cr
 5. Run "npm start" and wait to compile, a browser tab will open
 
 ## How it works
+
+### Server
 When you run "npm start" you start a nodejs server using webpack. This server operates on localhost:8080 and that's where it exposes index.html. Webpack bundles index.js into bundles.js and saves it at the "dist" directory, however  webpack is clever enough to see that index.js requires other .js files and bundles them as well in bundle.js file.
 
 In order to expose other types of files to the "web", for example character models, just add them under the "dist" directory (make sure that you create a folder, so that dist stays structured).
 
 When you are trying to load a model, enter the path as if your current directory position is index.html.
+
+### Scripts
+Index.js initializes a script called engine, which creates the 3 most important components: camera, scene and the WebGL Renderer. It also adds some additional configurations like fog, and a window resize event. The engine script exposes 4 objects: scene, camera, renderer and engine. The engine object has 2 functions: the init, which initialises the objects and crates the update loop and the addUpdate, which adds functions to the update loop.
