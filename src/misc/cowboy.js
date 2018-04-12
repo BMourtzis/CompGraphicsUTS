@@ -8,6 +8,7 @@ function Cowboy() {
     var matrix = new Matrix4();
     matrix.makeScale(0.01, 0.01, 0.01);
     obj.applyMatrix(matrix);
+    obj.position.set(1, 1, 1);
     scene.add(obj);
   });
 }

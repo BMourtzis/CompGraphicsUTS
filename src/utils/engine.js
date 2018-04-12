@@ -36,6 +36,8 @@ var engine = {
   }
 }
 
+//Updates the scne
+//It goes through all the update functions registered
 function update() {
   requestAnimationFrame(update);
   for(let update of updateList) {
