@@ -1,7 +1,8 @@
-import { PerspectiveCamera } from "three";
+import { PerspectiveCamera, Matrix4 } from "three";
 import { pointerLockInit, controls, controlsEnabled } from "./utils/pointerLockControls";
 import { SimpleFloor } from "./misc/floors";
 import { SimpleScene } from "./utils/scene";
+import { Cowboy } from "./misc/cowboy";
 import { renderer } from './utils/renderer';
 import { FBXLoader } from './loaders/FBXLoader';
 
@@ -17,10 +18,9 @@ function init() {
   pointerLockInit(camera);
   scene.add(controls.getObject());
   scene.add(SimpleFloor());
-  var loader = new FBXLoader();
-  loader.load("models/CoffeMug.fbx", (obj) => {
-    scene.add(obj);
-  });
+  Cowboy(scene);
+
+  window.addEventListener( 'resize', onWindowResize, false );
 }
 
 function animate() {
@@ -29,4 +29,10 @@ function animate() {
     controls.animate();
   }
   renderer.render(scene, camera);
+}
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
 }
