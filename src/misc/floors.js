@@ -1,4 +1,5 @@
 import { PlaneGeometry, Color, MeshBasicMaterial, Mesh, VertexColors } from "three";
+import { scene } from "../utils/engine";
 
 function SimpleFloor() {
   var floorGeometry = new PlaneGeometry(2000, 2000, 100, 100);
@@ -21,7 +22,7 @@ function SimpleFloor() {
   var floorMaterial = new MeshBasicMaterial({ vertexColors: VertexColors });
   var floor = new Mesh(floorGeometry, floorMaterial);
 
-  return floor;
+  scene.add(floor);
 }
 
 function GridFloor() {

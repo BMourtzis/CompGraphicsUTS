@@ -9,6 +9,7 @@ const rendererSettings = {
 }
 
 var engine = {
+  // initalizer of the "engine", creates a new camera, scene with fog and the renderer
   init() {
     camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
 

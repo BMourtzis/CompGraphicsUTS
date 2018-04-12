@@ -207,8 +207,10 @@ function update() {
   prevTime = time;
 }
 
-export {
-  pointerLockInit,
-  controlsEnabled,
-  controls
-}
+// export {
+//   pointerLockInit,
+//   controlsEnabled,
+//   controls
+// }
+
+export default pointerLockInit;

@@ -1,8 +1,8 @@
 import { Matrix4 } from "three";
-import { FBXLoader } from '../loaders/FBXLoader';
+import { FBXLoader } from "../loaders/FBXLoader";
+import { scene } from "../utils/engine";
 
-function Cowboy(scene) {
-  if(scene == undefined) { throw new Error("The scene needs to be passed as the parameter"); }
+function Cowboy() {
   var loader = new FBXLoader();
   loader.load("models/cowboy.fbx", (obj) => {
     var matrix = new Matrix4();

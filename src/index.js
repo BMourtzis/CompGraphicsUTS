@@ -1,14 +1,16 @@
-import { pointerLockInit } from "./utils/pointerLockControls";
+import Controls from "./utils/pointerLockControls";
 import { SimpleFloor } from "./misc/floors";
 import { Cowboy } from "./misc/cowboy";
-import { engine, scene, camera } from "./utils/engine";
+import { engine } from "./utils/engine";
 
 init();
 
+// the entry point that initialises everything
 function init() {
   engine.init();
 
-  pointerLockInit();
-  scene.add(SimpleFloor());
-  Cowboy(scene);
+  // initalize objects
+  Controls();
+  SimpleFloor();
+  Cowboy();
 }
