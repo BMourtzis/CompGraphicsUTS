@@ -1,4 +1,4 @@
-import { PlaneGeometry, Color, MeshBasicMaterial, Mesh, VertexColors } from "three";
+import { PlaneGeometry, Color, MeshBasicMaterial, Mesh, VertexColors, MeshPhongMaterial, GridHelper, SpotLight } from "three";
 import { scene } from "../utils/engine";
 
 function SimpleFloor() {
@@ -26,9 +26,35 @@ function SimpleFloor() {
 }
 
 function GridFloor() {
+  var floor = new Mesh(new PlaneGeometry(2000, 2000), new MeshPhongMaterial({color: 0xffffff, deptWrite: false}));
+  floor.rotation.x = -Math.PI/2;
+  floor.receiveShadow = true;
 
+  var grid = new GridHelper(2000, 40, 0x000000, 0x000000);
+  grid.material.opacity = 0.2;
+  grid.material.transparent = true;
+
+  scene.add(floor);
+  scene.add(grid);
+
+  //Playing with some lighting.
+  // Should remove later
+  var spotLight = new SpotLight( 0xffffff );
+  spotLight.position.set( 10, 10, 0 );
+
+  spotLight.castShadow = true;
+
+  spotLight.shadow.mapSize.width = 1024;
+  spotLight.shadow.mapSize.height = 1024;
+
+  spotLight.shadow.camera.near = 500;
+  spotLight.shadow.camera.far = 4000;
+  spotLight.shadow.camera.fov = 30;
+
+  scene.add(spotLight);
 }
 
 export {
-  SimpleFloor
+  SimpleFloor,
+  GridFloor
 }

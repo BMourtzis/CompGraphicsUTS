@@ -1,5 +1,5 @@
 import Controls from "./utils/pointerLockControls";
-import { SimpleFloor } from "./misc/floors";
+import { GridFloor } from "./misc/floors";
 import { Cowboy } from "./misc/cowboy";
 import { engine } from "./utils/engine";
 
@@ -11,6 +11,6 @@ function init() {
 
   // initalize objects
   Controls();
-  SimpleFloor();
+  GridFloor();
   Cowboy();
 }
