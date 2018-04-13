@@ -4,9 +4,11 @@ import {
   //Light
   HemisphereLight, AmbientLight,
   //Misc
-  Scene, Color, Fog, WebGLRenderer } from "three";
+  Scene, Color, Fog, WebGLRenderer, Clock} from "three";
 
-var renderer, camera, scene;
+var renderer, camera, scene, clock;
+
+var delta = 0;
 
 //list of update objects, includes update functions
 var updateList = [];
@@ -21,6 +23,9 @@ var engine = {
   init() {
     // Create the camera
     camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+
+    //Clock
+    clock = new Clock();
 
     // Create the scene
     scene = new Scene();
@@ -45,6 +50,9 @@ var engine = {
     //This will create an update loop
     update();
   },
+  getDelta() {
+    return delta;
+  },
   //adds the update function to the update loop
   addUpdate(updateName, updateFn) {
     updateList.push({name: updateName, fn: updateFn });
@@ -59,6 +67,11 @@ var engine = {
 //It goes through all the update functions registered
 function update() {
   requestAnimationFrame(update);
+
+  // set the new delta
+  delta = clock.getDelta();
+
+  // call all the registered update
   for(let update of updateList) {
     update.fn();
   }

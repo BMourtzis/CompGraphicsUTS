@@ -10,7 +10,6 @@ var raycaster;
 
 var controlsEnabled = false;
 var controls;
-var prevTime = performance.now();
 var moveForward = false;
 var moveBackward = false;
 var moveLeft = false;
@@ -18,6 +17,8 @@ var moveRight = false;
 var canJump = false;
 var velocity = new Vector3();
 var direction = new Vector3();
+
+var speedMod = 1;
 
 function pointerLockInit() {
   controls = PointerLockControls();
@@ -96,6 +97,9 @@ function addMoveEvents() {
         if (canJump === true) velocity.y += 350;
         canJump = false;
         break;
+      case 16:
+        speedMod = 0.5;
+        break;
     }
   };
 
@@ -116,6 +120,10 @@ function addMoveEvents() {
       case 39: // right
       case 68: // d
         moveRight = false;
+        break;
+      case 16:
+        console.log("here");
+        speedMod = 1;
         break;
     }
   };
@@ -178,39 +186,31 @@ function update() {
   var intersections = raycaster.intersectObjects(objects);
   var onObject = intersections.length > 0;
 
-  var time = performance.now();
-  var delta = (time - prevTime) / 1000;
-  velocity.x -= velocity.x * 10.0 * delta;
-  velocity.z -= velocity.z * 10.0 * delta;
-  velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+  velocity.x -= speedMod * velocity.x * 10.0 * engine.getDelta();
+  velocity.z -=  speedMod *velocity.z * 10.0 * engine.getDelta();
+  velocity.y -= speedMod * 9.8 * 100.0 * engine.getDelta(); // 100.0 = mass
   direction.z = Number(moveForward) - Number(moveBackward);
   direction.x = Number(moveLeft) - Number(moveRight);
   direction.normalize(); // this ensures consistent movements in all directions
   if (moveForward || moveBackward) {
-    velocity.z -= direction.z * 400.0 * delta;
+    velocity.z -= direction.z * 400.0 * engine.getDelta();
   }
   if (moveLeft || moveRight) {
-    velocity.x -= direction.x * 400.0 * delta;
+    velocity.x -= direction.x * 400.0 * engine.getDelta();
   }
+
   if (onObject === true) {
     velocity.y = Math.max(0, velocity.y);
     canJump = true;
   }
-  controls.getObject().translateX(velocity.x * delta);
-  controls.getObject().translateY(velocity.y * delta);
-  controls.getObject().translateZ(velocity.z * delta);
+  controls.getObject().translateX(velocity.x * engine.getDelta());
+  controls.getObject().translateY(velocity.y * engine.getDelta());
+  controls.getObject().translateZ(velocity.z * engine.getDelta());
   if (controls.getObject().position.y < 10) {
     velocity.y = 0;
     controls.getObject().position.y = 10;
     canJump = true;
   }
-  prevTime = time;
 }
-
-// export {
-//   pointerLockInit,
-//   controlsEnabled,
-//   controls
-// }
 
 export default pointerLockInit;
