@@ -14,34 +14,35 @@ function Example() {
   //add the object to the scene
   scene.add(cube);
   // if you required to update the object
-  // then you have to register your update functions
+  // then you have to register your update function
   engine.addUpdate("cubeUpdate", () => { // this is an inline function
-    //after you register your update function, the function will be called after on every update;
+    //after you register your update function, the function will be called on every update;
     cube.rotation.x += 0.1;
     cube.rotation.y += 0.1;
   });
 }
 
-// if you want to have a separate function for the update,
-// you need to create a property outside of the function
-var cowboy;
-
 function LoaderExample() {
   var loader = new FBXLoader();
-  loader.load("models/cowboy.fbx", (obj) => {
+  // the load function is asynchronous because it takes time to load the models
+  // so when the model is done loading it will call the callback function
+  loader.load("models/cowboy.fbx", (obj) => { // this is the callback function
+    // an example of what you can do once you have the model
     var matrix = new Matrix4();
     matrix.makeScale(0.01, 0.01, 0.01);
     obj.applyMatrix(matrix);
     obj.position.set(1, 1, 1);
     scene.add(obj);
+
+    //register an update function
     engine.addUpdate("cowboyUpdate", () => {
-      // udpate the model
+      // your update function
     }));
   });
 }
 
 //lastly you need to export you initializer functions
-// so that it can be called
+//so that they can be called
 export {
   Example,
   LoaderExample
