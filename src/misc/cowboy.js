@@ -12,7 +12,7 @@ function Cowboy() {
     matrix.makeScale(0.01, 0.01, 0.01);
     obj.applyMatrix(matrix);
 
-    // obj.position.set(0,1,0);
+    obj.position.set(-20,1,0);
 
     scene.add(obj);
 

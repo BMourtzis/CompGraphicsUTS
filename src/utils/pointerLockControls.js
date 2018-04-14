@@ -155,6 +155,10 @@ function PointerLockControls() {
     getObject() {
       return yawObject;
     },
+    getPosition(v) {
+      // v.copy(yawObject.position);
+      return v;
+    },
     getDirection(v) {
       rotation.set(pitchObject.rotation.x, yawObject.rotation.y, 0);
       v.copy(direction).applyEuler(rotation);
@@ -183,7 +187,8 @@ function PointerLockControls() {
 function update() {
   raycaster.ray.origin.copy(controls.getObject().position);
   raycaster.ray.origin.y -= 10;
-  var intersections = raycaster.intersectObjects(objects);
+
+  var intersections = raycaster.intersectObjects(scene.children);
   var onObject = intersections.length > 0;
 
   velocity.x -= speedMod * velocity.x * 10.0 * engine.getDelta();
@@ -206,6 +211,7 @@ function update() {
   controls.getObject().translateX(velocity.x * engine.getDelta());
   controls.getObject().translateY(velocity.y * engine.getDelta());
   controls.getObject().translateZ(velocity.z * engine.getDelta());
+
   if (controls.getObject().position.y < 10) {
     velocity.y = 0;
     controls.getObject().position.y = 10;
@@ -214,3 +220,7 @@ function update() {
 }
 
 export default pointerLockInit;
+
+export {
+  controls
+}

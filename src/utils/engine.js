@@ -10,6 +10,8 @@ var renderer, camera, scene, clock;
 
 var delta = 0;
 
+var DEBUG = false;
+
 //list of update objects, includes update functions
 var updateList = [];
 
@@ -20,7 +22,8 @@ const rendererSettings = {
 var engine = {
   // initalizer of the "engine", creates a new camera, scene with fog and the renderer
   //TODO: add some parameters to customise some of the initializatio
-  init() {
+  init(debug = false) {
+    DEBUG = debug;
     // Create the camera
     camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
 
