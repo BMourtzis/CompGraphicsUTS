@@ -1,4 +1,4 @@
-import { BoxGeometry } from "three";
+import { BoxGeometry, MeshBasicMaterial, Mesh, Matrix4 } from "three";
 import { engine, scene } from "./utils/engine"
 // at the top we import all the files required
 // remeber that you need to import objects from the engine module
@@ -8,8 +8,8 @@ function Example() {
   //create all the objects needed
   var geometry = new BoxGeometry(1, 1, 1);
 
-  var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-  var cube = new THREE.Mesh( geometry, material );
+  var material = new MeshBasicMaterial( { color: 0x00ff00 } );
+  var cube = new Mesh( geometry, material );
 
   //add the object to the scene
   scene.add(cube);
