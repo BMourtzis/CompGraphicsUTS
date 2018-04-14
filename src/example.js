@@ -8,7 +8,7 @@ function Example() {
   //create all the objects needed
   var geometry = new BoxGeometry(1, 1, 1);
 
-  var material = new MeshBasicMaterial( { color: 0x00ff00 } );
+  var material = new MeshBasicMaterial({color: 0x00ff00});
   var cube = new Mesh( geometry, material );
 
   //add the object to the scene
@@ -30,8 +30,10 @@ function LoaderExample() {
     // an example of what you can do once you have the model
     var matrix = new Matrix4();
     matrix.makeScale(0.01, 0.01, 0.01);
+
     obj.applyMatrix(matrix);
     obj.position.set(1, 1, 1);
+    
     scene.add(obj);
 
     //register an update function
