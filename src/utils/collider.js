@@ -1,52 +1,74 @@
-import { Object3D, Vector3, Vector2,  BoxBufferGeometry, MeshLambertMaterial, MeshBasicMaterial, Mesh, Raycaster, Group, SphereGeometry, Box3 } from "three";
+import { Vector3, Vector2, MeshBasicMaterial, Mesh, Raycaster, SphereGeometry, Box3 } from "three";
 import { scene, camera, engine } from "./engine";
-// import { controls } from "./pointerLockControls";
+import { Component } from "./component";
 
-var colliders = []
+let colliders = []
 
-var sphereMesh;
+let sphereMesh;
 
-function Collider(collisionBox, isTrigger = false, callback) {
-  box = collisionBox;
+const colliderSymbol = Symbol("collider");
 
-  this.isTrigger = function() { return isTrigger; }
+//BUG: how to update collider location
+//NOTE: Possible issue might be the location of the box with the relative location
+function Collider(box, trigger = false, eventFunction) {
+  Object.setPrototypeOf(this, new Component(colliderSymbol));
 
-  this.getBox = function() {return box;}
-  this.setBox = function(newCollisionBox) { box = newCollisionBox; }
+  let isTrigger = trigger
+  let collisionBox = box;
+  let triggerEvent = eventFunction;
 
+  this.isTrigger = function() {
+    return isTrigger;
+  }
+
+  this.getCollisionBox = function() {
+    return collisionBox;
+  }
+
+  this.setCollisionBox = function(newCollisionBox) {
+    collisionBox = newCollisionBox;
+  }
+
+  this.onTrigger = function() {
+    if(isTrigger) {
+      triggerEvent()
+    }
+  }
 }
 
-function TestCollder() {
-  var sphere = new SphereGeometry(10, 32, 32);
-  var sphereMaterial = new MeshBasicMaterial({color:0x00ff00});
+function testCollder() {
+  let sphere = new SphereGeometry(10, 32, 32);
+  let sphereMaterial = new MeshBasicMaterial({ color: 0x00ff00 });
 
   sphereMesh = new Mesh(sphere, sphereMaterial);
 
   sphereMesh.position.set(0, 20, -20);
 
-  var collider = new Box3();
-  collider = collider.setFromObject(sphereMesh);
+  let collisionBox = new Box3();
+  collisionBox = collisionBox.setFromObject(sphereMesh);
 
-  sphereMesh.addCollider(collider);
+  let collider = new Collider(collisionBox);
+
+  sphereMesh.addComponent(collider);
 
   colliders.push(collider);
 
   scene.add(sphereMesh);
 
   cameraRaycaster();
+
+  engine.addUpdate("sphereUpdate", () => {
+    sphereMesh.position.x += 0.1;
+  })
 }
 
 function cameraRaycaster() {
-  var raycaster = new Raycaster(new Vector3(), new Vector3(), 0, 100);
+  let raycaster = new Raycaster(new Vector3(), new Vector3(), 0, 100);
 
   engine.addUpdate("colliderDetector", () => {
-    var direction = new Vector3(0, 0, -1);
-
-    var playerPosition = new Vector3(0, 12, 0);
-
     raycaster.setFromCamera(new Vector2(), camera );
 
-    if(raycaster.ray.intersectsBox(colliders[0])) {
+    if(raycaster.ray.intersectsBox(colliders[0].getCollisionBox())) {
       console.log("hit");
     }
 
@@ -54,5 +76,5 @@ function cameraRaycaster() {
 }
 
 export {
-  TestCollder
+  testCollder
 }

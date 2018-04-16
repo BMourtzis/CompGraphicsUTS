@@ -62,13 +62,13 @@ var FBXLoader = function ( manager ) {
 
 Object.assign( FBXLoader.prototype, {
 	load(url, onLoad, onProgress, onError) {
-		var resourceDirectory = LoaderUtils.extractUrlBase( url );
+		let resourceDirectory = LoaderUtils.extractUrlBase( url );
 
-		var loader = new FileLoader( this.manager );
+		let loader = new FileLoader( this.manager );
 		loader.setResponseType( 'arraybuffer' );
 		loader.load(url, (buffer) => {
 				try {
-					var scene = this.parse(buffer, resourceDirectory );
+					let scene = this.parse(buffer, resourceDirectory );
 					onLoad( scene );
 				}
 				catch ( error ) {
@@ -82,12 +82,12 @@ Object.assign( FBXLoader.prototype, {
 			}, onProgress, onError );
 		},
 		parse(FBXBuffer, resourceDirectory ) {
-			var FBXTree;
+			let FBXTree;
 			if (isFbxFormatBinary(FBXBuffer)) {
 				FBXTree = new BinaryParser().parse( FBXBuffer );
 			}
 			else {
-				var FBXText = convertArrayBufferToString(FBXBuffer);
+				let FBXText = convertArrayBufferToString(FBXBuffer);
 
 				if (!isFbxFormatASCII(FBXText)) {
 					throw new Error('FBXLoader: Unknown format.');
@@ -101,13 +101,13 @@ Object.assign( FBXLoader.prototype, {
 
 			}
 
-			var connections = parseConnections(FBXTree );
-			var images = parseImages(FBXTree );
-			var textures = parseTextures(FBXTree, new TextureLoader(this.manager).setPath(resourceDirectory), images, connections);
-			var materials = parseMaterials(FBXTree, textures, connections );
-			var skeletons = parseDeformers(FBXTree, connections );
-			var geometryMap = parseGeometries(FBXTree, connections, skeletons );
-			var sceneGraph = parseScene(FBXTree, connections, skeletons, geometryMap, materials );
+			let connections = parseConnections(FBXTree );
+			let images = parseImages(FBXTree );
+			let textures = parseTextures(FBXTree, new TextureLoader(this.manager).setPath(resourceDirectory), images, connections);
+			let materials = parseMaterials(FBXTree, textures, connections );
+			let skeletons = parseDeformers(FBXTree, connections );
+			let geometryMap = parseGeometries(FBXTree, connections, skeletons );
+			let sceneGraph = parseScene(FBXTree, connections, skeletons, geometryMap, materials );
 
 			return sceneGraph;
 		}
@@ -117,35 +117,29 @@ Object.assign( FBXLoader.prototype, {
 // Parses FBXTree.Connections which holds parent-child connections between objects (e.g. material -> texture, model->geometry )
 // and details the connection type
 function parseConnections(FBXTree) {
-	var connectionMap = new Map();
-	if ( 'Connections' in FBXTree ) {
+	let connectionMap = new Map();
+	if ('Connections' in FBXTree) {
 		var rawConnections = FBXTree.Connections.connections;
 
-		rawConnections.forEach( function (rawConnection ) {
-			var fromID = rawConnection[0];
-			var toID = rawConnection[1];
-			var relationship = rawConnection[2];
+		rawConnections.forEach((rawConnection) => {
+			// var fromID = rawConnection[0];
+			// var toID = rawConnection[1];
+			// var relationship = rawConnection[2];
+
+      let [fromID, toID, rawConnections] = rawConnection;
 
 			if (!connectionMap.has(fromID)) {
-				connectionMap.set(fromID, {
-					parents: [],
-					children: []
-				});
+				connectionMap.set(fromID, {parents: [], children: []});
 			}
 
-			var parentRelationship = { ID: toID, relationship: relationship };
+			let parentRelationship = {ID: toID, relationship: relationship};
 			connectionMap.get(fromID).parents.push(parentRelationship);
 
 			if (!connectionMap.has(toID)) {
-
-				connectionMap.set(toID, {
-					parents: [],
-					children: []
-				});
-
+				connectionMap.set(toID, {parents: [], children: []});
 			}
 
-			var childRelationship = { ID: fromID, relationship: relationship };
+			let childRelationship = {ID: fromID, relationship: relationship};
 			connectionMap.get(toID).children.push(childRelationship);
 		});
 	}
@@ -157,25 +151,25 @@ function parseConnections(FBXTree) {
 // These images are connected to textures in FBXTree.Objects.Textures
 // via FBXTree.Connections.
 function parseImages(FBXTree) {
-	var images = {};
-	var blobs = {};
+	let images = {};
+	let blobs = {};
 
 	if('Video' in FBXTree.Objects) {
-		var videoNodes = FBXTree.Objects.Video;
+		let videoNodes = FBXTree.Objects.Video;
 
-		for(var nodeID in videoNodes) {
-			var videoNode = videoNodes[nodeID];
-			var id = parseInt(nodeID);
+		for(let nodeID in videoNodes) {
+			let videoNode = videoNodes[nodeID];
+			let id = parseInt(nodeID, 10);
 
-			images[ id ] = videoNode.Filename;
+			images[id] = videoNode.Filename;
 
 			// raw image data is in videoNode.Content
 			if ('Content' in videoNode) {
-				var arrayBufferContent = ( videoNode.Content instanceof ArrayBuffer ) && ( videoNode.Content.byteLength > 0 );
-				var base64Content = ( typeof videoNode.Content === 'string' ) && ( videoNode.Content !== '' );
+				let arrayBufferContent = ( videoNode.Content instanceof ArrayBuffer ) && ( videoNode.Content.byteLength > 0 );
+				let base64Content = ( typeof videoNode.Content === 'string' ) && ( videoNode.Content !== '' );
 
 				if (arrayBufferContent || base64Content) {
-					var image = parseImage(videoNodes[nodeID]);
+					let image = parseImage(videoNodes[nodeID]);
 
 					blobs[videoNode.Filename] = image;
 				}
@@ -183,14 +177,14 @@ function parseImages(FBXTree) {
 		}
 	}
 
-	for(var id in images) {
+	for(let id in images) {
 		var filename = images[ id ];
 
-		if (blobs[ filename ] !== undefined) {
-			images[ id ] = blobs[ filename ];
+		if (blobs[filename] !== undefined) {
+			images[id] = blobs[filename];
 		}
 		else {
-			images[ id ] = images[ id ].split( '\\' ).pop();
+			images[id] = images[ id ].split('\\').pop();
 		}
 	}
 	return images;
@@ -198,13 +192,13 @@ function parseImages(FBXTree) {
 
 // Parse embedded image data in FBXTree.Video.Content
 function parseImage(videoNode) {
-	var content = videoNode.Content;
-	var fileName = videoNode.RelativeFilename || videoNode.Filename;
-	var extension = fileName.slice( fileName.lastIndexOf( '.' ) + 1 ).toLowerCase();
+	let content = videoNode.Content;
+	let fileName = videoNode.RelativeFilename || videoNode.Filename;
+	let extension = fileName.slice(fileName.lastIndexOf('.') + 1).toLowerCase();
 
-	var type;
+	let type;
 
-	switch ( extension ) {
+	switch (extension) {
 		case 'bmp':
 			type = 'image/bmp';
 			break;
@@ -219,46 +213,46 @@ function parseImage(videoNode) {
 			type = 'image/tiff';
 			break;
 		default:
-			console.warn( 'FBXLoader: Image type "' + extension + '" is not supported.' );
+			console.warn('FBXLoader: Image type "' + extension + '" is not supported.');
 			return;
 	}
 
-	if ( typeof content === 'string' ) { // ASCII format
+	if (typeof content === 'string') { // ASCII format
 		return 'data:' + type + ';base64,' + content;
 	}
 	else { // Binary Format
-		var array = new Uint8Array( content );
-		return window.URL.createObjectURL( new Blob( [ array ], { type: type } ) );
+		let array = new Uint8Array(content);
+		return window.URL.createObjectURL(new Blob([array], {type: type}));
 	}
 }
 
 // Parse nodes in FBXTree.Objects.Texture
 // These contain details such as UV scaling, cropping, rotation etc and are connected
 // to images in FBXTree.Objects.Video
-function parseTextures( FBXTree, loader, images, connections ) {
-	var textureMap = new Map();
-	if ( 'Texture' in FBXTree.Objects ) {
-		var textureNodes = FBXTree.Objects.Texture;
-		for ( var nodeID in textureNodes ) {
-			var texture = parseTexture( textureNodes[ nodeID ], loader, images, connections );
-			textureMap.set( parseInt( nodeID ), texture );
+function parseTextures(FBXTree, loader, images, connections) {
+	let textureMap = new Map();
+	if ('Texture' in FBXTree.Objects) {
+		let textureNodes = FBXTree.Objects.Texture;
+		for (var nodeID in textureNodes) {
+			let texture = parseTexture(textureNodes[nodeID], loader, images, connections);
+			textureMap.set(parseInt(nodeID, 10), texture);
 		}
 	}
 	return textureMap;
 }
 
 // Parse individual node in FBXTree.Objects.Texture
-function parseTexture( textureNode, loader, images, connections ) {
-	var texture = loadTexture( textureNode, loader, images, connections );
+function parseTexture(textureNode, loader, images, connections) {
+	let texture = loadTexture(textureNode, loader, images, connections);
 
 	texture.ID = textureNode.id;
 	texture.name = textureNode.attrName;
 
-	var wrapModeU = textureNode.WrapModeU;
-	var wrapModeV = textureNode.WrapModeV;
+	let wrapModeU = textureNode.WrapModeU;
+	let wrapModeV = textureNode.WrapModeV;
 
-	var valueU = wrapModeU !== undefined ? wrapModeU.value : 0;
-	var valueV = wrapModeV !== undefined ? wrapModeV.value : 0;
+	let valueU = wrapModeU !== undefined ? wrapModeU.value : 0;
+	let valueV = wrapModeV !== undefined ? wrapModeV.value : 0;
 
 		// http://download.autodesk.com/us/fbx/SDKdocs/FBX_SDK_Help/files/fbxsdkref/class_k_fbx_texture.html#889640e63e2e681259ea81061b85143a
 		// 0: repeat(default), 1: clamp
@@ -266,47 +260,47 @@ function parseTexture( textureNode, loader, images, connections ) {
 	texture.wrapS = valueU === 0 ? RepeatWrapping : ClampToEdgeWrapping;
 	texture.wrapT = valueV === 0 ? RepeatWrapping : ClampToEdgeWrapping;
 
-	if( 'Scaling' in textureNode ) {
-		var values = textureNode.Scaling.value;
+	if('Scaling' in textureNode) {
+		let values = textureNode.Scaling.value;
 
-		texture.repeat.x = values[ 0 ];
-		texture.repeat.y = values[ 1 ];
+		texture.repeat.x = values[0];
+		texture.repeat.y = values[1];
 	}
 	return texture;
 }
 
 // load a texture specified as a blob or data URI, or via an external URL using THREE.TextureLoader
-function loadTexture( textureNode, loader, images, connections ) {
-	var fileName;
-	var currentPath = loader.path;
-	var children = connections.get( textureNode.id ).children;
+function loadTexture(textureNode, loader, images, connections) {
+	let fileName;
+	let currentPath = loader.path;
+	let children = connections.get( textureNode.id ).children;
 
-	if ( children !== undefined && children.length > 0 && images[ children[ 0 ].ID ] !== undefined ) {
-		fileName = images[ children[ 0 ].ID ];
+	if (children !== undefined && children.length > 0 && images[children[0].ID] !== undefined) {
+		fileName = images[children[0].ID];
 
-		if ( fileName.indexOf( 'blob:' ) === 0 || fileName.indexOf( 'data:' ) === 0 ) {
-			loader.setPath( undefined );
+		if (fileName.indexOf('blob:') === 0 || fileName.indexOf('data:') === 0) {
+			loader.setPath(undefined);
 		}
 	}
 
-	var texture = loader.load( fileName );
-	loader.setPath( currentPath );
+	var texture = loader.load(fileName);
+	loader.setPath(currentPath);
 
 	return texture;
 }
 
 // Parse nodes in FBXTree.Objects.Material
-function parseMaterials( FBXTree, textureMap, connections ) {
-	var materialMap = new Map();
+function parseMaterials(FBXTree, textureMap, connections) {
+	let materialMap = new Map();
 
-	if ( 'Material' in FBXTree.Objects ) {
-		var materialNodes = FBXTree.Objects.Material;
+	if ('Material' in FBXTree.Objects) {
+		let materialNodes = FBXTree.Objects.Material;
 
-		for ( var nodeID in materialNodes ) {
-			var material = parseMaterial( FBXTree, materialNodes[ nodeID ], textureMap, connections );
+		for (let nodeID in materialNodes) {
+			let material = parseMaterial(FBXTree, materialNodes[nodeID], textureMap, connections);
 
-			if ( material !== null ) {
-				materialMap.set( parseInt( nodeID ), material );
+			if (material !== null) {
+				materialMap.set(parseInt(nodeID, 10), material);
 			}
 		}
 	}
@@ -316,25 +310,25 @@ function parseMaterials( FBXTree, textureMap, connections ) {
 // Parse single node in FBXTree.Objects.Material
 // Materials are connected to texture maps in FBXTree.Objects.Textures
 // FBX format currently only supports Lambert and Phong shading models
-function parseMaterial( FBXTree, materialNode, textureMap, connections ) {
-	var ID = materialNode.id;
-	var name = materialNode.attrName;
-	var type = materialNode.ShadingModel;
+function parseMaterial(FBXTree, materialNode, textureMap, connections) {
+	let ID = materialNode.id;
+	let name = materialNode.attrName;
+	let type = materialNode.ShadingModel;
 
 	//Case where FBX wraps shading model in property object.
-	if ( typeof type === 'object' ) {
+	if (typeof type === 'object') {
 		type = type.value;
 	}
 
 	// Ignore unused materials which don't have any connections.
-	if ( ! connections.has( ID ) ) {
+	if (!connections.has(ID)) {
 		return null;
 	}
 
-	var parameters = parseParameters( FBXTree, materialNode, textureMap, ID, connections );
-	var material;
+	let parameters = parseParameters(FBXTree, materialNode, textureMap, ID, connections);
+	let material;
 
-	switch ( type.toLowerCase() ) {
+	switch (type.toLowerCase()) {
 		case 'phong':
 			material = new MeshPhongMaterial();
 			break;
@@ -342,12 +336,12 @@ function parseMaterial( FBXTree, materialNode, textureMap, connections ) {
 			material = new MeshLambertMaterial();
 			break;
 		default:
-			console.warn( 'THREE.FBXLoader: unknown material type "%s". Defaulting to MeshPhongMaterial.', type );
-			material = new MeshPhongMaterial( { color: 0x3300ff } );
+			console.warn('THREE.FBXLoader: unknown material type "%s". Defaulting to MeshPhongMaterial.', type);
+			material = new MeshPhongMaterial({color: 0x3300ff});
 			break;
 	}
 
-	material.setValues( parameters );
+	material.setValues(parameters);
 	material.name = name;
 
 	return material;
@@ -355,89 +349,89 @@ function parseMaterial( FBXTree, materialNode, textureMap, connections ) {
 
 // Parse FBX material and return parameters suitable for a three.js material
 // Also parse the texture map and return any textures associated with the material
-function parseParameters( FBXTree, properties, textureMap, ID, connections ) {
-	var parameters = {};
+function parseParameters(FBXTree, properties, textureMap, ID, connections) {
+	let parameters = {};
 
-	if ( properties.BumpFactor ) {
+	if (properties.BumpFactor) {
 		parameters.bumpScale = properties.BumpFactor.value;
 	}
 
-	if ( properties.Diffuse ) {
-		parameters.color = new Color().fromArray( properties.Diffuse.value );
+	if (properties.Diffuse) {
+		parameters.color = new Color().fromArray(properties.Diffuse.value);
 	}
-	else if ( properties.DiffuseColor && properties.DiffuseColor.type === 'Color' ) {
+	else if (properties.DiffuseColor && properties.DiffuseColor.type === 'Color') {
 		// The blender exporter exports diffuse here instead of in properties.Diffuse
-		parameters.color = new Color().fromArray( properties.DiffuseColor.value );
+		parameters.color = new Color().fromArray(properties.DiffuseColor.value);
 	}
 
-	if ( properties.DisplacementFactor ) {
+	if (properties.DisplacementFactor) {
 		parameters.displacementScale = properties.DisplacementFactor.value;
 	}
 
-	if ( properties.Emissive ) {
-		parameters.emissive = new Color().fromArray( properties.Emissive.value );
+	if (properties.Emissive) {
+		parameters.emissive = new Color().fromArray(properties.Emissive.value);
 	}
-	else if ( properties.EmissiveColor && properties.EmissiveColor.type === 'Color' ) {
+	else if (properties.EmissiveColor && properties.EmissiveColor.type === 'Color') {
 		// The blender exporter exports emissive color here instead of in properties.Emissive
-		parameters.emissive = new Color().fromArray( properties.EmissiveColor.value );
+		parameters.emissive = new Color().fromArray(properties.EmissiveColor.value);
 	}
 
-	if ( properties.EmissiveFactor ) {
-		parameters.emissiveIntensity = parseFloat( properties.EmissiveFactor.value );
+	if (properties.EmissiveFactor) {
+		parameters.emissiveIntensity = parseFloat(properties.EmissiveFactor.value);
 	}
 
-	if ( properties.Opacity ) {
-		parameters.opacity = parseFloat( properties.Opacity.value );
+	if (properties.Opacity) {
+		parameters.opacity = parseFloat(properties.Opacity.value);
 	}
 
-	if ( parameters.opacity < 1.0 ) {
+	if (parameters.opacity < 1.0) {
 		parameters.transparent = true;
 	}
 
-	if ( properties.ReflectionFactor ) {
+	if (properties.ReflectionFactor) {
 		parameters.reflectivity = properties.ReflectionFactor.value;
 	}
 
-	if ( properties.Shininess ) {
+	if (properties.Shininess) {
 		parameters.shininess = properties.Shininess.value;
 	}
 
-	if ( properties.Specular ) {
-		parameters.specular = new Color().fromArray( properties.Specular.value );
+	if (properties.Specular) {
+		parameters.specular = new Color().fromArray(properties.Specular.value);
 	}
-	else if ( properties.SpecularColor && properties.SpecularColor.type === 'Color' ) {
+	else if (properties.SpecularColor && properties.SpecularColor.type === 'Color') {
 		// The blender exporter exports specular color here instead of in properties.Specular
-		parameters.specular = new Color().fromArray( properties.SpecularColor.value );
+		parameters.specular = new Color().fromArray(properties.SpecularColor.value);
 	}
 
-	connections.get( ID ).children.forEach( function ( child ) {
-		var type = child.relationship;
+	connections.get(ID).children.forEach((child) => {
+		let type = child.relationship;
 
 		switch ( type ) {
 			case 'Bump':
-				parameters.bumpMap = textureMap.get( child.ID );
+				parameters.bumpMap = textureMap.get(child.ID);
 				break;
 			case 'DiffuseColor':
-				parameters.map = getTexture( FBXTree, textureMap, child.ID, connections );
+				parameters.map = getTexture(FBXTree, textureMap, child.ID, connections);
 				break;
 			case 'DisplacementColor':
-				parameters.displacementMap = getTexture( FBXTree, textureMap, child.ID, connections );
+				parameters.displacementMap = getTexture(FBXTree, textureMap, child.ID, connections);
 				break;
 			case 'EmissiveColor':
-				parameters.emissiveMap = getTexture( FBXTree, textureMap, child.ID, connections );
+				parameters.emissiveMap = getTexture(FBXTree, textureMap, child.ID, connections);
 				break;
 			case 'NormalMap':
-				parameters.normalMap = getTexture( FBXTree, textureMap, child.ID, connections );
+				parameters.normalMap = getTexture(FBXTree, textureMap, child.ID, connections);
 				break;
 			case 'ReflectionColor':
-				parameters.envMap = getTexture( FBXTree, textureMap, child.ID, connections );
+				parameters.envMap = getTexture(FBXTree, textureMap, child.ID, connections);
 				parameters.envMap.mapping = EquirectangularReflectionMapping;
 				break;
 			case 'SpecularColor':
-				parameters.specularMap = getTexture( FBXTree, textureMap, child.ID, connections );
+				parameters.specularMap = getTexture(FBXTree, textureMap, child.ID, connections);
 				break;
 			case 'TransparentColor':
-				parameters.alphaMap = getTexture( FBXTree, textureMap, child.ID, connections );
+				parameters.alphaMap = getTexture(FBXTree, textureMap, child.ID, connections);
 				parameters.transparent = true;
 				break;
 			case 'AmbientColor':
@@ -445,7 +439,7 @@ function parseParameters( FBXTree, properties, textureMap, ID, connections ) {
 			case 'SpecularFactor': // AKA specularLevel
 			case 'VectorDisplacementColor': // NOTE: Seems to be a copy of DisplacementColor
 			default:
-				console.warn( 'THREE.FBXLoader: %s map is not supported in three.js, skipping texture.', type );
+				console.warn('THREE.FBXLoader: %s map is not supported in three.js, skipping texture.', type);
 				break;
 		}
 	});
@@ -454,39 +448,39 @@ function parseParameters( FBXTree, properties, textureMap, ID, connections ) {
 }
 
 // get a texture from the textureMap for use by a material.
-function getTexture( FBXTree, textureMap, id, connections ) {
+function getTexture(FBXTree, textureMap, id, connections) {
 	// if the texture is a layered texture, just use the first layer and issue a warning
-	if ( 'LayeredTexture' in FBXTree.Objects && id in FBXTree.Objects.LayeredTexture ) {
-		console.warn( 'THREE.FBXLoader: layered textures are not supported in three.js. Discarding all but first layer.' );
-		id = connections.get( id ).children[ 0 ].ID;
+	if ('LayeredTexture' in FBXTree.Objects && id in FBXTree.Objects.LayeredTexture) {
+		console.warn('THREE.FBXLoader: layered textures are not supported in three.js. Discarding all but first layer.');
+		id = connections.get(id).children[0].ID;
 	}
-	return textureMap.get( id );
+	return textureMap.get(id);
 }
 
 // Parse nodes in FBXTree.Objects.Deformer
 // Deformer node can contain skinning or Vertex Cache animation data, however only skinning is supported here
 // Generates map of Skeleton-like objects for use later when generating and binding skeletons.
-function parseDeformers( FBXTree, connections ) {
-	var skeletons = {};
+function parseDeformers(FBXTree, connections) {
+	let skeletons = {};
 
-	if ( 'Deformer' in FBXTree.Objects ) {
-		var DeformerNodes = FBXTree.Objects.Deformer;
+	if ('Deformer' in FBXTree.Objects) {
+		let DeformerNodes = FBXTree.Objects.Deformer;
 
-		for ( var nodeID in DeformerNodes ) {
-			var deformerNode = DeformerNodes[ nodeID ];
+		for (let nodeID in DeformerNodes) {
+			let deformerNode = DeformerNodes[nodeID];
 
-			if ( deformerNode.attrType === 'Skin' ) {
-				var relationships = connections.get( parseInt( nodeID ) );
+			if (deformerNode.attrType === 'Skin') {
+				let relationships = connections.get(parseInt(nodeID, 10));
 
-				var skeleton = parseSkeleton( relationships, DeformerNodes );
+				let skeleton = parseSkeleton(relationships, DeformerNodes);
 				skeleton.ID = nodeID;
 
-				if ( relationships.parents.length > 1 ) {
-					console.warn( 'THREE.FBXLoader: skeleton attached to more than one geometry is not supported.' );
+				if (relationships.parents.length > 1) {
+					console.warn('THREE.FBXLoader: skeleton attached to more than one geometry is not supported.');
 				}
 				skeleton.geometryID = relationships.parents[ 0 ].ID;
 
-				skeletons[ nodeID ] = skeleton;
+				skeletons[nodeID] = skeleton;
 			}
 		}
 	}
@@ -497,28 +491,31 @@ function parseDeformers( FBXTree, connections ) {
 // Parse single nodes in FBXTree.Objects.Deformer
 // The top level deformer nodes have type 'Skin' and subDeformer nodes have type 'Cluster'
 // Each skin node represents a skeleton and each cluster node represents a bone
-function parseSkeleton( connections, deformerNodes ) {
-	var rawBones = [];
+function parseSkeleton(connections, deformerNodes) {
+	let rawBones = [];
 
-	connections.children.forEach( function ( child ) {
-		var subDeformerNode = deformerNodes[ child.ID ];
+	connections.children.forEach((child) => {
+		let subDeformerNode = deformerNodes[child.ID];
 
-		if ( subDeformerNode.attrType !== 'Cluster' ) { return; }
-		var rawBone = {
+		if (subDeformerNode.attrType !== 'Cluster') {
+      return null;
+    }
+
+		let rawBone = {
 			ID: child.ID,
 			indices: [],
 			weights: [],
-			transform: new Matrix4().fromArray( subDeformerNode.Transform.a ),
-			transformLink: new Matrix4().fromArray( subDeformerNode.TransformLink.a ),
+			transform: new Matrix4().fromArray(subDeformerNode.Transform.a),
+			transformLink: new Matrix4().fromArray(subDeformerNode.TransformLink.a),
 			linkMode: subDeformerNode.Mode,
 		};
 
-		if ( 'Indexes' in subDeformerNode ) {
+		if ('Indexes' in subDeformerNode) {
 			rawBone.indices = subDeformerNode.Indexes.a;
 			rawBone.weights = subDeformerNode.Weights.a;
 		}
 
-		rawBones.push( rawBone );
+		rawBones.push(rawBone);
 	});
 
 	return {
@@ -528,17 +525,17 @@ function parseSkeleton( connections, deformerNodes ) {
 }
 
 // Parse nodes in FBXTree.Objects.Geometry
-function parseGeometries( FBXTree, connections, skeletons ) {
-	var geometryMap = new Map();
+function parseGeometries(FBXTree, connections, skeletons) {
+	let geometryMap = new Map();
 
-	if ( 'Geometry' in FBXTree.Objects ) {
-		var geometryNodes = FBXTree.Objects.Geometry;
+	if ('Geometry' in FBXTree.Objects) {
+		let geometryNodes = FBXTree.Objects.Geometry;
 
-		for ( var nodeID in geometryNodes ) {
-			var relationships = connections.get( parseInt( nodeID ) );
-			var geo = parseGeometry( FBXTree, relationships, geometryNodes[ nodeID ], skeletons );
+		for (let nodeID in geometryNodes) {
+			let relationships = connections.get(parseInt(nodeID, 10));
+			let geo = parseGeometry(FBXTree, relationships, geometryNodes[nodeID], skeletons);
 
-			geometryMap.set( parseInt( nodeID ), geo );
+			geometryMap.set(parseInt(nodeID, 10), geo);
 		}
 	}
 
@@ -546,54 +543,60 @@ function parseGeometries( FBXTree, connections, skeletons ) {
 }
 
 // Parse single node in FBXTree.Objects.Geometry
-function parseGeometry( FBXTree, relationships, geometryNode, skeletons ) {
-	switch ( geometryNode.attrType ) {
+function parseGeometry(FBXTree, relationships, geometryNode, skeletons) {
+	switch (geometryNode.attrType) {
 		case 'Mesh':
-			return parseMeshGeometry( FBXTree, relationships, geometryNode, skeletons );
+			return parseMeshGeometry(FBXTree, relationships, geometryNode, skeletons);
 			break;
 		case 'NurbsCurve':
-			return parseNurbsGeometry( geometryNode );
+			return parseNurbsGeometry(geometryNode);
 			break;
 	}
 }
 
 
 // Parse single node mesh geometry in FBXTree.Objects.Geometry
-function parseMeshGeometry( FBXTree, relationships, geometryNode, skeletons ) {
-	var modelNodes = relationships.parents.map( function ( parent ) {
-		return FBXTree.Objects.Model[ parent.ID ];
-	} );
+function parseMeshGeometry(FBXTree, relationships, geometryNode, skeletons) {
+	let modelNodes = relationships.parents.map((parent) => {
+		return FBXTree.Objects.Model[parent.ID];
+	});
 
 	// don't create geometry if it is not associated with any models
-	if ( modelNodes.length === 0 ) { return; }
-	var skeleton = relationships.children.reduce( function ( skeleton, child ) {
-		if ( skeletons[ child.ID ] !== undefined ) skeleton = skeletons[ child.ID ];
+	if ( modelNodes.length === 0 ) {
+    return null;
+  }
+
+	let skeleton = relationships.children.reduce((skeleton, child) => {
+		if (skeletons[ child.ID ] !== undefined) {
+      skeleton = skeletons[child.ID];
+    }
+
 		return skeleton;
 	}, null );
 
-	var preTransform = new Matrix4();
+	let preTransform = new Matrix4();
 	// TODO: if there is more than one model associated with the geometry, AND the models have
 	// different geometric transforms, then this will cause problems
 	// if ( modelNodes.length > 1 ) { }
 
 	// For now just assume one model and get the preRotations from that
-	var modelNode = modelNodes[ 0 ];
-	if ( 'GeometricRotation' in modelNode ) {
-		var array = modelNode.GeometricRotation.value.map( Math.degToRad );
-		array[ 3 ] = 'ZYX';
+	var modelNode = modelNodes[0];
+	if ('GeometricRotation' in modelNode) {
+		let array = modelNode.GeometricRotation.value.map(Math.degToRad);
+		array[3] = 'ZYX';
 
-			preTransform.makeRotationFromEuler( new Euler().fromArray( array ) );
+		preTransform.makeRotationFromEuler(new Euler().fromArray(array));
 	}
 
-	if ( 'GeometricTranslation' in modelNode ) {
-		preTransform.setPosition( new Vector3().fromArray( modelNode.GeometricTranslation.value ) );
+	if ('GeometricTranslation' in modelNode) {
+		preTransform.setPosition(new Vector3().fromArray(modelNode.GeometricTranslation.value));
 	}
 
-	if ( 'GeometricScaling' in modelNode ) {
-		preTransform.scale( new Vector3().fromArray( modelNode.GeometricScaling.value ) );
+	if ('GeometricScaling' in modelNode) {
+		preTransform.scale(new Vector3().fromArray(modelNode.GeometricScaling.value));
 	}
 
-	return genGeometry( FBXTree, relationships, geometryNode, skeleton, preTransform );
+	return genGeometry(FBXTree, relationships, geometryNode, skeleton, preTransform);
 }
 
 // Generate a THREE.BufferGeometry from a node in FBXTree.Objects.Geometry

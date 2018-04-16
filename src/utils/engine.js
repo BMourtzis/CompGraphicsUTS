@@ -2,26 +2,28 @@ import {
   //Cameras
   PerspectiveCamera,
   //Light
-  HemisphereLight, AmbientLight,
+  HemisphereLight,
   //Misc
   Scene, Color, Fog, WebGLRenderer, Clock} from "three";
 
-var renderer, camera, scene, clock;
+let renderer, camera, scene, clock;
 
-var delta = 0;
+// Used to keep track of the ms between frames
+let delta = 0;
 
-var DEBUG = false;
+// whether or not, the system is in debug mode
+let DEBUG = false;
 
-//list of update objects, includes update functions
-var updateList = [];
+//List of update objects, includes update functions
+let updateList = [];
 
 const rendererSettings = {
  precision: "lowp"
 }
 
-var engine = {
+let engine = {
   // initalizer of the "engine", creates a new camera, scene with fog and the renderer
-  //TODO: add some parameters to customise some of the initializatio
+  //TODO: add some parameters to customise some of the initialization
   init(debug = false) {
     DEBUG = debug;
     // Create the camera
@@ -36,7 +38,7 @@ var engine = {
     scene.fog = new Fog(0xffffff, 0, 750);
 
     // Add a new light to the scene
-    var henmiLight = new HemisphereLight(0xeeeeff, 0x777788, 0.75);
+    let henmiLight = new HemisphereLight(0xeeeeff, 0x777788, 0.75);
     henmiLight.position.set(0.5, 1, 0.75);
     scene.add(henmiLight);
 
@@ -49,13 +51,11 @@ var engine = {
     //Add a callback for the resize event`
     window.addEventListener( 'resize', onWindowResize, false );
 
-    //Call the update function
-    //This will create an update loop
+    //Call the update function. It will create an update loop
     update();
   },
-  getDelta() {
-    return delta;
-  },
+  //Returns the delta for the frame
+  getDelta() { return delta; },
   //adds the update function to the update loop
   addUpdate(updateName, updateFn) {
     updateList.push({name: updateName, fn: updateFn });
@@ -69,14 +69,15 @@ var engine = {
 //Updates the scene and then rerenders
 //It goes through all the update functions registered
 function update() {
+  //Add the update function to be called on the next frame
   requestAnimationFrame(update);
 
-  // set the new delta
+  //Set the new delta
   delta = clock.getDelta();
 
-  // call all the registered update
+  //Call all the registered updates
   for(let update of updateList) {
-    update.fn();
+    update.fn(DEBUG);
   }
   renderer.render(scene, camera);
 }
