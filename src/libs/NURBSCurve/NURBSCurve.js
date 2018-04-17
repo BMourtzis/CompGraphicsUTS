@@ -26,61 +26,32 @@ function NURBSCurve(degree, knots, controlPoints, startKnot, endKnot) {
   }
 }
 
-NURBSCurve.prototype = Object.create(Curve.prototype);
-NURBSCurve.prototype.constructor = NURBSCurve;
+// NURBSCurve.prototype = Object.create(Curve.prototype);
 
-NURBSCurve.prototype.getPoint = function(t) {
-  // linear mapping t->u
-  let u = this.knots[this.startKnot] + (t * (this.knots[this.endKnot] - this.knots[this.startKnot]));
+Object.setPrototypeOf(NURBSCurve, {
+  getPoint(to) {
+    // linear mapping t->u
+    let unit = this.knots[this.startKnot] + (to * (this.knots[this.endKnot] - this.knots[this.startKnot]));
 
-  // following results in (wx, wy, wz, w) homogeneous point
-  let hpoint = NURBSUtils.calcBSplinePoint(this.degree, this.knots, this.controlPoints, u);
+    // following results in (wx, wy, wz, w) homogeneous point
+    let hpoint = NURBSUtils.calcBSplinePoint(this.degree, this.knots, this.controlPoints, unit);
 
-  if (hpoint.w !== 1.0) {
-    // project to 3D space: (wx, wy, wz, w) -> (x, y, z, 1)
-    hpoint.divideScalar(hpoint.w);
+    if (hpoint.w !== 1.0) {
+      // project to 3D space: (wx, wy, wz, w) -> (x, y, z, 1)
+      hpoint.divideScalar(hpoint.w);
+    }
+
+    return new Vector3(hpoint.x, hpoint.y, hpoint.z);
+  },
+  getTangent(to) {
+    let unit = this.knots[0] + (to * (this.knots[this.knots.length - 1] - this.knots[0]));
+    let ders = NURBSUtils.calcNURBSDerivatives(this.degree, this.knots, this.controlPoints, unit, 1);
+    let tangent = ders[1].clone();
+    tangent.normalize();
+
+    return tangent;
   }
-
-  return new Vector3(hpoint.x, hpoint.y, hpoint.z);
-};
-
-
-NURBSCurve.prototype.getTangent = function(t) {
-  let u = this.knots[0] + (t * (this.knots[this.knots.length - 1] - this.knots[0]));
-  let ders = NURBSUtils.calcNURBSDerivatives(this.degree, this.knots, this.controlPoints, u, 1);
-  let tangent = ders[1].clone();
-  tangent.normalize();
-
-  return tangent;
-};
-
-// let NURBSCurvePrototype = {
-//   "constructor": NURBSCurve,
-//   getPoint(t) {
-//     // linear mapping t->u
-//     let u = this.knots[this.startKnot] + (t * (this.knots[this.endKnot] - this.knots[this.startKnot]));
-//
-//     // following results in (wx, wy, wz, w) homogeneous point
-//     let hpoint = NURBSUtils.calcBSplinePoint(this.degree, this.knots, this.controlPoints, u);
-//
-//     if (hpoint.w !== 1.0) {
-//       // project to 3D space: (wx, wy, wz, w) -> (x, y, z, 1)
-//       hpoint.divideScalar(hpoint.w);
-//     }
-//
-//     return new Vector3(hpoint.x, hpoint.y, hpoint.z);
-//   },
-//   getTangent(t) {
-//     let u = this.knots[0] + (t * (this.knots[this.knots.length - 1] - this.knots[0]));
-//     let ders = NURBSUtils.calcNURBSDerivatives(this.degree, this.knots, this.controlPoints, u, 1);
-//     let tangent = ders[1].clone();
-//     tangent.normalize();
-//
-//     return tangent;
-//   }
-// };
-//
-// Object.setPrototypeOf(NURBSCurve, NURBSCurvePrototype);
+});
 
 export {
   NURBSCurve
