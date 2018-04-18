@@ -2,10 +2,9 @@ import { engine } from "./utils/engine";
 import controls from "./utils/pointerLockControls";
 import { gridFloor } from "./misc/floors";
 import { cowboy } from "./misc/cowboy";
-import { testCollder} from "./utils/collider";
-import polyfillCollilders from "./libs/polyfills/Object3DColliders"
+import { testCollder, addPlayerCollider, updatePlayerCollider } from "./utils/collider";
+import { Vector3 } from "three";
 
-polyfillCollilders();
 init();
 
 // the entry point that initialises everything
@@ -16,5 +15,5 @@ function init() {
   controls();
   gridFloor();
   cowboy();
-  testCollder();
+  // addPlayerCollider();
 }

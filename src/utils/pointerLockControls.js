@@ -1,5 +1,6 @@
 import { Object3D, Euler, Vector3, Raycaster } from "three";
 import { engine, camera, scene } from "./engine";
+import { addPlayerCollider, updatePlayerCollider, validateMovement } from "./collider";
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -153,6 +154,9 @@ function pointerLockControls() {
   let direction = new Vector3(0, 0, -1);
   let rotation = new Euler(0, 0, 0, "YXZ");
 
+  //adds a collider for the player;
+  addPlayerCollider();
+
   let PI_2 = Math.PI / 2;
 
   let obj = {
@@ -171,6 +175,13 @@ function pointerLockControls() {
     getDirection(vector) {
       rotation.set(pitchObject.rotation.x, yawObject.rotation.y, 0);
       vector.copy(direction).applyEuler(rotation);
+
+      return vector;
+    },
+    getRotation(vector) {
+      let euler = new Euler(0, 0, 0, "YXZ");
+      euler.set(0, yawObject.rotation.y, 0);
+      vector.applyEuler(euler);
 
       return vector;
     }
@@ -225,10 +236,23 @@ function update() {
     canJump = true;
   }
 
-  controls.getObject().translateX(velocity.x * engine.getDelta());
-  controls.getObject().translateY(velocity.y * engine.getDelta());
-  controls.getObject().translateZ(velocity.z * engine.getDelta());
+  // let vector = new Vector3(velocity.x * engine.getDelta(), velocity.y * engine.getDelta(), velocity.z * engine.getDelta());
 
+  let vector = new Vector3(velocity.x * engine.getDelta(), velocity.y * engine.getDelta(), velocity.z * engine.getDelta());
+
+  controls.getRotation(vector);
+
+  //Very basic collision detection
+  // BUG: y axis doesn't work correctly
+  if(validateMovement(vector)) {
+    controls.getObject().translateX(velocity.x * engine.getDelta());
+    controls.getObject().translateY(velocity.y * engine.getDelta());
+    controls.getObject().translateZ(velocity.z * engine.getDelta());
+
+    updatePlayerCollider(vector);
+  }
+
+  //NOTE: maybe I need to add this in the if above
   if (controls.getObject().position.y < 10) {
     velocity.y = 0;
     controls.getObject().position.y = 10;

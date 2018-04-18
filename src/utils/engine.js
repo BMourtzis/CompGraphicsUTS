@@ -63,6 +63,9 @@ let engine = {
   //Removes an update functions
   removeUpdate() {
     //TODO: find a way to call this function when an object is removed from the scene
+  },
+  get DEBUG() {
+    return DEBUG;
   }
 }
 
