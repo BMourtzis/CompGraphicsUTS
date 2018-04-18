@@ -4,23 +4,23 @@ function Component(type) {
   let compType = type;
   let parent = {};
 
-  this.isComponent = function() {
-    return true;
+  let component = {
+    isComponent() {
+      return true;
+    },
+    compId: {},
+    getType() {
+      return compType;
+    },
+    setParent(parentObj) {
+      parent = parentObj;
+    },
+    getParent() {
+      return parent;
+    }
   }
 
-  this.compId = {};
-
-  this.getType = function() {
-    return compType;
-  }
-
-  this.setParent = function(parentObj) {
-    parent = parentObj;
-  }
-
-  this.getParent = function() {
-    return parent;
-  }
+  return component;
 }
 
 export {

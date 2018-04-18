@@ -1,4 +1,4 @@
-import { Curve, Vector4, Vector3} from "three";
+import { Vector4, Vector3} from "three";
 import { NURBSUtils } from "./NURBSUtils";
 
  // @author renej
@@ -9,7 +9,7 @@ import { NURBSUtils } from "./NURBSUtils";
 
 
 function NURBSCurve(degree, knots, controlPoints, startKnot, endKnot) {
-  Curve.call(this);
+  Reflect.apply(this);
 
   this.degree = degree;
   this.knots = knots;
@@ -28,7 +28,7 @@ function NURBSCurve(degree, knots, controlPoints, startKnot, endKnot) {
 
 // NURBSCurve.prototype = Object.create(Curve.prototype);
 
-Object.setPrototypeOf(NURBSCurve, {
+Reflect.setPrototypeOf(NURBSCurve, {
   getPoint(to) {
     // linear mapping t->u
     let unit = this.knots[this.startKnot] + (to * (this.knots[this.endKnot] - this.knots[this.startKnot]));

@@ -11,29 +11,31 @@ const colliderSymbol = Symbol("collider");
 //BUG: how to update collider location
 //NOTE: Possible issue might be the location of the box with the relative location
 function Collider(box, trigger = false, eventFunction) {
-  Object.setPrototypeOf(this, new Component(colliderSymbol));
 
   let isTrigger = trigger
   let collisionBox = box;
   let triggerEvent = eventFunction;
 
-  this.isTrigger = function() {
-    return isTrigger;
-  }
-
-  this.getCollisionBox = function() {
-    return collisionBox;
-  }
-
-  this.setCollisionBox = function(newCollisionBox) {
-    collisionBox = newCollisionBox;
-  }
-
-  this.onTrigger = function() {
-    if(isTrigger) {
-      triggerEvent()
+  let collider = {
+    isTrigger() {
+      return isTrigger;
+    },
+    getCollisionBox() {
+      return collisionBox;
+    },
+    setCollisionBox(newCollisionBox) {
+      collisionBox = newCollisionBox;
+    },
+    onTrigger() {
+      if(isTrigger) {
+        triggerEvent();
+      }
     }
   }
+
+  Reflect.setPrototypeOf(collider, new Component(colliderSymbol));
+
+  return collider;
 }
 
 function testCollder() {

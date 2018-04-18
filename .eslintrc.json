@@ -39,7 +39,7 @@
         "for-direction": "error",
         "func-call-spacing": "error",
         "func-name-matching": "error",
-        "func-names": ["error", "as-needed"],
+        "func-names": "off",
         "func-style": ["error", "declaration", {"allowArrowFunctions": true}],
         "function-paren-newline": "error",
         "generator-star-spacing": "error",
