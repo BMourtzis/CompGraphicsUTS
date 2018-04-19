@@ -1,11 +1,9 @@
-import { Vector3, Vector2, MeshBasicMaterial, Mesh, Raycaster, SphereGeometry, Box3, Box3Helper } from "three";
+import { Vector3, Vector2, Raycaster, Box3, Box3Helper } from "three";
 import { scene, camera, engine } from "./engine";
 
 let colliders = [];
 
 let playerCollider;
-
-let sphereMesh;
 
 function addCollider(object, updateFunction) {
   let box = new Box3();
@@ -23,11 +21,6 @@ function addCollider(object, updateFunction) {
   if(updateFunction) {
     engine.addUpdate("colliderUpdate", updateFunction);
   }
-
-  // engine.addUpdate("colliderUpdate", () => {
-  //   let vector = new Vector3(0.1, 0, 0);
-  //   box.translate(vector);
-  // });
 
   return box;
 }

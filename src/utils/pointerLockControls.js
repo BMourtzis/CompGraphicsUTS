@@ -6,7 +6,7 @@ import { addPlayerCollider, updatePlayerCollider, validateMovement } from "./col
  * @author mrdoob / http://mrdoob.com/
  */
 
-let raycaster;
+// let raycaster;
 
 // let controlsEnabled;
 let controls;
@@ -18,14 +18,14 @@ let canJump = false;
 let velocity = new Vector3();
 let direction = new Vector3();
 
-const mass = 100.0;
+const mass = 1.5;
 
 let speedMod = 1;
 
 // Initialises the Point Lock
 function pointerLockInit() {
   controls = pointerLockControls();
-  raycaster = new Raycaster(new Vector3(), new Vector3(0, -1, 0), 0, 10);
+  // raycaster = new Raycaster(new Vector3(), new Vector3(0, -1, 0), 0, 10);
 
   scene.add(controls.getObject());
 
@@ -104,7 +104,7 @@ function addMoveEvents() {
         break;
       case 32: // space
         if (canJump === true) {
-          velocity.y += 350;
+          velocity.y += 5.0;
         }
         canJump = false;
         break;
@@ -209,50 +209,52 @@ function pointerLockControls() {
 }
 
 function update() {
-  raycaster.ray.origin.copy(controls.getObject().position);
-  raycaster.ray.origin.y -= 10;
+  // raycaster.ray.origin.copy(controls.getObject().position);
+  // raycaster.ray.origin.y -= 10;
 
-  let intersections = raycaster.intersectObjects(scene.children);
-  let onObject = intersections.length > 0;
+  // let intersections = raycaster.intersectObjects(scene.children);
+  // let onObject = intersections.length > 0;
 
   velocity.x -= speedMod * velocity.x * 10.0 * engine.getDelta();
   velocity.z -= speedMod * velocity.z * 10.0 * engine.getDelta();
-  velocity.y -= speedMod * 9.8 * mass * engine.getDelta();
+  velocity.y -= 9.8 * mass * engine.getDelta();
   direction.z = Number(moveForward) - Number(moveBackward);
   direction.x = Number(moveLeft) - Number(moveRight);
   // this ensures consistent movements in all directions
   direction.normalize();
 
+  // console.log(engine.getDelta());
+
   if (moveForward || moveBackward) {
-    velocity.z -= direction.z * 400.0 * engine.getDelta();
+    velocity.z -= direction.z * 10.0 * engine.getDelta();
   }
 
   if (moveLeft || moveRight) {
-    velocity.x -= direction.x * 400.0 * engine.getDelta();
+    velocity.x -= direction.x * 10.0 * engine.getDelta();
   }
 
-  if (onObject === true) {
-    velocity.y = Math.max(0, velocity.y);
-    canJump = true;
-  }
+  // if (onObject === true) {
+  //   velocity.y = Math.max(0, velocity.y);
+  //   canJump = true;
+  // }
 
   // let vector = new Vector3(velocity.x * engine.getDelta(), velocity.y * engine.getDelta(), velocity.z * engine.getDelta());
 
-  let vector = new Vector3(velocity.x * engine.getDelta(), velocity.y * engine.getDelta(), velocity.z * engine.getDelta());
-
+  let vector = new Vector3(velocity.x, velocity.y, velocity.z);
   controls.getRotation(vector);
 
-  //Very basic collision detection
+
+  // Primitive collision detection
   // BUG: y axis doesn't work correctly
   if(validateMovement(vector)) {
-    controls.getObject().translateX(velocity.x * engine.getDelta());
-    controls.getObject().translateY(velocity.y * engine.getDelta());
-    controls.getObject().translateZ(velocity.z * engine.getDelta());
+    controls.getObject().translateX(velocity.x);
+    controls.getObject().translateY(velocity.y);
+    controls.getObject().translateZ(velocity.z);
 
     updatePlayerCollider(vector);
   }
 
-  //NOTE: maybe I need to add this in the if above
+  //
   if (controls.getObject().position.y < 10) {
     velocity.y = 0;
     controls.getObject().position.y = 10;
