@@ -7,7 +7,7 @@ init();
 
 // the entry point that initialises everything
 function init() {
-  engine.init(true);
+  engine.init(false);
 
   // initalize objects
   controls();

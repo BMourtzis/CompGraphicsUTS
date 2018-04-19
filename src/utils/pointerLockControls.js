@@ -1,4 +1,4 @@
-import { Object3D, Euler, Vector3, Raycaster } from "three";
+import { Object3D, Euler, Vector3} from "three";
 import { engine, camera, scene } from "./engine";
 import { addPlayerCollider, updatePlayerCollider, validateMovement } from "./collider";
 
@@ -56,7 +56,7 @@ function addPointLock() {
         blocker.style.display = 'block';
         instructions.style.display = '';
       }
-    }
+    };
 
     let pointerlockerror = () => {
       instructions.style.display = '';
@@ -209,21 +209,15 @@ function pointerLockControls() {
 }
 
 function update() {
-  // raycaster.ray.origin.copy(controls.getObject().position);
-  // raycaster.ray.origin.y -= 10;
-
-  // let intersections = raycaster.intersectObjects(scene.children);
-  // let onObject = intersections.length > 0;
-
   velocity.x -= speedMod * velocity.x * 10.0 * engine.getDelta();
   velocity.z -= speedMod * velocity.z * 10.0 * engine.getDelta();
-  velocity.y -= 9.8 * mass * engine.getDelta();
+  velocity.y -= 8.8 * mass * engine.getDelta();
+
   direction.z = Number(moveForward) - Number(moveBackward);
   direction.x = Number(moveLeft) - Number(moveRight);
+
   // this ensures consistent movements in all directions
   direction.normalize();
-
-  // console.log(engine.getDelta());
 
   if (moveForward || moveBackward) {
     velocity.z -= direction.z * 10.0 * engine.getDelta();
@@ -233,37 +227,40 @@ function update() {
     velocity.x -= direction.x * 10.0 * engine.getDelta();
   }
 
-  // if (onObject === true) {
-  //   velocity.y = Math.max(0, velocity.y);
-  //   canJump = true;
-  // }
-
   // let vector = new Vector3(velocity.x * engine.getDelta(), velocity.y * engine.getDelta(), velocity.z * engine.getDelta());
 
   let vector = new Vector3(velocity.x, velocity.y, velocity.z);
-  controls.getRotation(vector);
-
+  let rotVector = vector.clone();
+  controls.getRotation(rotVector);
 
   // Primitive collision detection
-  // BUG: y axis doesn't work correctly
-  if(validateMovement(vector)) {
-    controls.getObject().translateX(velocity.x);
-    controls.getObject().translateY(velocity.y);
-    controls.getObject().translateZ(velocity.z);
-
-    updatePlayerCollider(vector);
+  // BUG: when you jump on something you will fall after some time.
+  // To solve this you need to null the y velocity
+  if(velocity.y > 0) {
+    console.log(rotVector.y, velocity.y);
   }
 
-  //
-  if (controls.getObject().position.y < 10) {
-    velocity.y = 0;
-    controls.getObject().position.y = 10;
-    canJump = true;
-  }
+  rotVector = validateMovement(rotVector);
+  velocity.y = rotVector.y;
+  canJump = rotVector.y === 0;
+  // console.log(rotVector);
+  controls.getObject().translateX(velocity.x);
+  controls.getObject().translateY(velocity.y);
+  controls.getObject().translateZ(velocity.z);
+
+  // if (controls.getObject().position.y < 10) {
+  //   velocity.y = 0;
+  //   rotVector.y = 0;
+  //   controls.getObject().position.y = 10;
+  //   canJump = true;
+  // }
+
+  updatePlayerCollider(rotVector);
+
 }
 
 export default pointerLockInit;
 
 export {
   controls
-}
+};

@@ -25,11 +25,12 @@ function addCollider(object, updateFunction) {
   return box;
 }
 
+//BUG: remove the boxHelper and this start bugging
 function addPlayerCollider() {
   playerCollider = new Box3();
 
   //NOTE: makes these into parameters
-  let center = new Vector3(0, 6, 0);
+  let center = new Vector3(0, 9, 0);
   let size = new Vector3(5, 12, 5);
 
   playerCollider.setFromCenterAndSize(center, size);
@@ -47,18 +48,43 @@ function updatePlayerCollider(vector) {
   playerCollider.translate(vector);
 }
 
-function validateMovement(vector) {
-  //TODO: check if this updates the given box;
+function validateMovement(initVector) {
+  let resultVector = initVector.clone();
   let box = playerCollider.clone();
-  box.translate(vector);
+  box.translate(resultVector);
+
   for(let collider of colliders) {
     if(box.intersectsBox(collider)) {
-      return false;
+      resultVector = negateCollisionAxis(resultVector, collider);
     }
   }
 
-  return true;
+  return resultVector;
 }
+
+//Nulls the axis which collides
+function negateCollisionAxis(vector, collidedBox) {
+  let resultVector = new Vector3();
+  let axis = ["x", "y", "z"];
+
+  for(let pos of axis) {
+    //Crate the new Vector and assign the velocity
+    let newVector = new Vector3();
+    newVector[pos] = vector[pos];
+
+    // Clone the box and translate
+    let box = playerCollider.clone();
+    box.translate(newVector);
+
+    // check if collision. If not, get the velocity
+    if(!box.intersectsBox(collidedBox)) {
+      resultVector[pos] = newVector[pos];
+    }
+  }
+
+  return resultVector;
+}
+
 
 // old code used to test rays and intersections
 function cameraRaycaster() {
@@ -81,4 +107,4 @@ export {
   validateMovement,
   addPlayerCollider,
   updatePlayerCollider
-}
+};

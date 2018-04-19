@@ -1,5 +1,6 @@
 import { PlaneGeometry, Color, MeshBasicMaterial, Mesh, VertexColors, MeshPhongMaterial, GridHelper, SpotLight } from "three";
 import { scene } from "../utils/engine";
+import { addCollider } from "../utils/collider";
 
 function simpleFloor() {
   let floorGeometry = new PlaneGeometry(2000, 2000, 100, 100);
@@ -36,6 +37,8 @@ function gridFloor() {
   grid.material.opacity = 0.2;
   grid.material.transparent = true;
 
+  addCollider(floor);
+
   scene.add(floor);
   scene.add(grid);
 
@@ -59,4 +62,4 @@ function gridFloor() {
 export {
   simpleFloor,
   gridFloor
-}
+};
