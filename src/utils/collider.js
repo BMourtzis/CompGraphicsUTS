@@ -25,7 +25,6 @@ function addCollider(object, updateFunction) {
   return box;
 }
 
-//BUG: remove the boxHelper and this start bugging
 function addPlayerCollider() {
   playerCollider = new Box3();
 
@@ -68,7 +67,7 @@ function negateCollisionAxis(vector, collidedBox) {
   let axis = ["x", "y", "z"];
 
   for(let pos of axis) {
-    //Crate the new Vector and assign the velocity
+    //Create the new Vector3 and assign the velocity
     let newVector = new Vector3();
     newVector[pos] = vector[pos];
 
@@ -87,6 +86,7 @@ function negateCollisionAxis(vector, collidedBox) {
 
 
 // old code used to test rays and intersections
+// Left as an example of how to use raycasters
 function cameraRaycaster() {
   let raycaster = new Raycaster(new Vector3(), new Vector3(), 0, 100);
 

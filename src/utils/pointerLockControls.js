@@ -227,36 +227,25 @@ function update() {
     velocity.x -= direction.x * 10.0 * engine.getDelta();
   }
 
-  // let vector = new Vector3(velocity.x * engine.getDelta(), velocity.y * engine.getDelta(), velocity.z * engine.getDelta());
-
-  let vector = new Vector3(velocity.x, velocity.y, velocity.z);
-  let rotVector = vector.clone();
+  let rotVector = new Vector3(velocity.x, velocity.y, velocity.z);
   controls.getRotation(rotVector);
 
   // Primitive collision detection
-  // BUG: when you jump on something you will fall after some time.
-  // To solve this you need to null the y velocity
-  if(velocity.y > 0) {
-    console.log(rotVector.y, velocity.y);
-  }
 
+  // check for collisions and returns the movement that
+  // is allowed on the 3 axis
   rotVector = validateMovement(rotVector);
   velocity.y = rotVector.y;
+  // If the player is moving on the Y axis he/she cannot jump
   canJump = rotVector.y === 0;
-  // console.log(rotVector);
+
+  // Translates the vector to the controls
   controls.getObject().translateX(velocity.x);
   controls.getObject().translateY(velocity.y);
   controls.getObject().translateZ(velocity.z);
 
-  // if (controls.getObject().position.y < 10) {
-  //   velocity.y = 0;
-  //   rotVector.y = 0;
-  //   controls.getObject().position.y = 10;
-  //   canJump = true;
-  // }
-
+  //Lastly, update the player collider
   updatePlayerCollider(rotVector);
-
 }
 
 export default pointerLockInit;
