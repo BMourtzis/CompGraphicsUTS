@@ -17,22 +17,26 @@ let DEBUG = false;
 //List of update objects, includes update functions
 let updateList = [];
 
+//Renderer settings used by the WebGLRenderer
 const rendererSettings = {
  precision: "lowp"
-}
+};
 
 let engine = {
-  // initalizer of the "engine", creates a new camera, scene with fog and the renderer
   //TODO: add some parameters to customise some of the initialization
+  /**
+   * init - Intializes the engine, incles camera, lights, renderer and the update loop
+   *
+   * @param  {boolean} debug = false Whether or not the engine is in debug mode. Default is false.
+   * @return {null}                  null`
+   */
   init(debug = false) {
     DEBUG = debug;
-    // Create the camera
     camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
 
-    //Clock
     clock = new Clock();
 
-    // Create the scene
+    // Create the scene, with background and fog
     scene = new Scene();
     scene.background = new Color(0xffffff);
     scene.fog = new Fog(0xffffff, 0, 750);
@@ -42,7 +46,6 @@ let engine = {
     henmiLight.position.set(0.5, 1, 0.75);
     scene.add(henmiLight);
 
-    // Craete a WebGLRenderer
     renderer = new WebGLRenderer(rendererSettings);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -54,23 +57,51 @@ let engine = {
     //Call the update function. It will create an update loop
     update();
   },
-  //Returns the delta for the frame
-  getDelta() { return delta; },
-  //adds the update function to the update loop
+
+  /**
+   * addUpdate - Registers an update function
+   *
+   * @param  {String} updateName   The name of the update function
+   * @param  {Function} updateFn   The update function, will be called on every update
+   * @return {Null}                null
+   */
   addUpdate(updateName, updateFn) {
     updateList.push({name: updateName, fn: updateFn });
   },
-  //Removes an update functions
+
+  /**
+   * removeUpdate - DOES NOT WORK
+   *
+   * @return {type}  description
+   */
   removeUpdate() {
     //TODO: find a way to call this function when an object is removed from the scene
   },
+
+
+  /**
+   * getDelta - Returns the Delta between frames in ms
+   *
+   * @return {Number}  The time delta
+   */
+  get Delta() { return delta; },
+
+  /**
+   * get DEBUG - Whether or not in debug mode
+   *
+   * @return {boolean}  Whether or not in debug mode
+   */
   get DEBUG() {
     return DEBUG;
   }
-}
+};
 
-//Updates the scene and then rerenders
-//It goes through all the update functions registered
+
+/**
+ * update - Creates the update loop. Calls all the registered update functions
+ *
+ * @return {Null}  null
+ */
 function update() {
   //Add the update function to be called on the next frame
   requestAnimationFrame(update);
@@ -85,7 +116,11 @@ function update() {
   renderer.render(scene, camera);
 }
 
-//Resize callback function
+/**
+ * onWindowResize - Callback for the resize event of the window
+ *
+ * @return {Null}  null
+ */
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -97,4 +132,4 @@ export {
   camera,
   scene,
   renderer
-}
+};

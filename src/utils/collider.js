@@ -1,17 +1,30 @@
 import { Vector3, Vector2, Raycaster, Box3, Box3Helper } from "three";
 import { scene, camera, engine } from "./engine";
 
+/**
+ * A list of all the colliders registered
+ */
 let colliders = [];
 
+/**
+ * The collider of the player
+ */
 let playerCollider;
 
+/**
+ * addCollider - Adds a new collider based on the Object3D given
+ *
+ * @param  {Object3D} object         The Object3D that the collider will ecnapsualte
+ * @param  {Function} updateFunction An update function for the collider
+ * @return {Box3}                    The collider generated
+ */
 function addCollider(object, updateFunction) {
   let box = new Box3();
   //Calculate Bounding Box
   box.setFromObject(object);
 
+  // Adds box wireframe for debug mode
   if(engine.DEBUG) {
-    // Adds box wireframe for debug
     let boxHelper = new Box3Helper(box, 0xff0000);
     scene.add(boxHelper);
   }
@@ -25,10 +38,19 @@ function addCollider(object, updateFunction) {
   return box;
 }
 
+function addCustomCollider() {
+  //TODO: Add a way to creates custom collider boxes
+}
+
+/**
+ * addPlayerCollider - Add a collider ot the player
+ *
+ * @return {Box3}  Returns the player collider
+ */
 function addPlayerCollider() {
   playerCollider = new Box3();
 
-  //NOTE: makes these into parameters
+  //TODO: makes these into parameters
   let center = new Vector3(0, 9, 0);
   let size = new Vector3(5, 12, 5);
 
@@ -47,11 +69,20 @@ function updatePlayerCollider(vector) {
   playerCollider.translate(vector);
 }
 
+/**
+ * validateMovement - Validates the movements vector based on the colliders
+ *
+ * @param  {Vector3} initVector The Movement Vector
+ * @return {Vector3}            The Vector resulted from the collisions
+ */
 function validateMovement(initVector) {
+  // NOTE: might not need that
   let resultVector = initVector.clone();
   let box = playerCollider.clone();
+  // Moves the colider with the movement vector
   box.translate(resultVector);
 
+  // checks all the registered coliders to see how to negate movement
   for(let collider of colliders) {
     if(box.intersectsBox(collider)) {
       resultVector = negateCollisionAxis(resultVector, collider);
@@ -61,9 +92,17 @@ function validateMovement(initVector) {
   return resultVector;
 }
 
-//Nulls the axis which collides
+
+/**
+ * negateCollisionAxis - Checks the movement on each axis and negates the ones that cause the collision
+ *
+ * @param  {Vector3} vector      Movement Vector
+ * @param  {Box3}    collidedBox The collider the collision was detected
+ * @return {Vector3}             The result vector
+ */
 function negateCollisionAxis(vector, collidedBox) {
   let resultVector = new Vector3();
+  // a list of axis
   let axis = ["x", "y", "z"];
 
   for(let pos of axis) {
@@ -104,6 +143,7 @@ function cameraRaycaster() {
 
 export {
   addCollider,
+  addCustomCollider,
   validateMovement,
   addPlayerCollider,
   updatePlayerCollider

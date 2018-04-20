@@ -2,6 +2,12 @@ import { PlaneGeometry, Color, MeshBasicMaterial, Mesh, VertexColors, MeshPhongM
 import { scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
 
+
+/**
+ * simpleFloor - Creates a colourful floor. The colours are generates randomly.
+ *
+ * @return {Null}  null
+ */
 function simpleFloor() {
   let floorGeometry = new PlaneGeometry(2000, 2000, 100, 100);
   floorGeometry.rotateX(-Math.PI / 2);
@@ -26,6 +32,12 @@ function simpleFloor() {
   scene.add(floor);
 }
 
+
+/**
+ * gridFloor - Creates a simple floor with grid on top of it
+ *
+ * @return {Null}  null
+ */
 function gridFloor() {
   // The floor without grid
   let floor = new Mesh(new PlaneGeometry(2000, 2000), new MeshPhongMaterial({color: 0xffffff, deptWrite: false}));

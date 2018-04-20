@@ -2,30 +2,28 @@ import { Object3D, Euler, Vector3} from "three";
 import { engine, camera, scene } from "./engine";
 import { addPlayerCollider, updatePlayerCollider, validateMovement } from "./collider";
 
-/**
- * @author mrdoob / http://mrdoob.com/
- */
-
-// let raycaster;
-
-// let controlsEnabled;
 let controls;
+
 let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
 let canJump = false;
+
+// Vector for the velocity player
 let velocity = new Vector3();
+// Vector to find the direction of the player
 let direction = new Vector3();
 
+// Mass of the player, used to calculate the down force
 const mass = 1.5;
 
+//A modifier for the walking speed of the player. Used for sprinting
 let speedMod = 1;
 
-// Initialises the Point Lock
+// Initialises the Controls
 function pointerLockInit() {
   controls = pointerLockControls();
-  // raycaster = new Raycaster(new Vector3(), new Vector3(0, -1, 0), 0, 10);
 
   scene.add(controls.getObject());
 
@@ -140,7 +138,7 @@ function addMoveEvents() {
     }
   }, false);
 }
-
+//TODO: Remove Pitch and Yaw Objects and rotate the camera by itself
 function pointerLockControls() {
   camera.rotation.set(0, 0, 0);
 
@@ -209,9 +207,9 @@ function pointerLockControls() {
 }
 
 function update() {
-  velocity.x -= speedMod * velocity.x * 10.0 * engine.getDelta();
-  velocity.z -= speedMod * velocity.z * 10.0 * engine.getDelta();
-  velocity.y -= 8.8 * mass * engine.getDelta();
+  velocity.x -= speedMod * velocity.x * 10.0 * engine.Delta;
+  velocity.z -= speedMod * velocity.z * 10.0 * engine.Delta;
+  velocity.y -= 8.8 * mass * engine.Delta;
 
   direction.z = Number(moveForward) - Number(moveBackward);
   direction.x = Number(moveLeft) - Number(moveRight);
@@ -220,20 +218,17 @@ function update() {
   direction.normalize();
 
   if (moveForward || moveBackward) {
-    velocity.z -= direction.z * 10.0 * engine.getDelta();
+    velocity.z -= direction.z * 10.0 * engine.Delta;
   }
 
   if (moveLeft || moveRight) {
-    velocity.x -= direction.x * 10.0 * engine.getDelta();
+    velocity.x -= direction.x * 10.0 * engine.Delta;
   }
 
   let rotVector = new Vector3(velocity.x, velocity.y, velocity.z);
   controls.getRotation(rotVector);
 
   // Primitive collision detection
-
-  // check for collisions and returns the movement that
-  // is allowed on the 3 axis
   rotVector = validateMovement(rotVector);
   velocity.y = rotVector.y;
   // If the player is moving on the Y axis he/she cannot jump
