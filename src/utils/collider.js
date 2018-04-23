@@ -38,8 +38,30 @@ function addCollider(object, updateFunction) {
   return box;
 }
 
-function addCustomCollider() {
-  //TODO: Add a way to creates custom collider boxes
+
+/**
+ * addCustomCollider - Creates a new collider with custom dimensions
+ *
+ * @param  {Vector3} centerPoint The center of the new collider
+ * @param  {Number} width        X axis
+ * @param  {Number} height       Y axis
+ * @param  {Number} depth        z axis
+ * @return {Null}                null
+ */
+function addCustomCollider(centerPoint = new Vector3(), width, height, depth) {
+  let box = new Box3();
+
+  let size = new Vector3(width, height, depth);
+
+  box.setFromCenterAndSize(centerPoint, size);
+
+  if(engine.DEBUG) {
+    // Adds box wireframe for debug
+    let newHelper = new Box3Helper(box, 0xff0000);
+    scene.add(newHelper);
+  }
+
+  colliders.push(box);
 }
 
 /**
