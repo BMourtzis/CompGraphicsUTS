@@ -1,6 +1,6 @@
 import { Object3D, Euler, Vector3} from "three";
 import { engine, camera, scene } from "./engine";
-import { addPlayerCollider, updatePlayerCollider, validateMovement } from "./collider";
+import { addPlayerCollider, updatePlayerCollider, validateMovement, resetPlayerPosition } from "./collider";
 
 let controls;
 
@@ -16,7 +16,9 @@ let velocity = new Vector3();
 let direction = new Vector3();
 
 // Mass of the player, used to calculate the down force
-const mass = 1.5;
+let mass = 1.5;
+
+const lowestPositionLimit = -100;
 
 //A modifier for the walking speed of the player. Used for sprinting
 let speedMod = 1;
@@ -150,7 +152,7 @@ function initControls() {
   pitchObject.add(camera);
 
   let yawObject = new Object3D();
-  yawObject.position.y = 10;
+  yawObject.position.y = 13;
   yawObject.add(pitchObject);
 
   let direction = new Vector3(0, 0, -1);
@@ -222,6 +224,11 @@ function update() {
   velocity.z -= speedMod * velocity.z * 10.0 * engine.Delta;
   velocity.y -= 8.8 * mass * engine.Delta;
 
+  //Terminal velocity check
+  if(velocity.y > 5) {
+    velocity.y = 5;
+  }
+
   direction.z = Number(moveForward) - Number(moveBackward);
   direction.x = Number(moveLeft) - Number(moveRight);
 
@@ -257,9 +264,19 @@ function update() {
   canJump = rotVector.y === 0;
 
   // Translates the vector to the controls
+  // TODO: make only 1 call to the getObject();
   controls.getObject().translateX(velocity.x);
   controls.getObject().translateY(velocity.y);
   controls.getObject().translateZ(velocity.z);
+
+  //Reset player collider position, when you fall too low
+  if(controls.getObject().position.y < lowestPositionLimit) {
+    controls.getObject().position.x = 0;
+    controls.getObject().position.y = 30;
+    controls.getObject().position.z = 0;
+
+    resetPlayerPosition(new Vector3(-2.5, 20, -2.5));
+  }
 
 }
 
