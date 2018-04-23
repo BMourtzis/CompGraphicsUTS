@@ -24,7 +24,7 @@ import {
 	// Misc
 	Math, Group, PropertyBinding,  Object3D, EquirectangularReflectionMapping, Float32BufferAttribute, Uint16BufferAttribute } from 'three';
 
-	import { NurbsCurve } from "../libs/NURBSCurve";
+	import { NurbsCurve } from "../libs/NURBSCurve/NURBSCurve";
 
 /**
  * @author Kyle-Larson https://github.com/Kyle-Larson

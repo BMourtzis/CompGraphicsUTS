@@ -1,15 +1,25 @@
 import { BoxGeometry, MeshBasicMaterial, Mesh, Matrix4 } from "three";
+<<<<<<< HEAD
 import { engine, scene } from "./utils/engine"
+=======
+import { engine, scene } from "./utils/engine";
+import { FBXLoader } from "./loaders/FBXLoader";
+>>>>>>> collider
 // at the top we import all the files required
 // remeber that you need to import objects from the engine module
 
 // we write a function that acts as an initializer
 function Example() {
   //create all the objects needed
-  var geometry = new BoxGeometry(1, 1, 1);
+  let geometry = new BoxGeometry(1, 1, 1);
 
+<<<<<<< HEAD
   var material = new MeshBasicMaterial({color: 0x00ff00});
   var cube = new Mesh( geometry, material );
+=======
+  let material = new MeshBasicMaterial({color: 0x00ff00});
+  let cube = new Mesh( geometry, material );
+>>>>>>> collider
 
   //add the object to the scene
   scene.add(cube);
@@ -23,12 +33,12 @@ function Example() {
 }
 
 function LoaderExample() {
-  var loader = new FBXLoader();
+  let loader = new FBXLoader();
   // the load function is asynchronous because it takes time to load the models
   // so when the model is done loading it will call the callback function
   loader.load("models/cowboy.fbx", (obj) => { // this is the callback function
     // an example of what you can do once you have the model
-    var matrix = new Matrix4();
+    let matrix = new Matrix4();
     matrix.makeScale(0.01, 0.01, 0.01);
 
     obj.applyMatrix(matrix);
@@ -39,7 +49,7 @@ function LoaderExample() {
     //register an update function
     engine.addUpdate("cowboyUpdate", () => {
       // your update function
-    }));
+    });
   });
 }
 

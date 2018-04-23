@@ -1,0 +1,15 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+      "C:\\Users\\Vasil\\source\\repos\\LinterConfigurations\\JS\\.eslintrc.json"
+    ],
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "rules": {
+
+    }
+}
