@@ -38,7 +38,6 @@ function addCollider(object, updateFunction) {
   return box;
 }
 
-
 /**
  * addCustomCollider - Creates a new collider with custom dimensions
  *

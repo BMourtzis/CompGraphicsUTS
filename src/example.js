@@ -1,10 +1,6 @@
 import { BoxGeometry, MeshBasicMaterial, Mesh, Matrix4 } from "three";
-<<<<<<< HEAD
-import { engine, scene } from "./utils/engine"
-=======
 import { engine, scene } from "./utils/engine";
 import { FBXLoader } from "./loaders/FBXLoader";
->>>>>>> collider
 // at the top we import all the files required
 // remeber that you need to import objects from the engine module
 
@@ -13,13 +9,8 @@ function Example() {
   //create all the objects needed
   let geometry = new BoxGeometry(1, 1, 1);
 
-<<<<<<< HEAD
-  var material = new MeshBasicMaterial({color: 0x00ff00});
-  var cube = new Mesh( geometry, material );
-=======
   let material = new MeshBasicMaterial({color: 0x00ff00});
   let cube = new Mesh( geometry, material );
->>>>>>> collider
 
   //add the object to the scene
   scene.add(cube);
@@ -43,7 +34,7 @@ function LoaderExample() {
 
     obj.applyMatrix(matrix);
     obj.position.set(1, 1, 1);
-    
+
     scene.add(obj);
 
     //register an update function
