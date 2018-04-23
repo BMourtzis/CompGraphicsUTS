@@ -10,7 +10,7 @@ function init() {
   engine.init(true);
 
   // initalize objects
-  controls();
   gridFloor();
+  controls();
   cowboy();
 }

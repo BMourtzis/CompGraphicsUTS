@@ -2,14 +2,14 @@ import { Vector3, Vector2, Raycaster, Box3, Box3Helper } from "three";
 import { scene, camera, engine } from "./engine";
 
 /**
- * A list of all the colliders registered
- */
-let colliders = [];
-
-/**
  * The collider of the player
  */
 let playerCollider;
+
+/**
+ * A list of all the colliders registered
+ */
+let colliders = [];
 
 /**
  * addCollider - Adds a new collider based on the Object3D given
@@ -65,6 +65,12 @@ function addPlayerCollider() {
   return playerCollider;
 }
 
+/**
+ * updatePlayerCollider - Updates the player's collider box
+ *
+ * @param  {Vector3} vector The velocity vector
+ * @return {Null}           null
+ */
 function updatePlayerCollider(vector) {
   playerCollider.translate(vector);
 }

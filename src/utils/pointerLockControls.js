@@ -23,7 +23,7 @@ let speedMod = 1;
 
 // Initialises the Controls
 function pointerLockInit() {
-  controls = pointerLockControls();
+  controls = initControls();
 
   scene.add(controls.getObject());
 
@@ -139,8 +139,12 @@ function addMoveEvents() {
   }, false);
 }
 //TODO: Remove Pitch and Yaw Objects and rotate the camera by itself
-function pointerLockControls() {
+function initControls() {
   camera.rotation.set(0, 0, 0);
+
+  // let movementObj = new Object3D();
+  // movementObj.add(camera);
+  // movementObj.position.y = 10;
 
   let pitchObject = new Object3D();
   pitchObject.add(camera);
@@ -179,6 +183,13 @@ function pointerLockControls() {
     getRotation(vector) {
       let euler = new Euler(0, 0, 0, "YXZ");
       euler.set(0, yawObject.rotation.y, 0);
+      vector.applyEuler(euler);
+
+      return vector;
+    },
+    getReversedRotation(vector) {
+      let euler = new Euler(0, 0, 0, "YXZ");
+      euler.set(0, -yawObject.rotation.y, 0);
       vector.applyEuler(euler);
 
       return vector;
@@ -229,8 +240,19 @@ function update() {
   controls.getRotation(rotVector);
 
   // Primitive collision detection
+  // Validate the movement
   rotVector = validateMovement(rotVector);
+  // Set Y before rotating back
   velocity.y = rotVector.y;
+
+  //Update the collider before changing the rotation back
+  updatePlayerCollider(rotVector);
+
+  // Rotate back and set X and Z
+  controls.getReversedRotation(rotVector);
+  velocity.x = rotVector.x;
+  velocity.z = rotVector.z;
+
   // If the player is moving on the Y axis he/she cannot jump
   canJump = rotVector.y === 0;
 
@@ -239,8 +261,6 @@ function update() {
   controls.getObject().translateY(velocity.y);
   controls.getObject().translateZ(velocity.z);
 
-  //Lastly, update the player collider
-  updatePlayerCollider(rotVector);
 }
 
 export default pointerLockInit;
