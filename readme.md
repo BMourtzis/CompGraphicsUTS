@@ -1,3 +1,6 @@
+# Computer Graphics UTS
+[![CodeFactor](https://www.codefactor.io/repository/github/bmourtzis/compgraphicsuts/badge)](https://www.codefactor.io/repository/github/bmourtzis/compgraphicsuts)
+
 ## Topic
 A Museum that goes throw the history of video game characters. The idea is to create models through different eras of video game models, from low poly (like tomb raider) to high poly.
 
