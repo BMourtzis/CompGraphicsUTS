@@ -38,7 +38,6 @@ function addCollider(object, updateFunction) {
   return box;
 }
 
-
 /**
  * addCustomCollider - Creates a new collider with custom dimensions
  *
@@ -85,6 +84,22 @@ function addPlayerCollider() {
   }
 
   return playerCollider;
+}
+
+
+/**
+ * resetPlayerPosition - Resets the collider to 0,0,0 then translates using the vector
+ *
+ * @param  {Vector3} vector The velocity to the colllider after reset
+ * @return {Null}           null
+ */
+function resetPlayerPosition(vector = new Vector3()) {
+  // Move the collider to position 0,0,0
+  let resetVector = new Vector3(-playerCollider.min.x, -playerCollider.min.y, -playerCollider.min.z)
+  playerCollider.translate(resetVector);
+
+  // Then apply the new velocity
+  playerCollider.translate(vector);
 }
 
 /**
@@ -174,5 +189,6 @@ export {
   addCustomCollider,
   validateMovement,
   addPlayerCollider,
-  updatePlayerCollider
+  updatePlayerCollider,
+  resetPlayerPosition
 };

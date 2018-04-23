@@ -47,4 +47,4 @@ function LoaderExample() {
 export {
   Example,
   LoaderExample
-}
+};
