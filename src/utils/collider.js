@@ -8,6 +8,7 @@ let playerCollider;
 
 /**
  * A list of all the colliders registered
+ * All coliders are of Type Box3
  */
 let colliders = [];
 
@@ -95,7 +96,7 @@ function addPlayerCollider() {
  */
 function resetPlayerPosition(vector = new Vector3()) {
   // Move the collider to position 0,0,0
-  let resetVector = new Vector3(-playerCollider.min.x, -playerCollider.min.y, -playerCollider.min.z)
+  let resetVector = new Vector3(-playerCollider.min.x, -playerCollider.min.y, -playerCollider.min.z);
   playerCollider.translate(resetVector);
 
   // Then apply the new velocity
