@@ -2,6 +2,7 @@ import { engine } from "./utils/engine";
 import controls from "./utils/pointerLockControls";
 import { gridFloor } from "./misc/floors";
 import { cowboy } from "./misc/cowboy";
+import { room } from "./misc/room";
 
 init();
 
@@ -12,5 +13,6 @@ function init() {
   // initalize objects
   gridFloor();
   controls();
-  cowboy();
+    cowboy();
+    room();
 }
