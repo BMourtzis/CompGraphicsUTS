@@ -10,6 +10,7 @@ let playerCollider;
  * Create object of position manager
  */
 var objPositionManager = new PositionManager();
+var platform_test;
 
 /**
  * A list of all the colliders registered
