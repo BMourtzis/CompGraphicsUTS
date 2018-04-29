@@ -7,6 +7,11 @@ import { scene, camera, engine } from "./engine";
 let playerCollider;
 
 /**
+ * Create object of position manager
+ */
+var objPositionManager = new PositionManager();
+
+/**
  * A list of all the colliders registered
  * All coliders are of Type Box3
  */
@@ -111,6 +116,9 @@ function resetPlayerPosition(vector = new Vector3()) {
  */
 function updatePlayerCollider(vector) {
   playerCollider.translate(vector);
+
+  // check player position
+  objPositionManager.isPlayerOnPlatform(playerCollider.position);
 }
 
 /**
