@@ -11,6 +11,7 @@ let playerCollider;
  */
 var objPositionManager = new PositionManager();
 var platform_test;
+var test_ui = "hello!!";
 
 /**
  * A list of all the colliders registered
