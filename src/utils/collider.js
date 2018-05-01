@@ -1,5 +1,6 @@
 import { Vector3, Vector2, Raycaster, Box3, Box3Helper } from "three";
 import { scene, camera, engine } from "./engine";
+import { PositionManager} from "./locationTracker";
 
 /**
  * The collider of the player
@@ -10,11 +11,7 @@ let playerCollider;
  * Create object of position manager
  */
 var objPositionManager = new PositionManager();
-<<<<<<< HEAD
-var platform_test;
-var test_ui = "hello!!";
-=======
->>>>>>> master
+objPositionManager.init();
 
 /**
  * A list of all the colliders registered
@@ -123,7 +120,8 @@ function updatePlayerCollider(vector) {
   playerCollider.translate(vector);
 
   // check player position
-  objPositionManager.isPlayerOnPlatform(playerCollider.position);
+  objPositionManager.isPlayerOnPlatform(playerCollider.min.z, playerCollider.min.x);
+  objPositionManager.updateUI(null);
 }
 
 /**
