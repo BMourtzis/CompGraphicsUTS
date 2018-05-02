@@ -121,7 +121,6 @@ function updatePlayerCollider(vector) {
 
   // check player position
   objPositionManager.isPlayerOnPlatform(playerCollider.min.z, playerCollider.min.x);
-  objPositionManager.updateUI(null);
 }
 
 /**

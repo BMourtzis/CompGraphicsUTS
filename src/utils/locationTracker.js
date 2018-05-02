@@ -8,8 +8,9 @@
 //  by nelson 
 */
 
-import { OrthographicCamera, Scene, Texture, MeshBasicMaterial, PlaneGeometry, Mesh, WebGLRenderer} from "three";
+import { Box3, Vector3 } from "three";
 import { scene, camera, engine, HUDRenderer } from "./engine";
+import { cowboy } from "../misc/cowboy";
 //Renderer settings used by the WebGLRenderer
 const rendererSettings = {
  precision: "lowp"
@@ -21,12 +22,21 @@ function PositionManager(){
   // local var
   var self = this;
 
-  var HUD = document.getElementById('HUD');
-  var HUB_text = document.getElementById('HUB_text');
+  var HUD_header = document.getElementById('HUD');
+  var HUD_info = document.getElementById('HUB_text');
+
+  var text_1 = "this is some text";
+
+  var base_1;
 
   this.init = function(){
-     
-          
+/*
+    let loader = new FBXLoader();
+    loader.load("models/cowboy.fbx", (obj) => {
+      console.log(cowboy);
+    });
+  */  
+    //console.log(cowboy.returnPosition());
       
   }
 
@@ -34,6 +44,10 @@ function PositionManager(){
   // we get the player location from the playerCollider box 
   // from the collider.js 
   this.isPlayerOnPlatform = function(zPos, xPos){
+
+
+
+    self.updateUI(null);
 
   }
 
@@ -44,27 +58,17 @@ function PositionManager(){
       var element = document.body;
       if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
           // show UI
-          HUD.style.display = '';
-          HUB_text.style.display = '';
+
+          HUD_header.innerHTML = text_1;
+          HUD_header.style.display = '';
+          HUD_info.style.display = '';
+
       }else{
           // hide UI
-          HUD.style.display = 'none';
-          HUB_text.style.display = 'none';
+          HUD_header.style.display = 'none';
+          HUD_info.style.display = 'none';
       }
-
-    switch(platformID){
-      case 1:
-        break;
-
-      default:
-        break;
-    }
-
   }
-
-
-
-
 }
 
 export {PositionManager};
