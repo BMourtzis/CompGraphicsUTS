@@ -22,14 +22,23 @@ function PositionManager(){
   // local var
   var self = this;
 
-  var HUD_header = document.getElementById('HUD');
-  var HUD_info = document.getElementById('HUB_text');
+  var HUD_header;
+  var HUD_style;
 
-  var text_1 = "this is some text";
+  var text_1 = "this is some text!!";
 
-  var base_1;
 
   this.init = function(){
+
+    HUD_header = document.getElementById('demo_HUD');
+
+    HUD_style = document.getElementById('HUB_text');
+    HUD_style.style.fontSize = "larger"
+;/*
+    HUD_style = document.createElement('style');
+    HUD_style.type = 'text/css';
+    HUD_style.innerHTML = '.cssClass { color: red }';
+    document.getElementsByTagName('head')[0].appendChild(HUD_style);
 /*
     let loader = new FBXLoader();
     loader.load("models/cowboy.fbx", (obj) => {
@@ -59,14 +68,17 @@ function PositionManager(){
       if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
           // show UI
 
+
           HUD_header.innerHTML = text_1;
+
+          HUD_header.align = "center";
+          HUD_header.style.color = 'red';
           HUD_header.style.display = '';
-          HUD_info.style.display = '';
 
       }else{
           // hide UI
           HUD_header.style.display = 'none';
-          HUD_info.style.display = 'none';
+          //HUD_info.style.display = 'none';
       }
   }
 }
