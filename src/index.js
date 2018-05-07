@@ -13,6 +13,6 @@ function init() {
   // initalize objects
   gridFloor();
   controls();
-    cowboy();
-    room();
+  cowboy();
+  room();
 }

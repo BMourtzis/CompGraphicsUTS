@@ -194,7 +194,19 @@ function negateCollisionAxis(vector, collidedBox) {
 function checkForTriggers() {
   for(let trigger of triggers) {
     if(playerCollider.intersectsSphere(trigger.sphere)) {
-      trigger.event();
+      if(trigger.type === 0 && !trigger.active) { // OnEnter
+        trigger.event();
+      }
+      else if(trigger.type === 2) { // OnStay
+        trigger.event();
+      }
+      trigger.active = true;
+    }
+    else {
+      if(trigger.type === 1 && trigger.active) { //OnLeave
+        trigger.event();
+      }
+      trigger.active = false;
     }
   }
 }

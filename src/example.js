@@ -1,6 +1,7 @@
-import { BoxGeometry, MeshBasicMaterial, Mesh, Matrix4 } from "three";
+import { BoxGeometry, MeshBasicMaterial, Mesh, Matrix4, Vector3 } from "three";
 import { engine, scene } from "./utils/engine";
 import { FBXLoader } from "./loaders/FBXLoader";
+import {addTrigger } from "./utils/colliders";
 // at the top we import all the files required
 // remeber that you need to import objects from the engine module
 
@@ -44,9 +45,21 @@ function LoaderExample() {
   });
 }
 
+function TriggerExample() {
+  // Creates a new trigger that will be actived when the player wakes into them.
+  // The first paramater is the radius of the Sphere
+  // The second parameter is the position of the center of the Sphere
+  // The third parameter is the event function, that is called when the trigger is activated
+  // Lastly, the fourth parameter is the type of trigger. 0: OnEnter, 1: OnLeave, 2: OnStay
+  addTrigger(5, new Vector3(-20, 1, 0), () => {
+    console.log("triggered!");
+  }, 0);
+}
+
 //lastly you need to export you initializer functions
 //so that they can be called
 export {
   Example,
-  LoaderExample
+  LoaderExample,
+  TriggerExample
 };
