@@ -1,4 +1,4 @@
-import { Vector3, Vector2, Raycaster, Box3, Box3Helper } from "three";
+import { Vector3, Vector2, Raycaster, Box3, Box3Helper, Sphere } from "three";
 import { scene, camera, engine } from "./engine";
 import { PositionManager} from "./locationTracker";
 
@@ -10,7 +10,7 @@ let playerCollider;
 /**
  * Create object of position manager
  */
-var objPositionManager = new PositionManager();
+let objPositionManager = new PositionManager();
 objPositionManager.init();
 
 /**
@@ -18,6 +18,12 @@ objPositionManager.init();
  * All coliders are of Type Box3
  */
 let colliders = [];
+
+
+/**
+ * A list of triggers that will callback when the player colliders with one of them
+ */
+let triggers = [];
 
 /**
  * addCollider - Adds a new collider based on the Object3D given
@@ -118,6 +124,8 @@ function resetPlayerPosition(vector = new Vector3()) {
  */
 function updatePlayerCollider(vector) {
   playerCollider.translate(vector);
+  // Checks to see if the movement has activated any triggers
+  checkForTriggers();
 
   // check player position
   objPositionManager.isPlayerOnPlatform(playerCollider.min.z, playerCollider.min.x);
@@ -178,6 +186,34 @@ function negateCollisionAxis(vector, collidedBox) {
 }
 
 
+/**
+ * checkForTriggers - Loops through the triggers to find if any have activated
+ *
+ * @return {Null}  null
+ */
+function checkForTriggers() {
+  for(let trigger of triggers) {
+    if(playerCollider.intersectsSphere(trigger.sphere)) {
+      trigger.event();
+    }
+  }
+}
+
+/**
+ * addTrigger - Registers a new trigger
+ *
+ * @param  {Numeric}  radius       The radius of the trigger sphere
+ * @param  {Vector3}  center       The position of its center
+ * @param  {Function} triggerEvent The function called when the trigger is activated
+ * @param  {Numeric}  type         The type of trigger, 0: onEnter (default), 1: onLeave
+ * @return {Null}                  null
+ */
+function addTrigger(radius, center, triggerEvent, type = 0) {
+  let sphere = new Sphere(center, radius);
+  triggers.push({sphere, type, event: triggerEvent});
+}
+
+
 // old code used to test rays and intersections
 // Left as an example of how to use raycasters
 function cameraRaycaster() {
@@ -201,5 +237,6 @@ export {
   validateMovement,
   addPlayerCollider,
   updatePlayerCollider,
-  resetPlayerPosition
+  resetPlayerPosition,
+  addTrigger
 };

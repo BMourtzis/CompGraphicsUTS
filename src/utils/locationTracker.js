@@ -11,8 +11,6 @@
 // import {cowboy} from "../misc/cowboy";
 
 function PositionManager() {
-
-  // local var
   let self = this;
 
   let HUD_header = document.getElementById('HUD');
@@ -48,7 +46,6 @@ function PositionManager() {
       HUD_header.innerHTML = text_1;
       HUD_header.style.display = '';
       HUD_info.style.display = '';
-
     }
     else {
       // hide UI
