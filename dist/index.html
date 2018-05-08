@@ -62,20 +62,52 @@
             -webkit-box-orient: horizontal;
             -moz-box-orient: horizontal;
             box-orient: horizontal;
-            -webkit-box-pack: top;
-            -moz-box-pack: top;
-            box-pack: top;
-            -webkit-box-align: top;
-            -moz-box-align: top;
-            box-align: top;
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            box-pack: center;
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            box-align: center;
             color: black;
-            text-align: top;
+            text-align: center;
             cursor: pointer;
-            font-size: 25px;
+            font-size: 80px;
+        }
+
+        .container {
+            position: relative;
+        }
+     
+        #text {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            z-index: 10;
+        }
+
+        .HUBTitleStyle {
+            text-align: center;
+            color: #585858;
+            font-size: 300%;
+            position: absolute;
+            top: 15px;
+            left: 550px;
+            background-color:transparent;
+        }
+
+        .HUBInfoStyle {
+            text-align: bottom;
+            color: #585858;
+            font-size: 200%;
+            position: absolute;
+            top: 500px;
+            left: 10px;
+            background-color:transparent;
         }
     </style>
 </head>
 <body>
+
     <div id="blocker">
 
         <div id="instructions">
@@ -85,15 +117,16 @@
         </div>
 
     </div>
-<!--
-    <div id="demo_HUD"> UI TEST TEXT </div>
---> 
+
+    <div id="Title_HUD"> UI TEST TEXT </div>
+    <div id="Info_HUD"> UI TEST TEXT </div>
+<!-- 
     <div id="demo_HUD">
         <div id="HUB_text">
             <span>UI TEST TEXT </span>
         </div>
     </div>
-
+--> 
 
     <script src="inflate.min.js"></script>
     <script src="bundle.js"></script>

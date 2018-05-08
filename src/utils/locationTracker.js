@@ -23,30 +23,17 @@ function PositionManager(){
   var self = this;
 
   var HUD_header;
-  var HUD_style;
+  var HUD_info;
 
-  var text_1 = "this is some text!!";
+  var title_1 = "TITLE";
+  var text_1 = "this block of text will contain some information about the sculpture we are currently looking at!!"
 
 
   this.init = function(){
 
-    HUD_header = document.getElementById('demo_HUD');
-
-    HUD_style = document.getElementById('HUB_text');
-    HUD_style.style.fontSize = "larger"
-;/*
-    HUD_style = document.createElement('style');
-    HUD_style.type = 'text/css';
-    HUD_style.innerHTML = '.cssClass { color: red }';
-    document.getElementsByTagName('head')[0].appendChild(HUD_style);
-/*
-    let loader = new FBXLoader();
-    loader.load("models/cowboy.fbx", (obj) => {
-      console.log(cowboy);
-    });
-  */  
-    //console.log(cowboy.returnPosition());
-      
+    HUD_header = document.getElementById('Title_HUD');
+    HUD_info = document.getElementById('Info_HUD');
+ 
   }
 
 
@@ -68,17 +55,15 @@ function PositionManager(){
       if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
           // show UI
 
-
-          HUD_header.innerHTML = text_1;
-
-          HUD_header.align = "center";
-          HUD_header.style.color = 'red';
+          HUD_header.innerHTML = '<span class="HUBTitleStyle">' + title_1 + '</span>';
+          HUD_info.innerHTML = '<span class="HUBInfoStyle">' + text_1 + '</span>';
           HUD_header.style.display = '';
+          HUD_info.style.display = '';
 
       }else{
           // hide UI
           HUD_header.style.display = 'none';
-          //HUD_info.style.display = 'none';
+          HUD_info.style.display = 'none';
       }
   }
 }
