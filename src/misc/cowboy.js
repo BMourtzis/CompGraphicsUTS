@@ -2,12 +2,12 @@ import { Matrix4, SpotLight, Math } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
-import { complexPedestal } from "./pedestal";
+import { detailedPedestal } from "./pedestal";
 
 function cowboy() {
 
   let loader = new FBXLoader();
-  complexPedestal().then((ped) => {
+  detailedPedestal().then((ped) => {
     loader.load("models/cowboy.fbx", (obj) => {
       // Scale the cowboy
       let matrix = new Matrix4();
@@ -24,7 +24,6 @@ function cowboy() {
       ped.add(spotLight);
 
       spotLight.position.set(50, 40, 0);
-      // spotLight.rotation.set(Math.degToRad(60), 0, 0);
 
       spotLight.castShadow = true;
 
@@ -44,4 +43,4 @@ function cowboy() {
 
 export {
   cowboy
-}
+};
