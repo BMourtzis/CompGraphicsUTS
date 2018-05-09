@@ -1,44 +1,59 @@
-import { Matrix4 } from "three";
+import { Matrix4, TextureLoader, MeshPhongMaterial } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
 
+
+
 function room() {
     let loader = new FBXLoader();
+    let texture = new TextureLoader();
+    let map = texture.load("textures/wall.jpg");
+    let material = new MeshPhongMaterial({ map: map, overdraw: 0.5 });
+
+
+
+
         loader.load("models/wall.fbx", (backWall) => {
             let matrix = new Matrix4();
             matrix.makeScale(0.1, 0.1, 0.1);
             backWall.applyMatrix(matrix);
 
             backWall.position.set(-50, 5, 0);
+
+            backWall.traverse(function (node){
+                if (node.isMesh) node.material = material;
+            });
+
             addCollider(backWall);
 
             scene.add(backWall);
+    }); 
+
+        loader.load("models/WallLeftRight.fbx", (rightWall) => {
+            let matrix = new Matrix4();
+            matrix.makeScale(0.1, 0.1, 0.1);
+            //matrix.makeRotationY(degToRad(90));
+            rightWall.applyMatrix(matrix);
+
+            rightWall.position.set(-10, 5, -45);
+            addCollider(rightWall);
+
+            scene.add(rightWall);
     });
 
-    loader.load("models/WallLeftRight.fbx", (rightWall) => {
-        let matrix = new Matrix4();
-        matrix.makeScale(0.1, 0.1, 0.1);
-        //matrix.makeRotationY(degToRad(90));
-        rightWall.applyMatrix(matrix);
+        loader.load("models/WallLeftRight.fbx", (leftWall) => {
+            let matrix = new Matrix4();
+            matrix.makeScale(0.1, 0.1, 0.1);
+            //matrix.makeRotationY(degToRad(90));
+            leftWall.applyMatrix(matrix);
 
-        rightWall.position.set(-10, 5, -45);
-        addCollider(rightWall);
+            leftWall.position.set(-10, 5, 45);
+            addCollider(leftWall);
 
-        scene.add(rightWall);
+            scene.add(leftWall);
     });
 
-    loader.load("models/WallLeftRight.fbx", (leftWall) => {
-        let matrix = new Matrix4();
-        matrix.makeScale(0.1, 0.1, 0.1);
-        //matrix.makeRotationY(degToRad(90));
-        leftWall.applyMatrix(matrix);
-
-        leftWall.position.set(-10, 5, 45);
-        addCollider(leftWall);
-
-        scene.add(leftWall);
-    });
 }
 
 export {
