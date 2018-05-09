@@ -3,8 +3,6 @@ import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
 
-
-
 function room() {
     let loader = new FBXLoader();
         loader.load("models/wall.fbx", (backWall) => {
@@ -16,7 +14,7 @@ function room() {
             addCollider(backWall);
 
             scene.add(backWall);
-    }); 
+    });
 
     loader.load("models/WallLeftRight.fbx", (rightWall) => {
         let matrix = new Matrix4();
