@@ -1,4 +1,4 @@
-import {Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh} from "three";
+import {Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3} from "three";
 import {FBXLoader} from "../loaders/FBXLoader";
 import {scene} from "../utils/engine";
 import {addCollider} from "../utils/collider";
@@ -10,7 +10,7 @@ function room() {
   let texture = textureLoader.load("textures/wall - resized.jpg");
   let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
 
-  wall(material);
+  wall(material, new Vector3(40, 15, 0));
 
   loader.load("models/wall.fbx", (backWall) => {
     let matrix = new Matrix4();
@@ -51,12 +51,10 @@ function room() {
   });
 }
 
-function wall(material) {
-
-  //regular box works
+function wall(material, position, rotation) {
   let box = new BoxGeometry(3, 30, 60);
   let mesh = new Mesh(box, material);
-  mesh.position.set(40, 15, 0);
+  mesh.position.add(position);
   addCollider(mesh);
   scene.add(mesh);
 }
