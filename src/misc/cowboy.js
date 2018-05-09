@@ -4,7 +4,7 @@ import { scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
 
 function cowboy() {
-  
+
   let loader = new FBXLoader();
   loader.load("models/cowboy.fbx", (obj) => {
     // Scale the cowboy
@@ -16,8 +16,6 @@ function cowboy() {
     addCollider(obj);
 
     scene.add(obj);
-
-    model = obj;
   });
 }
 
