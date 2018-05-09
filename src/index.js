@@ -3,7 +3,7 @@ import controls from "./utils/pointerLockControls";
 import { gridFloor } from "./misc/floors";
 import { cowboy } from "./misc/cowboy";
 import { room } from "./misc/room";
-import { complexPedestal } from "./misc/pedestal";
+// import { complexPedestal } from "./misc/pedestal";
 
 init();
 
@@ -16,5 +16,5 @@ function init() {
   controls();
   cowboy();
   room();
-  complexPedestal();
+  // complexPedestal();
 }
