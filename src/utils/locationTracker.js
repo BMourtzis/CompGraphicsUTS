@@ -10,6 +10,7 @@
 
 import { Box3, Vector3 } from "three";
 import { scene, camera, engine, HUDRenderer } from "./engine";
+//import { controls } from "./pointerLockControls";
 import { cowboy } from "../misc/cowboy";
 //Renderer settings used by the WebGLRenderer
 const rendererSettings = {
@@ -33,15 +34,17 @@ function PositionManager(){
 
     HUD_header = document.getElementById('Title_HUD');
     HUD_info = document.getElementById('Info_HUD');
+
+    //console.log(controls);
  
   }
 
 
-  // we get the player location from the playerCollider box 
+  // we get the player location from the playerCollider box  phatchayanan
   // from the collider.js 
-  this.isPlayerOnPlatform = function(zPos, xPos){
+  this.isPlayerOnPlatform = function(position){
 
-
+    //console.log(position);
 
     self.updateUI(null);
 
