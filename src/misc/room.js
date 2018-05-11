@@ -1,46 +1,64 @@
-import { Matrix4 } from "three";
-import { FBXLoader } from "../loaders/FBXLoader";
-import { scene } from "../utils/engine";
-import { addCollider } from "../utils/collider";
+import {Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3} from "three";
+import {FBXLoader} from "../loaders/FBXLoader";
+import {scene} from "../utils/engine";
+import {addCollider} from "../utils/collider";
+
 
 function room() {
-    let loader = new FBXLoader();
-        loader.load("models/wall.fbx", (backWall) => {
-            let matrix = new Matrix4();
-            matrix.makeScale(0.1, 0.1, 0.1);
-            backWall.applyMatrix(matrix);
+  let loader = new FBXLoader();
+  let textureLoader = new TextureLoader();
+  let texture = textureLoader.load("textures/wall - resized.jpg");
+  let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
 
-            backWall.position.set(-50, 5, 0);
-            addCollider(backWall);
+  wall(material, new Vector3(40, 15, 0));
 
-            scene.add(backWall);
-    });
+  loader.load("models/wall.fbx", (backWall) => {
+    let matrix = new Matrix4();
+    matrix.makeScale(0.1, 0.1, 0.1);
+    backWall.applyMatrix(matrix);
 
-    loader.load("models/WallLeftRight.fbx", (rightWall) => {
-        let matrix = new Matrix4();
-        matrix.makeScale(0.1, 0.1, 0.1);
-        //matrix.makeRotationY(degToRad(90));
-        rightWall.applyMatrix(matrix);
+    backWall.position.set(-50, 5, 0);
 
-        rightWall.position.set(-10, 5, -45);
-        addCollider(rightWall);
+    backWall.children[0].material = material;
 
-        scene.add(rightWall);
-    });
+    addCollider(backWall);
 
-    loader.load("models/WallLeftRight.fbx", (leftWall) => {
-        let matrix = new Matrix4();
-        matrix.makeScale(0.1, 0.1, 0.1);
-        //matrix.makeRotationY(degToRad(90));
-        leftWall.applyMatrix(matrix);
+    scene.add(backWall);
+  });
 
-        leftWall.position.set(-10, 5, 45);
-        addCollider(leftWall);
+  loader.load("models/WallLeftRight.fbx", (rightWall) => {
+    let matrix = new Matrix4();
+    matrix.makeScale(0.1, 0.1, 0.1);
+    //matrix.makeRotationY(degToRad(90));
+    rightWall.applyMatrix(matrix);
 
-        scene.add(leftWall);
-    });
+    rightWall.position.set(-10, 5, -45);
+    addCollider(rightWall);
+
+    scene.add(rightWall);
+  });
+
+  loader.load("models/WallLeftRight.fbx", (leftWall) => {
+    let matrix = new Matrix4();
+    matrix.makeScale(0.1, 0.1, 0.1);
+    //matrix.makeRotationY(degToRad(90));
+    leftWall.applyMatrix(matrix);
+
+    leftWall.position.set(-10, 5, 45);
+    addCollider(leftWall);
+
+    scene.add(leftWall);
+  });
+}
+
+function wall(material, position, rotation) {
+  let box = new BoxGeometry(3, 30, 60);
+  let mesh = new Mesh(box, material);
+  mesh.position.add(position);
+  addCollider(mesh);
+  scene.add(mesh);
 }
 
 export {
-    room
-}
+  room
+};
