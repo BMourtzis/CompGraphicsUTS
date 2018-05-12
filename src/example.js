@@ -1,7 +1,7 @@
 import { BoxGeometry, MeshBasicMaterial, Mesh, Matrix4, Vector3 } from "three";
 import { engine, scene } from "./utils/engine";
 import { FBXLoader } from "./loaders/FBXLoader";
-import {addTrigger } from "./utils/colliders";
+import { addTrigger } from "./utils/colliders";
 // at the top we import all the files required
 // remeber that you need to import objects from the engine module
 

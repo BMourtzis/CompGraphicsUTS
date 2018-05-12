@@ -32,6 +32,7 @@ function pointerLockInit() {
   addPointLock();
   addMoveEvents();
   engine.addUpdate("controls", update);
+
 }
 
 // Adds the lock screen
@@ -140,6 +141,7 @@ function addMoveEvents() {
     }
   }, false);
 }
+
 //TODO: Remove Pitch and Yaw Objects and rotate the camera by itself
 function initControls() {
   camera.rotation.set(0, 0, 0);

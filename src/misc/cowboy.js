@@ -1,6 +1,7 @@
 import { Matrix4, SpotLight, Math } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
+import { addPointerTrigger } from "../utils/pointerTrigger";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
 
@@ -35,6 +36,8 @@ function cowboy() {
       spotLight.shadow.camera.far = 40;
       spotLight.shadow.camera.fov = 30;
 
+      addPointerTrigger(ped, "this is a test", lookCallback, clickCallback);
+
       addTrigger(50, ped.position, () => {
         spotLight.intensity = 1;
       }, 0);
@@ -48,6 +51,14 @@ function cowboy() {
   }, (err) => {
     console.log(err);
   });
+}
+
+function lookCallback() {
+  console.log("A lookCallback");
+}
+
+function clickCallback() {
+  console.log("A clickCallback");
 }
 
 export {
