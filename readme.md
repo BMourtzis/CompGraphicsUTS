@@ -23,7 +23,7 @@ A Museum that goes throw the history of video game characters. The idea is to cr
 ### Mechanisms
 - [ ] Create smooth camera mechanisms (To Be discussed)
 - [x] Add colliders for the walls and models
-  - [x] Add customer colliders
+  - [x] Add custom colliders
   - [ ] (Extra) Add the ability to use a ramp
 - [x] Add triggers
 - [ ] Add pointer trigger functionality

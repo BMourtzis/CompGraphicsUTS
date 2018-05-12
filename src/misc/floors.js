@@ -1,4 +1,4 @@
-import { PlaneGeometry, Color, MeshBasicMaterial, Mesh, VertexColors, MeshPhongMaterial, GridHelper, SpotLight } from "three";
+import { PlaneGeometry, Color, MeshBasicMaterial, Mesh, VertexColors, MeshPhongMaterial, GridHelper } from "three";
 import { scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
 
@@ -53,22 +53,6 @@ function gridFloor() {
 
   scene.add(floor);
   scene.add(grid);
-
-  //Playing with some lighting.
-  // Should remove later
-  let spotLight = new SpotLight( 0xffffff );
-  spotLight.position.set( 10, 10, 0 );
-
-  spotLight.castShadow = true;
-
-  spotLight.shadow.mapSize.width = 1024;
-  spotLight.shadow.mapSize.height = 1024;
-
-  spotLight.shadow.camera.near = 500;
-  spotLight.shadow.camera.far = 4000;
-  spotLight.shadow.camera.fov = 30;
-
-  scene.add(spotLight);
 }
 
 export {
