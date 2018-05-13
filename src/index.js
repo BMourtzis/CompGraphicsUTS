@@ -1,6 +1,7 @@
 import { engine } from "./utils/engine";
 import controls from "./utils/pointerLockControls";
 import { gridFloor } from "./misc/floors";
+import { skybox } from "./misc/skybox";
 import { cowboy } from "./misc/cowboy";
 import { room } from "./misc/room";
 
@@ -15,4 +16,5 @@ function init() {
   controls();
   cowboy();
   room();
+  skybox();
 }
