@@ -1,7 +1,12 @@
-import { Raycaster, Box3, Box3Helper, Vector3, Vector2 } from "three"
-import { camera, engine, scene } from "./engine";
+import { Raycaster, Box3, Box3Helper, Vector3 } from "three";
+import { engine, scene } from "./engine";
 import { controls } from "./pointerLockControls";
 
+
+/**
+ * The max distance that the ray can intersect colliders
+ */
+const maxIntersectDistance = 20;
 
 /**
  * The list with all the triggers registered
@@ -20,13 +25,6 @@ let eClicked = false;
 
 
 /**
- * The center of the camera location.
- * Used to generate the rays
- */
-let cameraCenter = new Vector2();
-
-
-/**
  * The method to call when you press E
  */
 let clickCallback = clickCallbackDefault;
@@ -38,35 +36,59 @@ let clickCallback = clickCallbackDefault;
  */
 function pointerTriggerInit() {
   //Iniates the raycaster
-  // NOTE: I should reduce the range of the ray
-  raycaster = new Raycaster(new Vector3(), new Vector3(), 0, 3);
+  raycaster = new Raycaster(new Vector3(), new Vector3(), 0, maxIntersectDistance);
   addMoveEvents();
+  let position = new Vector3();
+  let direction = new Vector3();
+  let intersectList = [];
 
   engine.addUpdate("pointerTriggerUpdate", () => {
-    //NOTE: maybe the function binds the position of the camera
     // Set the new origin of the camera and it's direction
-    // raycaster.setFromCamera(cameraCenter, controls);
-
-    let position = new Vector3();
+    //
     controls.getPosition(position);
-    let direction = new Vector3();
     controls.getDirection(direction);
-
+    //NOTE: throws a warning to use at.
     raycaster.set(position, direction);
 
-    for(let trigger of triggers) {
-      //NOTE: throws a warning to use at.
-      if(raycaster.ray.intersectBox(trigger.collider)) {
-        // TODO: put the text to the UI, instead of a console log
-        console.log(trigger.text);
-        trigger.lookCallback();
-        clickCallback = trigger.clickCallback;
-        //Break after you detect an intersection
-        break;
+    // Loops through the triggers and finds the ones that it intersects
+    for(let index in triggers) {
+      let vector = raycaster.ray.intersectBox(triggers[index].collider);
+      // if it intersects it then check the distnace,
+      // if lower than the max distance allowed then add it to the list
+      if(vector !== null) {
+        let distance = position.distanceTo(vector);
+        if(distance < maxIntersectDistance) {
+          intersectList.push({distance, index });
+        }
       }
-      else {
-        clickCallback = clickCallbackDefault;
+    }
+
+    // used to find the closest interesect object
+    let min = maxIntersectDistance;
+    // used to get the closest interesect object
+    let closestIndex = -1;
+
+    //Find the closest object
+    for(let intersect of intersectList) {
+      if(intersect.distance < min) {
+        min = intersect.distance;
+        closestIndex = intersect.index;
       }
+    }
+
+    //Empty list for the next frame
+    intersectList = [];
+
+    // If there is a closest intersect object, then set text, call lookCallback
+    // and assign the clickCallback
+    if(closestIndex !== -1) {
+      // TODO: @Nelson put the text to the UI, instead of a console log
+      console.log(triggers[closestIndex].text);
+      triggers[closestIndex].lookCallback();
+      clickCallback = triggers[closestIndex].clickCallback;
+    }
+    else {
+      clickCallback = clickCallbackDefault;
     }
   });
 }
