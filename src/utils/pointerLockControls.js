@@ -181,6 +181,7 @@ function initControls() {
     getDirection(vector) {
       rotation.set(pitchObject.rotation.x, yawObject.rotation.y, 0);
       vector.copy(direction).applyEuler(rotation);
+      vector.normalize();
 
       return vector;
     },

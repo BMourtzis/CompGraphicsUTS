@@ -54,7 +54,7 @@ function cowboy() {
 }
 
 function lookCallback() {
-  console.log("A lookCallback");
+  // console.log("A lookCallback");
 }
 
 function clickCallback() {
