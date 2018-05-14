@@ -1,4 +1,4 @@
-import { Raycaster, Box3, Box3Helper, Vector3 } from "three";
+import { Ray, Box3, Box3Helper, Vector3 } from "three";
 import { engine, scene } from "./engine";
 import { controls } from "./pointerLockControls";
 
@@ -12,11 +12,6 @@ const maxIntersectDistance = 20;
  * The list with all the triggers registered
  */
 let triggers = [];
-
-/**
- * A raycaster that continuously generates a ray
- */
-let raycaster;
 
 /**
  * A boolean that says whether or not e is clicked
@@ -35,24 +30,23 @@ let clickCallback = clickCallbackDefault;
  * @return {NULL}  null
  */
 function pointerTriggerInit() {
-  //Iniates the raycaster
-  raycaster = new Raycaster(new Vector3(), new Vector3(), 0, maxIntersectDistance);
   addMoveEvents();
   let position = new Vector3();
   let direction = new Vector3();
   let intersectList = [];
+  let ray = new Ray(position, direction);
 
   engine.addUpdate("pointerTriggerUpdate", () => {
-    // Set the new origin of the camera and it's direction
-    //
+    // Set the new origin of the cameraControls and its direction.
+
     controls.getPosition(position);
     controls.getDirection(direction);
     //NOTE: throws a warning to use at.
-    raycaster.set(position, direction);
+    ray.set(position, direction);
 
     // Loops through the triggers and finds the ones that it intersects
     for(let index in triggers) {
-      let vector = raycaster.ray.intersectBox(triggers[index].collider);
+      let vector = ray.intersectBox(triggers[index].collider);
       // if it intersects it then check the distnace,
       // if lower than the max distance allowed then add it to the list
       if(vector !== null) {
