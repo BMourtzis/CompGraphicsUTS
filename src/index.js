@@ -9,7 +9,7 @@ init();
 
 // the entry point that initialises everything
 function init() {
-  engine.init(true);
+  engine.init(false);
   pointerTriggerInit();
 
   // initalize objects

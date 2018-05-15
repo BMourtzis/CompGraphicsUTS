@@ -4,9 +4,15 @@ import {
   //Light
   HemisphereLight,
   //Misc
-  Scene, Color, Fog, WebGLRenderer, Clock} from "three";
+  Scene, Color, Fog, WebGLRenderer, Clock, Vector2 } from "three";
+
+import { EffectComposer } from "./postprocessing/effectComposer";
+import { RenderPass } from "./postprocessing/renderPass";
+import { OutlinePass } from "./postprocessing/outlinePass";
 
 let renderer, camera, scene, clock;
+
+let composer, outlinePass, renderPass;
 
 // Used to keep track of the ms between frames
 let delta = 0;
@@ -54,8 +60,26 @@ let engine = {
     //Add a callback for the resize event`
     window.addEventListener( 'resize', onWindowResize, false );
 
+    initComposer();
+
     //Call the update function. It will create an update loop
     update();
+  },
+
+
+  /**
+   * changeOutlinedObject - Changes the outlined object. If null, then just outline nothing
+   *
+   * @param  {Object3D} object The object to be outlined
+   * @return {Null}            null
+   */
+  changeOutlinedObject(object) {
+    if(object !== undefined) {
+      outlinePass.selectedObjects = [object];
+    }
+    else {
+      outlinePass.selectedObjects = [];
+    }
   },
 
   /**
@@ -77,7 +101,6 @@ let engine = {
   removeUpdate() {
     //TODO: find a way to call this function when an object is removed from the scene
   },
-
 
   /**
    * getDelta - Returns the Delta between frames in ms
@@ -125,6 +148,20 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
+}
+
+function initComposer() {
+  composer = new EffectComposer(renderer);
+
+  renderPass = new RenderPass(scene, camera);
+  composer.addPass(renderPass);
+
+  outlinePass = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight), scene, camera);
+  composer.addPass(outlinePass);
+
+  engine.addUpdate("composerRender", () => {
+    composer.render();
+  });
 }
 
 export {

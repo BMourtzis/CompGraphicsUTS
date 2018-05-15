@@ -540,3 +540,7 @@ OutlinePass.prototype = Object.assign(Object.create(Pass.prototype), {
 
 OutlinePass.BlurDirectionX = new Vector2(1.0, 0.0);
 OutlinePass.BlurDirectionY = new Vector2(0.0, 1.0);
+
+export {
+  OutlinePass
+};

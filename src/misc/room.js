@@ -1,7 +1,7 @@
-import {Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3} from "three";
-import {FBXLoader} from "../loaders/FBXLoader";
-import {scene} from "../utils/engine";
-import {addCollider} from "../utils/collider";
+import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3 } from "three";
+import { FBXLoader } from "../loaders/FBXLoader";
+import { scene, engine } from "../utils/engine";
+import { addCollider } from "../utils/collider";
 
 
 function room() {
@@ -55,6 +55,7 @@ function wall(material, position, rotation) {
   let box = new BoxGeometry(3, 30, 60);
   let mesh = new Mesh(box, material);
   mesh.position.add(position);
+  engine.changeOutlinedObject(mesh);
   addCollider(mesh);
   scene.add(mesh);
 }
