@@ -36,7 +36,8 @@ function cowboy() {
       spotLight.shadow.camera.far = 40;
       spotLight.shadow.camera.fov = 30;
 
-      addPointerTrigger(ped, "this is a test", lookCallback, clickCallback);
+      let text = "TEST, right now you are looking at the cowboy";
+      addPointerTrigger(ped, text, lookCallback, clickCallback);
 
       addTrigger(50, ped.position, () => {
         spotLight.intensity = 1;

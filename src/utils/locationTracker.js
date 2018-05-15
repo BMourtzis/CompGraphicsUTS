@@ -27,8 +27,9 @@ function PositionManager(){
   var HUD_info;
 
   var title_1 = "TITLE";
-  var text_1 = "this block of text will contain some information about the sculpture we are currently looking at!!"
 
+  var isPlayerOnRange = false;
+  
 
   this.init = function(){
 
@@ -44,22 +45,27 @@ function PositionManager(){
   // from the collider.js 
   this.isPlayerOnPlatform = function(position){
 
-    //console.log(position);
-
-    self.updateUI(null);
+    // if (position)
+    // isPlayerOnRange = true;
 
   }
 
-  this.updateUI = function(platformID){
+  this.updateUI = function(text){
+
+      //if(!isPlayerOnRange){
+      //  HUD_header.style.display = 'none';
+      //  HUD_info.style.display = 'none';
+      //  return;
+      //}
       
       // check if we are currently in the game 
       // if we are the display the UI else dont show it 
       var element = document.body;
-      if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
+      if (text != null) {
           // show UI
-
+          //console.log("SHOW SOMETHING!!");
           HUD_header.innerHTML = '<span class="HUBTitleStyle">' + title_1 + '</span>';
-          HUD_info.innerHTML = '<span class="HUBInfoStyle">' + text_1 + '</span>';
+          HUD_info.innerHTML = '<span class="HUBInfoStyle">' + text + '</span>';
           HUD_header.style.display = '';
           HUD_info.style.display = '';
 
