@@ -4,15 +4,16 @@ import {
   //Light
   HemisphereLight,
   //Misc
-  Scene, Color, Fog, WebGLRenderer, Clock, Vector2 } from "three";
-
+  Scene, Color, Fog, WebGLRenderer, Clock, Vector2, TextureLoader, RepeatWrapping } from "three";
 import { EffectComposer } from "./postprocessing/effectComposer";
 import { RenderPass } from "./postprocessing/renderPass";
 import { OutlinePass } from "./postprocessing/outlinePass";
+import { ShaderPass} from "./postprocessing/shaderPass";
+import { FXAAShader } from "./postprocessing/FXAAShader";
 
 let renderer, camera, scene, clock;
 
-let composer, outlinePass, renderPass;
+let composer, outlinePass, renderPass, effectFXAA;
 
 // Used to keep track of the ms between frames
 let delta = 0;
@@ -68,7 +69,7 @@ let engine = {
 
 
   /**
-   * changeOutlinedObject - Changes the outlined object. If null, then just outline nothing
+   * changeOutlinedObject - Changes the outlined object. If null, then just outline nothing *
    *
    * @param  {Object3D} object The object to be outlined
    * @return {Null}            null
@@ -158,6 +159,18 @@ function initComposer() {
 
   outlinePass = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight), scene, camera);
   composer.addPass(outlinePass);
+
+  let loader = new TextureLoader();
+  loader.load("textures/tri_pattern.jpg", (texture) => {
+    outlinePass.patternTexture = texture;
+    texture.wrapS = RepeatWrapping;
+    texture.wrapT = RepeatWrapping;
+  });
+
+  effectFXAA = new ShaderPass( FXAAShader );
+  effectFXAA.uniforms.resolution.value.set(1 / window.innerWidth, 1 / window.innerHeight);
+  effectFXAA.renderToScreen = true;
+  composer.addPass(effectFXAA);
 
   engine.addUpdate("composerRender", () => {
     composer.render();

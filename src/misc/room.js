@@ -55,7 +55,7 @@ function wall(material, position, rotation) {
   let box = new BoxGeometry(3, 30, 60);
   let mesh = new Mesh(box, material);
   mesh.position.add(position);
-  engine.changeOutlinedObject(mesh);
+
   addCollider(mesh);
   scene.add(mesh);
 }
