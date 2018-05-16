@@ -131,13 +131,25 @@ function update() {
   requestAnimationFrame(update);
 
   //Set the new delta
-  delta = clock.getDelta();
+  getDelta();
 
   //Call all the registered updates
   for(let update of updateList) {
     update.fn(DEBUG);
   }
   renderer.render(scene, camera);
+}
+
+function getDelta() {
+  let currentDelta = clock.getDelta();
+
+  console.log(currentDelta);
+  if(currentDelta > 0.1) {
+    delta = 0.1;
+  }
+  else {
+    delta = currentDelta;
+  }
 }
 
 /**
