@@ -10,7 +10,7 @@ function room() {
   let texture = textureLoader.load("textures/wall - resized.jpg");
   let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
 
-  wall(material, new Vector3(40, 15, 0));
+  wall(material, new Vector3(40, 15, 0), 0);
 
   loader.load("models/wall.fbx", (backWall) => {
     let matrix = new Matrix4();
@@ -68,9 +68,7 @@ function wall(material, position = new Vector3(0, 0, 0), rotation = 0) {
 
   //Apply translations
   mesh.position.add(position);
-  let matrix = new Matrix4();
-  matrix.makeRotationY(Math.degToRad(rotation));
-  mesh.applyMatrix(matrix);
+  mesh.rotation.y = Math.degToRad(rotation);
 
   //Add collider and add to the scene
   addCollider(mesh);
@@ -78,7 +76,7 @@ function wall(material, position = new Vector3(0, 0, 0), rotation = 0) {
 }
 
 const wallList = [
-  { position: new Vector3(40, 15, 0), rotation: 0 }
+  {position: new Vector3(40, 15, 0), rotation: 0}
 ];
 
 export {
