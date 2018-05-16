@@ -39,9 +39,10 @@ function cowboy() {
       engine.changeOutlinedObject(ped);
 
       // add Y rotation to the model
-      let rotationMatrix = new Matrix4();
-      rotationMatrix.makeRotationY(Math.degToRad(1));
       engine.addUpdate("cowboyUpdate", () => {
+        let rotation = Math.degToRad(10) * engine.Delta;
+        let rotationMatrix = new Matrix4();
+        rotationMatrix.makeRotationY(rotation);
         obj.applyMatrix(rotationMatrix);
       });
 

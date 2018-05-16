@@ -1,4 +1,4 @@
-import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3 } from "three";
+import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3, Math } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
 import { scene, engine } from "../utils/engine";
 import { addCollider } from "../utils/collider";
