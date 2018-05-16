@@ -143,7 +143,6 @@ function update() {
 function getDelta() {
   let currentDelta = clock.getDelta();
 
-  console.log(currentDelta);
   if(currentDelta > 0.1) {
     delta = 0.1;
   }

@@ -38,6 +38,12 @@ function cowboy() {
 
       engine.changeOutlinedObject(ped);
 
+      let rotationMatrix = new Matrix4();
+      rotationMatrix.makeRotationY(Math.degToRad(1));
+      engine.addUpdate("cowboyUpdate", () => {
+        obj.applyMatrix(rotationMatrix);
+      });
+
       addPointerTrigger(ped, "this is a test", lookCallback, clickCallback);
 
       addTrigger(50, ped.position, () => {
