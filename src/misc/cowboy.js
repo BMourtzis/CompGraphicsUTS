@@ -38,6 +38,7 @@ function cowboy() {
 
       engine.changeOutlinedObject(ped);
 
+      // add Y rotation to the model
       let rotationMatrix = new Matrix4();
       rotationMatrix.makeRotationY(Math.degToRad(1));
       engine.addUpdate("cowboyUpdate", () => {
@@ -62,7 +63,7 @@ function cowboy() {
 }
 
 function lookCallback() {
-  // console.log("A lookCallback");
+  console.log("A lookCallback");
 }
 
 function clickCallback() {

@@ -41,7 +41,7 @@ function room() {
   loader.load("models/WallLeftRight.fbx", (leftWall) => {
     let matrix = new Matrix4();
     matrix.makeScale(0.1, 0.1, 0.1);
-    //matrix.makeRotationY(degToRad(90));
+    // matrix.makeRotationY(Math.degToRad(90));
     leftWall.applyMatrix(matrix);
 
     leftWall.position.set(-10, 5, 45);
@@ -51,11 +51,18 @@ function room() {
   });
 }
 
-function wall(material, position, rotation) {
+function wall(material, position = new Vector3(0, 0, 0), rotation = 0) {
+  //Create geometry and mesh
   let box = new BoxGeometry(3, 30, 60);
   let mesh = new Mesh(box, material);
-  mesh.position.add(position);
 
+  //Apply translations
+  mesh.position.add(position);
+  let matrix = new Matrix4();
+  matrix.makeRotationY(Math.degToRad(rotation));
+  mesh.applyMatrix(matrix);
+
+  //Add collider and add to the scene
   addCollider(mesh);
   scene.add(mesh);
 }

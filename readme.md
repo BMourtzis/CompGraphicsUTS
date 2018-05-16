@@ -27,7 +27,7 @@ A Museum that goes throw the history of video game characters. The idea is to cr
   - [ ] (Extra) Add the ability to use a ramp
 - [x] Add triggers
 - [x] Add pointer trigger functionality
-  - [ ] Add descriptions for the Models, includes clicking on the models
+  - [x] Add descriptions for the Models, includes clicking on the models
   - [ ] (Extra) Add outline for pointed items
 - [ ] Make the lights togglable from the menu
 - [ ] (Extra) Add switches for the lights
