@@ -1,6 +1,6 @@
 import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3, Math } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
-import { scene, engine } from "../utils/engine";
+import { scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
 
 
@@ -51,6 +51,16 @@ function room() {
   });
 }
 
+function generateWalls() {
+  let textureLoader = new TextureLoader();
+  let texture = textureLoader.load("textures/wall - resized.jpg");
+  let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
+
+  for(let item of wallList) {
+    wall(material, item.position, item.rotation);
+  }
+}
+
 function wall(material, position = new Vector3(0, 0, 0), rotation = 0) {
   //Create geometry and mesh
   let box = new BoxGeometry(3, 30, 60);
@@ -67,6 +77,11 @@ function wall(material, position = new Vector3(0, 0, 0), rotation = 0) {
   scene.add(mesh);
 }
 
+const wallList = [
+  { position: new Vector3(40, 15, 0), rotation: 0 }
+];
+
 export {
-  room
+  room,
+  generateWalls
 };
