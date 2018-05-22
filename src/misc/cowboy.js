@@ -36,7 +36,7 @@ function cowboy() {
       spotLight.shadow.camera.far = 40;
       spotLight.shadow.camera.fov = 30;
 
-      engine.changeOutlinedObject(ped);
+      // engine.outlineObject(ped);
 
       // add Y rotation to the model
       engine.addUpdate("cowboyUpdate", () => {

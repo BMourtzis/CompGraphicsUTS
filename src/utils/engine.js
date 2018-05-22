@@ -74,7 +74,7 @@ let engine = {
    * @param  {Object3D} object The object to be outlined
    * @return {Null}            null
    */
-  changeOutlinedObject(object) {
+  outlineObject(object) {
     if(object !== undefined) {
       outlinePass.selectedObjects = [object];
     }
