@@ -3,8 +3,9 @@ import { scene } from "../utils/engine";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
-import { addLightingHandler } from "../utils/LightManager";
+import { addLightingHandler } from "../utils/lightManager";
 import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
+import { wallSwitch } from "./switch";
 
 function cowboy() {
   Promise.all([detailedPedestal(), promisifyLoad("models/cowboy.fbx")]).then(([ped, obj]) => {
@@ -23,15 +24,17 @@ function cowboy() {
     let spotLight = addSpotlight(new Vector3(50, 40, 0));
     ped.add(spotLight);
 
+    //Add a key binding toggle the light. Bidns the light to key "1"
+    let lightID = addLightingHandler(49, spotLight);
+
+    wallSwitch(new Vector3(0, 10, 0), lightID);
+
     // engine.outlineObject(ped);
 
     // add Y rotation to the model
     addYRotation(obj);
 
     addPointerTrigger(ped, "this is a test", lookCallback, clickCallback);
-
-    //Add a key binding toggle the light. Bidns the light to key "1"
-    addLightingHandler(49, spotLight);
 
     //Trigger to turn the light on when entering the sphere
     addTrigger(50, ped.position, () => {
