@@ -37,10 +37,8 @@ function cowboy() {
       spotLight.shadow.camera.far = 40;
       spotLight.shadow.camera.fov = 30;
 
-<<<<<<< HEAD
       let text = "TEST, right now you are looking at the cowboy";
       addPointerTrigger(ped, text, lookCallback, clickCallback);
-=======
       // engine.outlineObject(ped);
 
       // add Y rotation to the model
@@ -50,9 +48,6 @@ function cowboy() {
         rotationMatrix.makeRotationY(rotation);
         obj.applyMatrix(rotationMatrix);
       });
-
-      addPointerTrigger(ped, "this is a test", lookCallback, clickCallback);
->>>>>>> master
 
       addLightingHandler(49, spotLight);
 
