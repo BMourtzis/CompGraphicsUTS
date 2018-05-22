@@ -4,6 +4,7 @@ import { scene, engine } from "../utils/engine";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
+import { addLightingHandler } from "../utils/LightManager";
 
 function cowboy() {
 
@@ -48,6 +49,8 @@ function cowboy() {
 
       addPointerTrigger(ped, "this is a test", lookCallback, clickCallback);
 
+      addLightingHandler(49, spotLight);
+
       addTrigger(50, ped.position, () => {
         spotLight.intensity = 1;
       }, 0);
@@ -64,11 +67,11 @@ function cowboy() {
 }
 
 function lookCallback() {
-  console.log("A lookCallback");
+  // console.log("A lookCallback");
 }
 
 function clickCallback() {
-  console.log("A clickCallback");
+  // console.log("A clickCallback");
 }
 
 export {
