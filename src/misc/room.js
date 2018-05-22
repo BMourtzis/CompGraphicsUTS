@@ -1,7 +1,7 @@
-import {Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3} from "three";
-import {FBXLoader} from "../loaders/FBXLoader";
-import {scene} from "../utils/engine";
-import {addCollider} from "../utils/collider";
+import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3, Math } from "three";
+import { FBXLoader } from "../loaders/FBXLoader";
+import { scene } from "../utils/engine";
+import { addCollider } from "../utils/collider";
 
 
 function room() {
@@ -10,7 +10,7 @@ function room() {
   let texture = textureLoader.load("textures/wall - resized.jpg");
   let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
 
-  wall(material, new Vector3(40, 15, 0));
+  wall(material, new Vector3(40, 15, 0), 0);
 
   loader.load("models/wall.fbx", (backWall) => {
     let matrix = new Matrix4();
@@ -41,7 +41,7 @@ function room() {
   loader.load("models/WallLeftRight.fbx", (leftWall) => {
     let matrix = new Matrix4();
     matrix.makeScale(0.1, 0.1, 0.1);
-    //matrix.makeRotationY(degToRad(90));
+    // matrix.makeRotationY(Math.degToRad(90));
     leftWall.applyMatrix(matrix);
 
     leftWall.position.set(-10, 5, 45);
@@ -51,14 +51,35 @@ function room() {
   });
 }
 
-function wall(material, position, rotation) {
+function generateWalls() {
+  let textureLoader = new TextureLoader();
+  let texture = textureLoader.load("textures/wall - resized.jpg");
+  let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
+
+  for(let item of wallList) {
+    wall(material, item.position, item.rotation);
+  }
+}
+
+function wall(material, position = new Vector3(0, 0, 0), rotation = 0) {
+  //Create geometry and mesh
   let box = new BoxGeometry(3, 30, 60);
   let mesh = new Mesh(box, material);
+
+  //Apply translations
   mesh.position.add(position);
+  mesh.rotation.y = Math.degToRad(rotation);
+
+  //Add collider and add to the scene
   addCollider(mesh);
   scene.add(mesh);
 }
 
+const wallList = [
+  {position: new Vector3(40, 15, 0), rotation: 0}
+];
+
 export {
-  room
+  room,
+  generateWalls
 };
