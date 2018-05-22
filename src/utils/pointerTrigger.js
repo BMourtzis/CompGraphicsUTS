@@ -80,9 +80,14 @@ function pointerTriggerInit() {
     // If there is a closest intersect object, then set text, call lookCallback
     // and assign the clickCallback
     if(closestIndex !== -1) {
+<<<<<<< HEAD
       // update UI text
       objPositionManager.updateUI(triggers[closestIndex].text);
 
+=======
+      // TODO: @Nelson put the text to the UI, instead of a console log
+      // console.log(triggers[closestIndex].text);
+>>>>>>> master
       triggers[closestIndex].lookCallback();
       clickCallback = triggers[closestIndex].clickCallback;
     }

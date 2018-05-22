@@ -1,9 +1,10 @@
 import { Matrix4, SpotLight, Math } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
-import { scene } from "../utils/engine";
+import { scene, engine } from "../utils/engine";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
+import { addLightingHandler } from "../utils/LightManager";
 
 function cowboy() {
 
@@ -36,8 +37,24 @@ function cowboy() {
       spotLight.shadow.camera.far = 40;
       spotLight.shadow.camera.fov = 30;
 
+<<<<<<< HEAD
       let text = "TEST, right now you are looking at the cowboy";
       addPointerTrigger(ped, text, lookCallback, clickCallback);
+=======
+      // engine.outlineObject(ped);
+
+      // add Y rotation to the model
+      engine.addUpdate("cowboyUpdate", () => {
+        let rotation = Math.degToRad(10) * engine.Delta;
+        let rotationMatrix = new Matrix4();
+        rotationMatrix.makeRotationY(rotation);
+        obj.applyMatrix(rotationMatrix);
+      });
+
+      addPointerTrigger(ped, "this is a test", lookCallback, clickCallback);
+>>>>>>> master
+
+      addLightingHandler(49, spotLight);
 
       addTrigger(50, ped.position, () => {
         spotLight.intensity = 1;
@@ -59,7 +76,7 @@ function lookCallback() {
 }
 
 function clickCallback() {
-  console.log("A clickCallback");
+  // console.log("A clickCallback");
 }
 
 export {
