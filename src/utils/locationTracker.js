@@ -5,12 +5,10 @@
 //  we need to track the location of the player in case it is standing near a sculture 
 //  in that case we need to identify which platform and what ui we need to display 
 //
-//  by nelson 
 */
 
 import { Box3, Vector3 } from "three";
 import { scene, camera, engine, HUDRenderer } from "./engine";
-//import { controls } from "./pointerLockControls";
 import { cowboy } from "../misc/cowboy";
 //Renderer settings used by the WebGLRenderer
 const rendererSettings = {
@@ -32,41 +30,22 @@ function PositionManager(){
   
 
   this.init = function(){
-
+    // get  text panels
     HUD_header = document.getElementById('Title_HUD');
     HUD_info = document.getElementById('Info_HUD');
-
-    //console.log(controls);
- 
-  }
-
-
-  // we get the player location from the playerCollider box  phatchayanan
-  // from the collider.js 
-  this.isPlayerOnPlatform = function(position){
-
-    // if (position)
-    // isPlayerOnRange = true;
-
   }
 
   this.updateUI = function(text){
 
-      //if(!isPlayerOnRange){
-      //  HUD_header.style.display = 'none';
-      //  HUD_info.style.display = 'none';
-      //  return;
-      //}
-      
       // check if we are currently in the game 
       // if we are the display the UI else dont show it 
       var element = document.body;
       if (text != null) {
           // show UI
           //console.log("SHOW SOMETHING!!");
-          HUD_header.innerHTML = '<span class="HUBTitleStyle">' + title_1 + '</span>';
+          //HUD_header.innerHTML = '<span class="HUBTitleStyle">' + title_1 + '</span>';
           HUD_info.innerHTML = '<span class="HUBInfoStyle">' + text + '</span>';
-          HUD_header.style.display = '';
+          //HUD_header.style.display = '';
           HUD_info.style.display = '';
 
       }else{
@@ -74,6 +53,10 @@ function PositionManager(){
           HUD_header.style.display = 'none';
           HUD_info.style.display = 'none';
       }
+  }
+
+  this.panelTween = function(){
+    //HUD_info.alpha ? 1 / 0;
   }
 }
 
