@@ -34,7 +34,8 @@ function cowboy() {
     // add Y rotation to the model
     addYRotation(obj);
 
-    addPointerTrigger(ped, "this is a test", lookCallback, clickCallback);
+    let text = "TEST, right now you are looking at the cowboy";
+    addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     //Trigger to turn the light on when entering the sphere
     addTrigger(50, ped.position, () => {

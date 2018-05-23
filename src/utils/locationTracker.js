@@ -27,7 +27,6 @@ function PositionManager(){
   var title_1 = "TITLE";
 
   var isPlayerOnRange = false;
-  
 
   this.init = function(){
     // get  text panels
@@ -53,6 +52,7 @@ function PositionManager(){
           HUD_header.style.display = 'none';
           HUD_info.style.display = 'none';
       }
+
   }
 
   this.panelTween = function(){
