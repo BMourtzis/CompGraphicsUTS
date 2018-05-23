@@ -25,6 +25,7 @@ function cowboy() {
       spotLight.intensity = 0;
 
       spotLight.position.set(50, 40, 0);
+      spotLight.rotation.set(0, Math.degToRad(0), 0);
 
       spotLight.castShadow = true;
 

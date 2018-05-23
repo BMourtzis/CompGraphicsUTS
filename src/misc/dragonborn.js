@@ -4,20 +4,20 @@ import { scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
 
-function snake() {
+function dragonborn() {
 
   let loader = new FBXLoader();
   detailedPedestal().then((ped) => {
-    loader.load("models/GameCharacters/80s/MetalGear/SolidSnake.fbx", (obj) => {
-      // Scale the snake
+    loader.load("models/GameCharacters/2000s/Skyrim/DragonBorn.fbx", (obj) => {
+      // Scale the Ghost
       let matrix = new Matrix4();
-      matrix.makeScale(0.01, 0.01, 0.01);
+      matrix.makeScale(0.002, 0.002, 0.002);
       obj.applyMatrix(matrix);
       ped.add(obj);
 
-      ped.position.set(-140, 1, -45);
+      ped.position.set(-140, 1, -150);
       obj.position.set(0, 11.4, 0);
-      obj.rotation.set(0, Math.degToRad(90), 0);
+      obj.rotation.set(0, Math.degToRad(-90), 0);
       addCollider(ped);
 
       let spotLight = new SpotLight(0xffffff, 0.5);
@@ -51,5 +51,5 @@ function snake() {
 }
 
 export {
-  snake
+  dragonborn
 };

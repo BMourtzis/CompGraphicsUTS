@@ -21,7 +21,7 @@ function rex() {
       addCollider(ped);
 
       let spotLight = new SpotLight(0xffffff, 0.5);
-      ped.add(spotLight);
+      //ped.add(spotLight);
       spotLight.intensity = 0;
 
       spotLight.position.set(50, 40, 0);

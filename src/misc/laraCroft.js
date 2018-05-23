@@ -4,19 +4,19 @@ import { scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
 
-function snake() {
+function laraCroft() {
 
   let loader = new FBXLoader();
   detailedPedestal().then((ped) => {
-    loader.load("models/GameCharacters/80s/MetalGear/SolidSnake.fbx", (obj) => {
-      // Scale the snake
+    loader.load("models/GameCharacters/90s/TombRaider/LaraCroft.fbx", (obj) => {
+      // Scale the Lara
       let matrix = new Matrix4();
-      matrix.makeScale(0.01, 0.01, 0.01);
+      matrix.makeScale(30, 30, 30);
       obj.applyMatrix(matrix);
       ped.add(obj);
 
-      ped.position.set(-140, 1, -45);
-      obj.position.set(0, 11.4, 0);
+      ped.position.set(-140, 1, -105);
+      obj.position.set(-7.8, 18, 0);
       obj.rotation.set(0, Math.degToRad(90), 0);
       addCollider(ped);
 
@@ -51,5 +51,5 @@ function snake() {
 }
 
 export {
-  snake
+  laraCroft
 };

@@ -4,18 +4,18 @@ import { scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
 
-function snake() {
+function mario8bit() {
 
   let loader = new FBXLoader();
   detailedPedestal().then((ped) => {
-    loader.load("models/GameCharacters/80s/MetalGear/SolidSnake.fbx", (obj) => {
-      // Scale the snake
+    loader.load("models/GameCharacters/80s/Mario/8bitMario.fbx", (obj) => {
+      // Scale the mario
       let matrix = new Matrix4();
       matrix.makeScale(0.01, 0.01, 0.01);
       obj.applyMatrix(matrix);
       ped.add(obj);
 
-      ped.position.set(-140, 1, -45);
+      ped.position.set(-140, 1, -60);
       obj.position.set(0, 11.4, 0);
       obj.rotation.set(0, Math.degToRad(90), 0);
       addCollider(ped);
@@ -51,5 +51,5 @@ function snake() {
 }
 
 export {
-  snake
+  mario8bit
 };

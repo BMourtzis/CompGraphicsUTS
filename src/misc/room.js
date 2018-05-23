@@ -15,7 +15,7 @@ function room() {
 //left wall
   loader.load("models/wall.fbx", (backWall) => {
     let matrix = new Matrix4();
-    matrix.makeScale(0.1, 0.1, 0.33);
+    matrix.makeScale(0.1, 0.2, 0.33);
     backWall.applyMatrix(matrix);
 
     backWall.position.set(-150, 5, -120);
@@ -30,7 +30,7 @@ function room() {
 //right wall
   loader.load("models/wall.fbx", (backWall) => {
     let matrix = new Matrix4();
-    matrix.makeScale(0.1, 0.1, 0.33);
+    matrix.makeScale(0.1, 0.2, 0.33);
     backWall.applyMatrix(matrix);
 
     backWall.position.set(150, 5, -120);
@@ -45,7 +45,7 @@ function room() {
 //hall left
   loader.load("models/wall.fbx", (backWall) => {
     let matrix = new Matrix4();
-    matrix.makeScale(0.1, 0.1, 0.28);
+    matrix.makeScale(0.1, 0.2, 0.28);
     backWall.applyMatrix(matrix);
 
     backWall.position.set(-33.5, 5, -120);
@@ -60,7 +60,7 @@ function room() {
 //hall right
   loader.load("models/wall.fbx", (backWall) => {
     let matrix = new Matrix4();
-    matrix.makeScale(0.1, 0.1, 0.28);
+    matrix.makeScale(0.1, 0.2, 0.28);
     backWall.applyMatrix(matrix);
 
     backWall.position.set(33.5, 5, -120);
@@ -75,7 +75,7 @@ function room() {
 //front wall R
   loader.load("models/WallLeftRight.fbx", (rightWall) => {
     let matrix = new Matrix4();
-    matrix.makeScale(0.13, 0.1, 0.1);
+    matrix.makeScale(0.13, 0.2, 0.1);
     //matrix.makeRotationY(degToRad(90));
     rightWall.applyMatrix(matrix);
 
@@ -91,7 +91,7 @@ function room() {
   //front wall L
   loader.load("models/WallLeftRight.fbx", (rightWall) => {
     let matrix = new Matrix4();
-    matrix.makeScale(0.13, 0.1, 0.1);
+    matrix.makeScale(0.13, 0.2, 0.1);
     //matrix.makeRotationY(degToRad(90));
     rightWall.applyMatrix(matrix);
 
@@ -107,7 +107,7 @@ function room() {
 //rear wall
   loader.load("models/WallLeftRight.fbx", (leftWall) => {
     let matrix = new Matrix4();
-    matrix.makeScale(0.33, 0.1, 0.1);
+    matrix.makeScale(0.33, 0.2, 0.1);
     //matrix.makeRotationY(degToRad(90));
     leftWall.applyMatrix(matrix);
 
