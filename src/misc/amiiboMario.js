@@ -3,9 +3,9 @@ import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
+import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
 
 function AmiiboMario() {
-
   let loader = new FBXLoader();
   detailedPedestal().then((real) => {
     loader.load("models/GameCharacters/80s/Mario/AmiiboMario.fbx", (obj) => {
@@ -22,6 +22,8 @@ function AmiiboMario() {
       obj.position.set(0, 15.5, 0);
       obj.rotation.set(0, Math.degToRad(200), 0);
       addCollider(ped);
+
+      addYRotation(obj);
 
       let spotLight = new SpotLight(0xffffff, 0.5);
       //ped.add(spotLight);

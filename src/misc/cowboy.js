@@ -1,4 +1,4 @@
-import { Matrix4, SpotLight, Math, Object3D } from "three";
+import { Matrix4, Vector3, Math, Object3D } from "three";
 import { scene } from "../utils/engine";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 import { addCollider, addTrigger } from "../utils/collider";
@@ -11,16 +11,16 @@ function cowboy() {
   Promise.all([detailedPedestal(), promisifyLoad("models/cowboy.fbx")]).then(([real, obj]) => {
     let ped = new Object3D();
     ped.copy(real);
-    
+
     // Scale the cowboy
     let matrix = new Matrix4();
     matrix.makeScale(0.01, 0.01, 0.01);
     obj.applyMatrix(matrix);
     ped.add(obj);
-      
-      ped.position.set(-140, 1, 0);
-      obj.position.set(0, 11.4, 0);
-      obj.rotation.set(0, Math.degToRad(90), 0);
+
+    ped.position.set(-140, 1, 0);
+    obj.position.set(0, 11.4, 0);
+    obj.rotation.set(0, Math.degToRad(90), 0);
     addCollider(ped);
 
     let spotLight = addSpotlight(new Vector3(50, 40, 0));
