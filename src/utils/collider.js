@@ -1,6 +1,7 @@
 import { Vector3, Vector2, Raycaster, Box3, Box3Helper, Sphere } from "three";
 import { scene, camera, engine } from "./engine";
 import { PositionManager} from "./locationTracker";
+import { controls } from "./pointerLockControls";
 
 /**
  * The collider of the player
@@ -97,6 +98,7 @@ function addPlayerCollider() {
     scene.add(newHelper);
   }
 
+
   return playerCollider;
 }
 
@@ -128,7 +130,8 @@ function updatePlayerCollider(vector) {
   checkForTriggers();
 
   // check player position
-  objPositionManager.isPlayerOnPlatform(playerCollider.min.z, playerCollider.min.x);
+  // use controls to get player position on a vector
+  objPositionManager.isPlayerOnPlatform(controls.getPosition(new Vector3()));
 }
 
 /**
