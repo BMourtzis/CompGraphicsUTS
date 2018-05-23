@@ -2,9 +2,10 @@ import { engine } from "./utils/engine";
 import controls from "./utils/pointerLockControls";
 import { pointerTriggerInit } from "./utils/pointerTrigger";
 import { gridFloor } from "./misc/floors";
+import { skybox } from "./misc/skybox";
 import { cowboy } from "./misc/cowboy";
 import { room } from "./misc/room";
-import { initLightManager } from "./utils/LightManager";
+import { initLightManager } from "./utils/lightManager";
 
 init();
 
@@ -19,4 +20,5 @@ function init() {
   controls();
   cowboy();
   room();
+  skybox();
 }
