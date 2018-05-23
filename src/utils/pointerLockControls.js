@@ -23,6 +23,9 @@ const lowestPositionLimit = -100;
 //A modifier for the walking speed of the player. Used for sprinting
 let speedMod = 1;
 
+//bool for flight
+let fly = 0;
+
 // Initialises the Controls
 function pointerLockInit() {
   controls = initControls();
@@ -104,7 +107,7 @@ function addMoveEvents() {
         moveRight = true;
         break;
       case 32: // space
-        if (canJump === true) {
+        if (canJump === true || fly != 0) {
           velocity.y += 5.0;
         }
         canJump = false;
@@ -113,6 +116,14 @@ function addMoveEvents() {
         speedMod = 0.5;
         break;
       //no default
+       case 70: // f
+       if(fly === 0){
+        fly = 1;
+      }
+      else{
+        fly = 0;
+      }
+        break;
     }
   }, false);
 
