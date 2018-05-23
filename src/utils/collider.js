@@ -11,8 +11,8 @@ let playerCollider;
 /**
  * Create object of position manager
  */
-let objPositionManager = new PositionManager();
-objPositionManager.init();
+//let objPositionManager = new PositionManager();
+//objPositionManager.init();
 
 /**
  * A list of all the colliders registered
@@ -131,7 +131,7 @@ function updatePlayerCollider(vector) {
 
   // check player position
   // use controls to get player position on a vector
-  objPositionManager.isPlayerOnPlatform(controls.getPosition(new Vector3()));
+  //objPositionManager.isPlayerOnPlatform(controls.getPosition(new Vector3()));
 }
 
 /**

@@ -52,22 +52,22 @@ function cowboy() {
 
     wallSwitch(new Vector3(0, 8, 43), lightID);
 
-    // engine.outlineObject(ped);
+      let text = "TEST, right now you are looking at the cowboy";
+      addPointerTrigger(ped, text, lookCallback, clickCallback);
+      // engine.outlineObject(ped);
 
     // add Y rotation to the model
     addYRotation(obj);
 
-    addPointerTrigger(ped, "this is a test", lookCallback, clickCallback);
+      addLightingHandler(49, spotLight);
 
-    //Trigger to turn the light on when entering the sphere
-    addTrigger(50, ped.position, () => {
-      spotLight.intensity = 1;
-    }, 0);
+      addTrigger(50, ped.position, () => {
+        spotLight.intensity = 1;
+      }, 0);
 
-    //Trigger to turn the light off when leaving the sphere
-    addTrigger(50, ped.position, () => {
-      spotLight.intensity = 0;
-    }, 1);
+      addTrigger(50, ped.position, () => {
+        spotLight.intensity = 0;
+      }, 1);
 
     scene.add(ped);
   }, (err) => {

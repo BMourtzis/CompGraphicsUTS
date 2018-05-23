@@ -1,6 +1,7 @@
 import { Ray, Box3, Box3Helper, Vector3 } from "three";
 import { engine, scene } from "./engine";
 import { controls } from "./pointerLockControls";
+import { PositionManager} from "./locationTracker";
 
 
 /**
@@ -35,6 +36,9 @@ function pointerTriggerInit() {
   let direction = new Vector3();
   let intersectList = [];
   let ray = new Ray(position, direction);
+
+  let objPositionManager = new PositionManager();
+  objPositionManager.init();
 
   engine.addUpdate("pointerTriggerUpdate", () => {
     // Set the new origin of the cameraControls and its direction.
@@ -76,13 +80,16 @@ function pointerTriggerInit() {
     // If there is a closest intersect object, then set text, call lookCallback
     // and assign the clickCallback
     if(closestIndex !== -1) {
-      // TODO: @Nelson put the text to the UI, instead of a console log
-      // console.log(triggers[closestIndex].text);
+      // update UI text
+      objPositionManager.updateUI(triggers[closestIndex].text);
+
       triggers[closestIndex].lookCallback();
       clickCallback = triggers[closestIndex].clickCallback;
     }
     else {
       clickCallback = clickCallbackDefault;
+      // update UI text
+      objPositionManager.updateUI(null);
     }
   });
 }
