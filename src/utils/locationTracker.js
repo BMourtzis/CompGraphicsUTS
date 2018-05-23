@@ -69,7 +69,7 @@ function PositionManager(){
 
       }else{
           // hide UI
-         // HUD_header.style.display = 'none';
+         HUD_header.style.display = 'none';
       }
 
   }
