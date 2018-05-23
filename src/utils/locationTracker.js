@@ -23,6 +23,7 @@ function PositionManager(){
 
   var HUD_header;
   var HUD_info;
+  var HUD_crosshair;
 
   var title_1 = "TITLE";
 
@@ -32,7 +33,7 @@ function PositionManager(){
     // get  text panels
     HUD_header = document.getElementById('Title_HUD');
     HUD_info = document.getElementById('Info_HUD');
-    HUD_header = document.getElementById('HUD');
+    HUD_crosshair = document.getElementById('HUD');
   }
 
   this.updateUI = function(text){
@@ -60,16 +61,16 @@ function PositionManager(){
       if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
           // show UI
 
-          HUD_header.innerHTML = text_1;
-          HUD_header.align = "center";
-          HUD_header.style.top = "50%";
-          HUD_header.style.font = "15px Good Times"
-          HUD_header.style.background = "transparent";
-          HUD_header.style.display = '';
+          HUD_crosshair.innerHTML = text_1;
+          HUD_crosshair.align = "center";
+          HUD_crosshair.style.top = "50%";
+          HUD_crosshair.style.font = "15px Good Times"
+          HUD_crosshair.style.background = "transparent";
+          HUD_crosshair.style.display = '';
 
       }else{
           // hide UI
-         HUD_header.style.display = 'none';
+         HUD_crosshair.style.display = 'none';
       }
 
   }
