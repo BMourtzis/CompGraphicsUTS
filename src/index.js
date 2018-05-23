@@ -33,6 +33,6 @@ function init() {
   samus();
   laraCroft();
   pacman();
-  //ghost();
+  ghost();
   dragonborn();
 }

@@ -16,7 +16,7 @@ function PositionManager() {
   let HUD_header = document.getElementById('HUD');
   let HUD_info = document.getElementById('HUB_text');
 
-  let text_1 = "this is some text";
+  let text_1 = "v";
 
   let base_1;
 
@@ -44,6 +44,9 @@ function PositionManager() {
     if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
       // show UI
       HUD_header.innerHTML = text_1;
+      HUD_header.align = "center";
+      HUD_header.style.top = "50%";
+      HUD_header.style.font = "15px Good Times"
       HUD_header.style.display = '';
       HUD_info.style.display = '';
     }
