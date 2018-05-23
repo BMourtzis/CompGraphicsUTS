@@ -4,6 +4,7 @@ import { pointerTriggerInit } from "./utils/pointerTrigger";
 import { gridFloor } from "./misc/floors";
 import { cowboy } from "./misc/cowboy";
 import { room } from "./misc/room";
+import { initLightManager } from "./utils/lightManager";
 
 init();
 
@@ -11,6 +12,7 @@ init();
 function init() {
   engine.init(false);
   pointerTriggerInit();
+  initLightManager();
 
   // initalize objects
   gridFloor();
