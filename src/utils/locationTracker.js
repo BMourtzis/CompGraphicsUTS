@@ -32,6 +32,7 @@ function PositionManager(){
     // get  text panels
     HUD_header = document.getElementById('Title_HUD');
     HUD_info = document.getElementById('Info_HUD');
+    HUD_header = document.getElementById('HUD');
   }
 
   this.updateUI = function(text){
@@ -53,22 +54,23 @@ function PositionManager(){
           HUD_info.style.display = 'none';
       }
 
-      //var HUD_header = document.getElementById('HUD');
+      
       var text_1 = "v";
 
-      //if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
+      if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
           // show UI
 
           HUD_header.innerHTML = text_1;
           HUD_header.align = "center";
           HUD_header.style.top = "50%";
           HUD_header.style.font = "15px Good Times"
+          HUD_header.style.background = "transparent";
           HUD_header.style.display = '';
 
-      //}else{
+      }else{
           // hide UI
          // HUD_header.style.display = 'none';
-      //}
+      }
 
   }
 
