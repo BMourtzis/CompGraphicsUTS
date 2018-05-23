@@ -1,4 +1,4 @@
-import { Matrix4, SpotLight, Math } from "three";
+import { Matrix4, SpotLight, Math, Object3D } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
@@ -7,8 +7,11 @@ import { detailedPedestal } from "./pedestal";
 function laraCroft() {
 
   let loader = new FBXLoader();
-  detailedPedestal().then((ped) => {
+  detailedPedestal().then((real) => {
     loader.load("models/GameCharacters/90s/TombRaider/LaraCroft.fbx", (obj) => {
+      let ped = new Object3D();
+      ped.copy(real);
+
       // Scale the Lara
       let matrix = new Matrix4();
       matrix.makeScale(30, 30, 30);

@@ -1,4 +1,4 @@
-import { Matrix4, SpotLight, Math } from "three";
+import { Matrix4, SpotLight, Math, Object3D } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
@@ -7,8 +7,12 @@ import { detailedPedestal } from "./pedestal";
 function cowboy() {
 
   let loader = new FBXLoader();
-  detailedPedestal().then((ped) => {
+  // console.log(detailedPedestal());
+  detailedPedestal().then((real) => {
     loader.load("models/cowboy.fbx", (obj) => {
+      let ped = new Object3D();
+      ped.copy(real);
+
       // Scale the cowboy
       let matrix = new Matrix4();
       matrix.makeScale(0.01, 0.01, 0.01);
