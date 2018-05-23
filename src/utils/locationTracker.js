@@ -53,6 +53,23 @@ function PositionManager(){
           HUD_info.style.display = 'none';
       }
 
+      //var HUD_header = document.getElementById('HUD');
+      var text_1 = "v";
+
+      //if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
+          // show UI
+
+          HUD_header.innerHTML = text_1;
+          HUD_header.align = "center";
+          HUD_header.style.top = "50%";
+          HUD_header.style.font = "15px Good Times"
+          HUD_header.style.display = '';
+
+      //}else{
+          // hide UI
+         // HUD_header.style.display = 'none';
+      //}
+
   }
 
   this.panelTween = function(){
