@@ -15,7 +15,7 @@ function cowboy() {
       obj.applyMatrix(matrix);
       ped.add(obj);
 
-      ped.position.set(-20, 1, 0);
+      ped.position.set(-140, 1, 0);
       obj.position.set(0, 11.4, 0);
       obj.rotation.set(0, Math.degToRad(90), 0);
       addCollider(ped);
