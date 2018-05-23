@@ -5,26 +5,26 @@ import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
 import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
 
-function snake() {
+function rexBig() {
 
   let loader = new FBXLoader();
   detailedPedestal().then((real) => {
-    loader.load("models/GameCharacters/80s/MetalGear/SolidSnake.fbx", (obj) => {
+    loader.load("models/GameCharacters/80s/MetalGear/Rex.fbx", (obj) => {
       let ped = new Object3D();
       ped.copy(real);
 
-      // Scale the snake
+      // Scale the rex
       let matrix = new Matrix4();
-      matrix.makeScale(0.008, 0.008, 0.008);
+      matrix.makeScale(0.1, 0.1, 0.1);
       obj.applyMatrix(matrix);
       ped.add(obj);
 
-      ped.position.set(-140, 1, -45);
+      ped.position.set(230, -10, -30);
       obj.position.set(0, 11.4, 0);
-      obj.rotation.set(0, Math.degToRad(90), 0);
-      addCollider(ped);
+      obj.rotation.set(0, Math.degToRad(-90), 0);
+      //addCollider(ped);
 
-      addYRotation(obj);
+      //addYRotation(obj);
 
       let spotLight = new SpotLight(0xffffff, 0.5);
       //ped.add(spotLight);
@@ -57,5 +57,5 @@ function snake() {
 }
 
 export {
-  snake
+  rexBig
 };

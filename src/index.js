@@ -14,6 +14,7 @@ import { laraCroft } from "./misc/laraCroft";
 import { pacman } from "./misc/pacman";
 import { ghost } from "./misc/ghost";
 import { dragonborn } from "./misc/dragonborn";
+import { rexBig } from "./misc/rexBig";
 import { room } from "./misc/room";
 import { initLightManager } from "./utils/lightManager";
 
@@ -42,4 +43,7 @@ function init() {
   pacman();
   ghost();
   dragonborn();
+
+  //giant Metal Gear Rex
+  //rexBig();
 }

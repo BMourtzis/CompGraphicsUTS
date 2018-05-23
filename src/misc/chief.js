@@ -9,18 +9,18 @@ function chief() {
 
   let loader = new FBXLoader();
   detailedPedestal().then((real) => {
-    loader.load("models/GameCharacters/2000s/Halo/Chief.fbx", (obj) => {
+    loader.load("models/GameCharacters/2000s/Halo/chief.fbx", (obj) => {
       let ped = new Object3D();
       ped.copy(real);
 
       // Scale the chief
       let matrix = new Matrix4();
-      matrix.makeScale(0.00005, 0.00005, 0.00005);
+      matrix.makeScale(0.005, 0.005, 0.005);
       obj.applyMatrix(matrix);
       ped.add(obj);
 
       ped.position.set(-140, 1, -15);
-      obj.position.set(0, 11.4, 4.5);
+      obj.position.set(0, 11.4, 0);
       obj.rotation.set(0, Math.degToRad(0), 0);
       addCollider(ped);
 

@@ -56,7 +56,7 @@ function PositionManager(){
       }
 
       
-      var text_1 = "v";
+      var text_1 = "⁺";
 
       if (document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element) {
           // show UI
@@ -64,7 +64,7 @@ function PositionManager(){
           HUD_crosshair.innerHTML = text_1;
           HUD_crosshair.align = "center";
           HUD_crosshair.style.top = "50%";
-          HUD_crosshair.style.font = "15px Good Times"
+          HUD_crosshair.style.font = "15px Verdana"
           HUD_crosshair.style.background = "transparent";
           HUD_crosshair.style.display = '';
 
