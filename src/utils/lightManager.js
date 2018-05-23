@@ -55,7 +55,7 @@ function outsideToggle(id) {
     throw new Error("The ID doesn't much to any stored light");
   }
 
-  toggle(light);
+  toggle(light.light);
 }
 
 

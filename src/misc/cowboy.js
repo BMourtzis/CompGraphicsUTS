@@ -27,7 +27,7 @@ function cowboy() {
     //Add a key binding toggle the light. Bidns the light to key "1"
     let lightID = addLightingHandler(49, spotLight);
 
-    wallSwitch(new Vector3(0, 10, 0), lightID);
+    wallSwitch(new Vector3(0, 8, 43), lightID);
 
     // engine.outlineObject(ped);
 
