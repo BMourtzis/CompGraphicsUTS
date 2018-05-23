@@ -30,10 +30,10 @@ A Museum that goes throw the history of video game characters. The idea is to cr
   - [x] Add descriptions for the Models, includes clicking on the models
   - [ ] (Extra) Add outline for pointed items
 - [x] Make the lights togglable from the menu
-- [ ] (Extra) Add switches for the lights
+- [x] (Extra) Add switches for the lights
   - [x] Add functionality to allow outside scripts to toggle lights
-  - [ ] Add switches, animate them and add toggle functionality
-  
+  - [x] Add switches, animate them and add toggle functionality
+
 ## Getting Started
 1. Install Node.js version 9.7.1 or above
 2. Open a Console on the directory where you want to save the repository
