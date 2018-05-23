@@ -15,6 +15,7 @@ function cowboy() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
+<<<<<<< HEAD
     //Set right position and rotation
     ped.position.set(-20, 1, 0);
     obj.position.set(0, 11.4, 0);
@@ -26,6 +27,28 @@ function cowboy() {
 
     //Add a key binding toggle the light. Bidns the light to key "1"
     let lightID = addLightingHandler(49, spotLight);
+=======
+  let loader = new FBXLoader();
+  detailedPedestal().then((ped) => {
+    loader.load("models/cowboy.fbx", (obj) => {
+      // Scale the cowboy
+      let matrix = new Matrix4();
+      matrix.makeScale(0.01, 0.01, 0.01);
+      obj.applyMatrix(matrix);
+      ped.add(obj);
+
+      ped.position.set(-140, 1, 0);
+      obj.position.set(0, 11.4, 0);
+      obj.rotation.set(0, Math.degToRad(90), 0);
+      addCollider(ped);
+
+      let spotLight = new SpotLight(0xffffff, 0.5);
+      ped.add(spotLight);
+      spotLight.intensity = 0;
+
+      spotLight.position.set(50, 40, 0);
+      spotLight.rotation.set(0, Math.degToRad(0), 0);
+>>>>>>> Jack-RoomLayout
 
     wallSwitch(new Vector3(0, 8, 43), lightID);
 
