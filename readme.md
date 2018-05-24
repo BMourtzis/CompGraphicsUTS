@@ -15,7 +15,7 @@ A Museum that goes throw the history of video game characters. The idea is to cr
 - [ ] Create the museum walls including textures (should be kinda basic)
 - [ ] Add Models for the museum
   - [ ] Tomb Raider
-- [ ] Add lights for the exhibits
+- [x] Add lights for the exhibits
 - [ ] (Extra) Add Model viewer to see every aspect of the models.
 - [ ] (Extra) Add secret room with extra models
 - [ ] (Extra) Add more rooms to the museum
@@ -27,10 +27,12 @@ A Museum that goes throw the history of video game characters. The idea is to cr
   - [ ] (Extra) Add the ability to use a ramp
 - [x] Add triggers
 - [ ] Add pointer trigger functionality
-  - [ ] Add descriptions for the Models, includes clicking on the models
+  - [x] Add descriptions for the Models, includes clicking on the models
   - [ ] (Extra) Add outline for pointed items
-- [ ] Make the lights togglable from the menu
-- [ ] (Extra) Add switches for the lights
+- [x] Make the lights togglable from the menu
+- [x] (Extra) Add switches for the lights
+  - [x] Add functionality to allow outside scripts to toggle lights
+  - [x] Add switches, animate them and add toggle functionality
 
 ## Getting Started
 1. Install Node.js version 9.7.1 or above

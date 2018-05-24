@@ -4,9 +4,16 @@ import {
   //Light
   HemisphereLight,
   //Misc
-  Scene, Color, Fog, WebGLRenderer, Clock} from "three";
+  Scene, Color, Fog, WebGLRenderer, Clock, Vector2, TextureLoader, RepeatWrapping } from "three";
+import { EffectComposer } from "./postprocessing/effectComposer";
+import { RenderPass } from "./postprocessing/renderPass";
+import { OutlinePass } from "./postprocessing/outlinePass";
+import { ShaderPass} from "./postprocessing/shaderPass";
+import { FXAAShader } from "./postprocessing/FXAAShader";
 
 let renderer, camera, scene, clock;
+
+let composer, outlinePass, renderPass, effectFXAA;
 
 // Used to keep track of the ms between frames
 let delta = 0;
@@ -39,7 +46,7 @@ let engine = {
     // Create the scene, with background and fog
     scene = new Scene();
     scene.background = new Color(0xffffff);
-    scene.fog = new Fog(0xffffff, 0, 750);
+    //scene.fog = new Fog(0xffffff, 0, 750);
 
     // Add a new light to the scene
     let henmiLight = new HemisphereLight(0xeeeeff, 0x777788, 0.75);
@@ -54,8 +61,26 @@ let engine = {
     //Add a callback for the resize event`
     window.addEventListener( 'resize', onWindowResize, false );
 
+    initComposer();
+
     //Call the update function. It will create an update loop
     update();
+  },
+
+
+  /**
+   * changeOutlinedObject - Changes the outlined object. If null, then just outline nothing *
+   *
+   * @param  {Object3D} object The object to be outlined
+   * @return {Null}            null
+   */
+  outlineObject(object) {
+    if(object !== undefined) {
+      outlinePass.selectedObjects = [object];
+    }
+    else {
+      outlinePass.selectedObjects = [];
+    }
   },
 
   /**
@@ -77,7 +102,6 @@ let engine = {
   removeUpdate() {
     //TODO: find a way to call this function when an object is removed from the scene
   },
-
 
   /**
    * getDelta - Returns the Delta between frames in ms
@@ -107,13 +131,24 @@ function update() {
   requestAnimationFrame(update);
 
   //Set the new delta
-  delta = clock.getDelta();
+  getDelta();
 
   //Call all the registered updates
   for(let update of updateList) {
     update.fn(DEBUG);
   }
   renderer.render(scene, camera);
+}
+
+function getDelta() {
+  let currentDelta = clock.getDelta();
+
+  if(currentDelta > 0.1) {
+    delta = 0.1;
+  }
+  else {
+    delta = currentDelta;
+  }
 }
 
 /**
@@ -125,6 +160,32 @@ function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
+}
+
+function initComposer() {
+  composer = new EffectComposer(renderer);
+
+  renderPass = new RenderPass(scene, camera);
+  composer.addPass(renderPass);
+
+  outlinePass = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight), scene, camera);
+  composer.addPass(outlinePass);
+
+  let loader = new TextureLoader();
+  loader.load("textures/tri_pattern.jpg", (texture) => {
+    outlinePass.patternTexture = texture;
+    texture.wrapS = RepeatWrapping;
+    texture.wrapT = RepeatWrapping;
+  });
+
+  effectFXAA = new ShaderPass( FXAAShader );
+  effectFXAA.uniforms.resolution.value.set(1 / window.innerWidth, 1 / window.innerHeight);
+  effectFXAA.renderToScreen = true;
+  composer.addPass(effectFXAA);
+
+  engine.addUpdate("composerRender", () => {
+    composer.render();
+  });
 }
 
 export {

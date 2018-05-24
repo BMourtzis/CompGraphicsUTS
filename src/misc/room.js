@@ -1,7 +1,7 @@
-import {Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3} from "three";
-import {FBXLoader} from "../loaders/FBXLoader";
-import {scene} from "../utils/engine";
-import {addCollider} from "../utils/collider";
+import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3, Math } from "three";
+import { FBXLoader } from "../loaders/FBXLoader";
+import { scene } from "../utils/engine";
+import { addCollider } from "../utils/collider";
 
 
 function room() {
@@ -10,7 +10,7 @@ function room() {
   let texture = textureLoader.load("textures/large_wood_wall_rotates.png");
   let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
 
-  wall(material, new Vector3(40, 15, 0));
+  wall(material, new Vector3(40, 15, 0), 0);
 
 //left wall
   loader.load("models/wall.fbx", (backWall) => {
@@ -121,14 +121,35 @@ function room() {
   });
 }
 
-function wall(material, position, rotation) {
+function generateWalls() {
+  let textureLoader = new TextureLoader();
+  let texture = textureLoader.load("textures/wall - resized.jpg");
+  let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
+
+  for(let item of wallList) {
+    wall(material, item.position, item.rotation);
+  }
+}
+
+function wall(material, position = new Vector3(0, 0, 0), rotation = 0) {
+  //Create geometry and mesh
   let box = new BoxGeometry(0.001, 0.001, 0.001);
   let mesh = new Mesh(box, material);
+
+  //Apply translations
   mesh.position.add(position);
+  mesh.rotation.y = Math.degToRad(rotation);
+
+  //Add collider and add to the scene
   addCollider(mesh);
   scene.add(mesh);
 }
 
+const wallList = [
+  {position: new Vector3(40, 15, 0), rotation: 0}
+];
+
 export {
-  room
+  room,
+  generateWalls
 };

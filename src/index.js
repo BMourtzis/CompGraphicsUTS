@@ -1,6 +1,8 @@
 import { engine } from "./utils/engine";
 import controls from "./utils/pointerLockControls";
+import { pointerTriggerInit } from "./utils/pointerTrigger";
 import { gridFloor } from "./misc/floors";
+import { skybox } from "./misc/skybox";
 import { cowboy } from "./misc/cowboy";
 import { chief } from "./misc/chief";
 import { rex } from "./misc/rex";
@@ -12,18 +14,24 @@ import { laraCroft } from "./misc/laraCroft";
 import { pacman } from "./misc/pacman";
 import { ghost } from "./misc/ghost";
 import { dragonborn } from "./misc/dragonborn";
+import { rexBig } from "./misc/rexBig";
 import { room } from "./misc/room";
+import { initLightManager } from "./utils/lightManager";
 
 init();
 
 // the entry point that initialises everything
 function init() {
-  engine.init(true);
+  engine.init(false);
+  pointerTriggerInit();
+  initLightManager();
 
   // initalize objects
   gridFloor();
   room();
   controls();
+  skybox();
+
   cowboy();
   chief();
   rex();
@@ -35,4 +43,7 @@ function init() {
   pacman();
   ghost();
   dragonborn();
+
+  //giant Metal Gear Rex
+  //rexBig();
 }

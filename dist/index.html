@@ -24,14 +24,15 @@
             height: 100%;
             background-color: rgba(0,0,0,0.5);
         }
-        
+
         #HUD {
             position: absolute;
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0);
+            font-weight: bold;
         }
-
+        
         #instructions {
             width: 100%;
             height: 100%;
@@ -51,9 +52,72 @@
             text-align: center;
             cursor: pointer;
         }
+
+
+
+        #demo_HUD {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0);
+        }
+
+        #HUB_text {
+            width: 100%;
+            height: 100%;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-box-orient: horizontal;
+            -moz-box-orient: horizontal;
+            box-orient: horizontal;
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            box-pack: center;
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            box-align: center;
+            color: black;
+            text-align: center;
+            cursor: pointer;
+            font-size: 80px;
+        }
+
+        .container {
+            position: relative;
+        }
+     
+        #text {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            z-index: 10;
+        }
+
+        .HUBTitleStyle {
+            text-align: center;
+            color: #585858;
+            font-size: 300%;
+            position: absolute;
+            top: 15px;
+            left: 550px;
+            background-color:transparent;
+        }
+
+        .HUBInfoStyle {
+            text-align: bottom;
+            color: #ffffff;
+            font-size: 200%;
+            position: absolute;
+            top: 500px;
+            left: 10px;
+            background-color:transparent;
+            font-family:arial;
+        }
     </style>
 </head>
 <body>
+
     <div id="blocker">
 
         <div id="instructions">
@@ -63,14 +127,17 @@
         </div>
 
     </div>
-  
-    <div id="HUD">
 
+    <div id="Title_HUD"> UI TEST TEXT </div>
+    <div id="Info_HUD"> UI TEST TEXT </div>
+    <div id="HUD">Crosshair</div>
+<!-- 
+    <div id="demo_HUD">
         <div id="HUB_text">
-            <span style="font-size:40px">UI TEST TEXT </span>
+            <span>UI TEST TEXT </span>
         </div>
-
     </div>
+--> 
 
     <script src="inflate.min.js"></script>
     <script src="bundle.js"></script>

@@ -1,5 +1,5 @@
-import { FBXLoader } from "../loaders/FBXLoader";
 import { Matrix4 } from "three";
+import { promisifyLoad } from "../utils/modelUtils";
 
 let detPedestal;
 
@@ -16,19 +16,6 @@ function detailedPedestal() {
   }
 
   return detPedestal;
-}
-
-function promisifyLoad(url) {
-  let loader = new FBXLoader();
-  let promise = new Promise((resolve, reject) => {
-    loader.load(url, (obj) => {
-      resolve(obj);
-    }, () => { return null; }, (err) => {
-      reject(err);
-    });
-  });
-
-  return promise;
 }
 
 export {
