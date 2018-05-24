@@ -114,13 +114,22 @@
             background-color:transparent;
             font-family:arial;
         }
+
+        /* used to stop the user from highlighting the crosshair and welcome text */
+        *.unselectable {
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+}
     </style>
 </head>
 <body>
 
     <div id="blocker">
 
-        <div id="instructions">
+        <div id="instructions" unselectable="on" class="unselectable">
             <span style="font-size:40px">WELCOME TO THE VIRTUAL MUSEUM</span>
             <br />
             (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
@@ -128,9 +137,9 @@
 
     </div>
 
-    <div id="Title_HUD"> UI TEST TEXT </div>
-    <div id="Info_HUD"> UI TEST TEXT </div>
-    <div id="HUD">Crosshair</div>
+    <div id="Title_HUD" unselectable="on" class="unselectable"> UI TEST TEXT </div>
+    <div id="Info_HUD" unselectable="on" class="unselectable"> UI TEST TEXT </div>
+    <div id="HUD" unselectable="on" class="unselectable">Crosshair</div>
 <!-- 
     <div id="demo_HUD">
         <div id="HUB_text">

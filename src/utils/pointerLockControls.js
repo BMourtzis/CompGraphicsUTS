@@ -87,6 +87,7 @@ function addPointLock() {
 }
 
 // Adds keyDown and keyUp event callbacks
+//key codes: https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
 function addMoveEvents() {
   document.addEventListener('keydown', (event) => {
     switch (event.keyCode) {
