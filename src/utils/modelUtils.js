@@ -56,12 +56,10 @@ function promisifyLoad(url) {
  * @return {Null}                      null
  */
 function addYRotation(model, rotationRate = 1) {
-  engine.addUpdate("YRotationUpdate", () => {
-    let rotation = Math.degToRad(10) * engine.Delta * rotationRate;
-    let rotationMatrix = new Matrix4();
-    rotationMatrix.makeRotationY(rotation);
-    model.applyMatrix(rotationMatrix);
-  });
+  let rotation = Math.degToRad(10) * engine.Delta * rotationRate;
+  let rotationMatrix = new Matrix4();
+  rotationMatrix.makeRotationY(rotation);
+  model.applyMatrix(rotationMatrix);
 }
 
 export {
