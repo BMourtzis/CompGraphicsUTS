@@ -1,9 +1,12 @@
 import { Matrix4, SpotLight, Math, Object3D } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
-import { scene } from "../utils/engine";
+import { engine, scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
 import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
+import { addPointerTrigger } from "../utils/pointerTrigger";
+
+let rotationRate = 0;
 
 function dragonborn() {
   let loader = new FBXLoader();
@@ -23,7 +26,8 @@ function dragonborn() {
       obj.rotation.set(0, Math.degToRad(-90), 0);
       addCollider(ped);
 
-      addYRotation(obj);
+      let text = "TEST, right now you are looking at the cowboy";
+      addPointerTrigger(ped, text, lookCallback, clickCallback);
 
       let spotLight = new SpotLight(0xffffff, 0.5);
       //ped.add(spotLight);
@@ -49,10 +53,26 @@ function dragonborn() {
       }, 1);
 
       scene.add(ped);
+
+      // add Y rotation to the model
+      engine.addUpdate("CowboyUpdate", () => {
+        if(rotationRate !== 0) {
+          addYRotation(obj, rotationRate);
+          rotationRate = 0;
+        }
+      });
     });
   }, (err) => {
     console.log(err);
   });
+}
+
+function lookCallback() {
+  rotationRate = 1;
+}
+
+function clickCallback() {
+  //Does nothing
 }
 
 export {

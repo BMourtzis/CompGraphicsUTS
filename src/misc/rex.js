@@ -1,12 +1,14 @@
 import { Matrix4, SpotLight, Math, Object3D } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
-import { scene } from "../utils/engine";
+import { engine, scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
 import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
+import { addPointerTrigger } from "../utils/pointerTrigger";
+
+let rotationRate = 0;
 
 function rex() {
-
   let loader = new FBXLoader();
   detailedPedestal().then((real) => {
     loader.load("models/GameCharacters/80s/MetalGear/Rex.fbx", (obj) => {
@@ -50,10 +52,29 @@ function rex() {
       }, 1);
 
       scene.add(ped);
+
+      let text = "TEST, right now you are looking at the cowboy";
+      addPointerTrigger(ped, text, lookCallback, clickCallback);
+
+      // add Y rotation to the model
+      engine.addUpdate("CowboyUpdate", () => {
+        if(rotationRate !== 0) {
+          addYRotation(obj, rotationRate);
+          rotationRate = 0;
+        }
+      });
     });
   }, (err) => {
     console.log(err);
   });
+}
+
+function lookCallback() {
+  rotationRate = 1;
+}
+
+function clickCallback() {
+  //Does nothing
 }
 
 export {
