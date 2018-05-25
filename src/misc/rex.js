@@ -8,7 +8,10 @@ import { addPointerTrigger } from "../utils/pointerTrigger";
 let rotationRate = 0;
 
 function rex() {
-  Promise.all([detailedPedestal(), promisifyLoad("models/GameCharacters/80s/MetalGear/Rex.fbx")]).then(([real, obj]) => {
+  return Promise.all([
+    detailedPedestal(),
+    promisifyLoad("models/GameCharacters/80s/MetalGear/Rex.fbx")
+  ]).then(([real, obj]) => {
     let ped = new Object3D();
     ped.copy(real);
 

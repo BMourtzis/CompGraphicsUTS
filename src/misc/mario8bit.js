@@ -8,7 +8,10 @@ import { addPointerTrigger } from "../utils/pointerTrigger";
 let rotationRate = 0;
 
 function mario8bit() {
-  Promise.all([detailedPedestal(), promisifyLoad("models/GameCharacters/80s/Mario/8bitMario.fbx")]).then(([real, obj]) => {
+  return Promise.all([
+    detailedPedestal(),
+    promisifyLoad("models/GameCharacters/80s/Mario/8bitMario.fbx")
+  ]).then(([real, obj]) => {
     let ped = new Object3D();
     ped.copy(real);
 

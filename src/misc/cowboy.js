@@ -10,7 +10,10 @@ import { wallSwitch } from "./switch";
 let rotationRate = 0;
 
 function cowboy() {
-  Promise.all([detailedPedestal(), promisifyLoad("models/cowboy.fbx")]).then(([real, obj]) => {
+  return Promise.all([
+    detailedPedestal(),
+    promisifyLoad("models/cowboy.fbx")
+  ]).then(([real, obj]) => {
     let ped = new Object3D();
     ped.copy(real);
 
@@ -34,7 +37,7 @@ function cowboy() {
     // // wallSwitch(new Vector3(0, 8, 43), lightID);
     //
     // // engine.outlineObject(ped);// add Y rotation to the model
-    
+
     let text = "TEST, right now you are looking at the cowboy";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 

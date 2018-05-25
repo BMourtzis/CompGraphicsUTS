@@ -8,7 +8,10 @@ import { addPointerTrigger } from "../utils/pointerTrigger";
 let rotationRate = 0;
 
 function dragonborn() {
-  Promise.all([detailedPedestal(), promisifyLoad("models/GameCharacters/2000s/Skyrim/DragonBorn.fbx")]).then(([real, obj]) => {
+  return Promise.all([
+    detailedPedestal(),
+    promisifyLoad("models/GameCharacters/2000s/Skyrim/DragonBorn.fbx")
+  ]).then(([real, obj]) => {
     let ped = new Object3D();
     ped.copy(real);
 
