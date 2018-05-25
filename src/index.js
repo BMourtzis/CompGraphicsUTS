@@ -14,7 +14,7 @@ import { laraCroft } from "./misc/laraCroft";
 import { pacman } from "./misc/pacman";
 import { ghost } from "./misc/ghost";
 import { dragonborn } from "./misc/dragonborn";
-import { room } from "./misc/room";
+import { room, generateWalls } from "./misc/room";
 import { initLightManager } from "./utils/lightManager";
 
 init();
@@ -27,11 +27,13 @@ function init() {
 
   // initalize objects
   gridFloor();
-  room();
+  // room();
+  generateWalls();
   controls();
   skybox();
 
-  //Models
+  // Start loading all the models
+  // when done start the update loop and show the blocker
   Promise.all([
     cowboy(),
     chief(),
@@ -48,7 +50,7 @@ function init() {
     //This starts the update loop
     engine.startUpdateLoop();
 
-    //Removed loading screen and shows the blocker
+    //Remove loading screen and show the blocker
     document.getElementById('loadingScreen').style.display = "none";
     document.getElementById('blocker').style.display = "block";
   });

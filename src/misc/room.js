@@ -123,17 +123,17 @@ function room() {
 
 function generateWalls() {
   let textureLoader = new TextureLoader();
-  let texture = textureLoader.load("textures/wall - resized.jpg");
+  let texture = textureLoader.load("textures/large_wood_wall_rotates.png");
   let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
 
   for(let item of wallList) {
-    wall(material, item.position, item.rotation);
+    wall(material, item.position, item.rotation, item.width);
   }
 }
 
-function wall(material, position = new Vector3(0, 0, 0), rotation = 0) {
+function wall(material, position = new Vector3(0, 0, 0), rotation = 0, width = 20) {
   //Create geometry and mesh
-  let box = new BoxGeometry(0.001, 0.001, 0.001);
+  let box = new BoxGeometry(4, 100, width);
   let mesh = new Mesh(box, material);
 
   //Apply translations
@@ -146,7 +146,13 @@ function wall(material, position = new Vector3(0, 0, 0), rotation = 0) {
 }
 
 const wallList = [
-  {position: new Vector3(40, 15, 0), rotation: 0}
+  {position: new Vector3(-150, 5, -120), rotation: 0, width: 300},
+  {position: new Vector3(150, 5, -120), rotation: 0, width: 300},
+  {position: new Vector3(-33.5, 5, -120), rotation: 0, width: 200},
+  {position: new Vector3(33.5, 5, -120), rotation: 0, width: 200},
+  {position: new Vector3(90, 5, -270), rotation: 90, width: 120},
+  {position: new Vector3(-90, 5, -270), rotation: 90, width: 120},
+  {position: new Vector3(0, 5, 30), rotation: 90, width: 300}
 ];
 
 export {
