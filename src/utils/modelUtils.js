@@ -69,7 +69,7 @@ function promisifyLoad(url, loader = new FBXLoader()) {
  * @param  {Number}   rotationRate = 1 A rotation modifier, 1 is normal speed anti-clockwise, -1 is normal clockwise
  * @return {Null}                      null
  */
-function addYRotation(model, rotationRate = 1) {
+function addYRotation(model, rotationRate = 2) {
   let rotation = Math.degToRad(10) * engine.Delta * rotationRate;
   let rotationMatrix = new Matrix4();
   rotationMatrix.makeRotationY(rotation);

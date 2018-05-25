@@ -40,18 +40,19 @@ function cowboy() {
     //
     // // wallSwitch(new Vector3(0, 8, 43), lightID);
     //
-    // // engine.outlineObject(ped);// add Y rotation to the model
+
+    // engine.outlineObject(ped);// add Y rotation to the model
 
     let text = "TEST, right now you are looking at the cowboy";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     //Trigger to turn the light on when entering the sphere
-    addTrigger(30, ped.position, () => {
+    addTrigger(40, ped.position, () => {
       spotLight.intensity = 1;
     }, 0);
 
     //Trigger to turn the light off when leaving the sphere
-    addTrigger(30, ped.position, () => {
+    addTrigger(40, ped.position, () => {
       spotLight.intensity = 0;
     }, 1);
 
