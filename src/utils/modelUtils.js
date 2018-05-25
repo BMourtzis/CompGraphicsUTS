@@ -1,6 +1,6 @@
-import { SpotLight, Math, Matrix4 } from "three";
+import { SpotLight, SpotLightHelper, Math, Matrix4, Vector3 } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
-import { engine } from "../utils/engine";
+import { engine, scene } from "../utils/engine";
 
 /**
  * addSpotlight - Adds a new Spotilight to the position you want
@@ -22,17 +22,31 @@ function addSpotlight(position, colour = 0xffffff, intensity = 1) {
   spotLight.shadow.mapSize.width = 1024;
   spotLight.shadow.mapSize.height = 1024;
 
-  spotLight.shadow.camera.near = 10;
-  spotLight.shadow.camera.far = 40;
-  spotLight.shadow.camera.fov = 30;
+  spotLight.shadow.camera.near = 0;
+  spotLight.shadow.camera.far = 41;
+  spotLight.shadow.camera.fov = 20;
+
+  if(engine.DEBUG) {
+    let spotLightHelper = new SpotLightHelper(spotLight);
+    scene.add(spotLightHelper);
+  }
 
   return spotLight;
+}
+
+function addSpotlightTop(position, colour = 0xffffff, intensity = 1) {
+  let newPosition = new Vector3();
+  newPosition.copy(position);
+  newPosition.add(new Vector3(0, 40, 0));
+
+  return addSpotlight(newPosition, colour, intensity);
 }
 
 /**
  * promisifyLoad - Creates a new FBXLoader and loads a models as Promise
  *
  * @param  {String} url   The location of the model
+ * @param {Loader} loader A loader type, needs to have a function called load
  * @return {Object3D}     The model loaded by the loader
  */
 function promisifyLoad(url, loader = new FBXLoader()) {
@@ -64,6 +78,7 @@ function addYRotation(model, rotationRate = 1) {
 
 export {
   addSpotlight,
+  addSpotlightTop,
   promisifyLoad,
   addYRotation
 };

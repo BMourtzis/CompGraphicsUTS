@@ -1,8 +1,8 @@
-import { Matrix4, Vector3, Math, Object3D } from "three";
+import { Matrix4, Math, Object3D } from "three";
 import { engine, scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
-import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
+import { addSpotlightTop, promisifyLoad, addYRotation } from "../utils/modelUtils";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 
 let rotationRate = 0;
@@ -29,21 +29,23 @@ function rexBig() {
     let text = "TEST, right now you are looking at the cowboy";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
-    // let spotLight = addSpotlight(new Vector3(50, 40, 0));
-    // ped.add(spotLight);
-    //
+    scene.add(ped);
+
+    let spotLight = addSpotlightTop(ped.position);
+    spotLight.target = ped;
+
+    scene.add(spotLight);
+
     // //Add a key binding toggle the light. Bidns the light to key "1"
     // let lightID = addLightingHandler(49, spotLight);
 
-    // addTrigger(50, ped.position, () => {
-    //   spotLight.intensity = 1;
-    // }, 0);
-    //
-    // addTrigger(50, ped.position, () => {
-    //   spotLight.intensity = 0;
-    // }, 1);
+    addTrigger(30, ped.position, () => {
+      spotLight.intensity = 1;
+    }, 0);
 
-    scene.add(ped);
+    addTrigger(30, ped.position, () => {
+      spotLight.intensity = 0;
+    }, 1);
 
     // add Y rotation to the model
     engine.addUpdate("rexBigUpdate", () => {

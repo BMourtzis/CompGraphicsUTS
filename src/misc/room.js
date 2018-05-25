@@ -10,8 +10,6 @@ function room() {
   let texture = textureLoader.load("textures/large_wood_wall_rotates.png");
   let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
 
-  wall(material, new Vector3(40, 15, 0), 0);
-
 //left wall
   loader.load("models/wall.fbx", (backWall) => {
     let matrix = new Matrix4();
@@ -122,7 +120,7 @@ function room() {
 }
 
 function generateWalls() {
-  return promisifyLoad("textures/large_wood_wall_rotates.png", new TextureLoader()).then((texture) => {
+  return promisifyLoad("textures/large_wood_wall.png", new TextureLoader()).then((texture) => {
     let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
 
     for(let item of wallList) {
