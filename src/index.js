@@ -31,16 +31,25 @@ function init() {
   controls();
   skybox();
 
-  //Characters
-  cowboy();
-  chief();
-  rex();
-  snake();
-  mario8bit();
-  AmiiboMario();
-  samus();
-  laraCroft();
-  pacman();
-  ghost();
-  dragonborn();
+  //Models
+  Promise.all([
+    cowboy(),
+    chief(),
+    rex(),
+    snake(),
+    mario8bit(),
+    AmiiboMario(),
+    samus(),
+    laraCroft(),
+    pacman(),
+    ghost(),
+    dragonborn()
+  ]).then(() => {
+    //This starts the update loop
+    engine.startUpdateLoop();
+
+    //Removed loading screen and shows the blocker
+    document.getElementById('loadingScreen').style.display = "none";
+    document.getElementById('blocker').style.display = "block";
+  });
 }
