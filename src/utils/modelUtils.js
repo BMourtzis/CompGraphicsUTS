@@ -11,9 +11,8 @@ import { engine, scene } from "../utils/engine";
  * @return {Null}                      null
  */
 
-function addSpotlight(position, colour = 0xffffff, intensity = 1) {
+function addSpotlight(position, fov = 20, intensity = 1, colour = 0xffffff) {
   let spotLight = new SpotLight(colour, intensity);
-  spotLight.intensity = 0;
 
   spotLight.position.set(position.x, position.y, position.z);
 
@@ -24,7 +23,7 @@ function addSpotlight(position, colour = 0xffffff, intensity = 1) {
 
   spotLight.shadow.camera.near = 0;
   spotLight.shadow.camera.far = 41;
-  spotLight.shadow.camera.fov = 20;
+  spotLight.shadow.camera.fov = fov;
 
   if(engine.DEBUG) {
     let spotLightHelper = new SpotLightHelper(spotLight);
@@ -39,7 +38,10 @@ function addSpotlightTop(position, colour = 0xffffff, intensity = 1) {
   newPosition.copy(position);
   newPosition.add(new Vector3(0, 40, 0));
 
-  return addSpotlight(newPosition, colour, intensity);
+  let spotLight = addSpotlight(newPosition, colour, intensity);
+  spotLight.intensity = 0;
+
+  return spotLight;
 }
 
 /**

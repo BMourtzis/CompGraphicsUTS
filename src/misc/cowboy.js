@@ -3,7 +3,6 @@ import { engine, scene } from "../utils/engine";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
-import { addLightingHandler } from "../utils/lightManager";
 import { addSpotlightTop, promisifyLoad, addYRotation } from "../utils/modelUtils";
 import { wallSwitch } from "./switch";
 

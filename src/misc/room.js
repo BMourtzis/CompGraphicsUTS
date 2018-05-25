@@ -1,8 +1,9 @@
-import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3, Math } from "three";
+import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3, Math, Object3D } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
-import { promisifyLoad } from "../utils/modelUtils";
+import { promisifyLoad, addSpotlight } from "../utils/modelUtils";
+import { addLightingHandler } from "../utils/lightManager";
 
 function room() {
   let loader = new FBXLoader();
@@ -126,6 +127,8 @@ function generateWalls() {
     for(let item of wallList) {
       wall(material, item.position, item.rotation, item.width);
     }
+
+    // addLights();
   });
 }
 
@@ -151,6 +154,45 @@ const wallList = [
   {position: new Vector3(90, 5, -270), rotation: 90, width: 120},
   {position: new Vector3(-90, 5, -270), rotation: 90, width: 120},
   {position: new Vector3(0, 5, 30), rotation: 90, width: 300}
+];
+
+function addLights() {
+  for(let item of lightList) {
+    let ids = [];
+
+    for(let position of item.lights) {
+      let spotlight = addSpotlight(position, 40, 0.1);
+
+      let newPosition = new Vector3();
+      newPosition.copy(position);
+      newPosition.add(new Vector3(0, -30, 0));
+
+      spotlight.target.position.set(newPosition.x, newPosition.y, newPosition.z);
+
+      //Add a key binding toggle the light.
+      ids.push(addLightingHandler(item.key, spotlight));
+
+      scene.add(spotlight);
+    }
+  }
+}
+
+const lightList = [
+  {key: 49, lights: [
+    new Vector3(-45, 30, 10),
+    new Vector3(-45, 30, -160),
+    new Vector3(-45, 30, -250)
+  ]},
+  {key: 50, lights: [
+    new Vector3(0, 30, 10),
+    new Vector3(0, 30, -160),
+    new Vector3(0, 30, -250)
+  ]},
+  {key: 51, lights: [
+    new Vector3(45, 0, 10),
+    new Vector3(45, 0, -160),
+    new Vector3(45, 0, -250)
+  ]}
 ];
 
 export {
