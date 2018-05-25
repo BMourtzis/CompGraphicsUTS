@@ -1,68 +1,54 @@
-import { Matrix4, SpotLight, Math, Object3D } from "three";
-import { FBXLoader } from "../loaders/FBXLoader";
+import { Matrix4, Vector3, Math, Object3D } from "three";
 import { engine, scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
+import { addLightingHandler } from "../utils/lightManager";
 import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 
-let rotationRate = 0
+let rotationRate = 0;
 
 function AmiiboMario() {
-  let loader = new FBXLoader();
-  detailedPedestal().then((real) => {
-    loader.load("models/GameCharacters/80s/Mario/AmiiboMario.fbx", (obj) => {
-      let ped = new Object3D();
-      ped.copy(real);
+  Promise.all([detailedPedestal(), promisifyLoad("models/GameCharacters/80s/Mario/AmiiboMario.fbx")]).then(([real, obj]) => {
+    let ped = new Object3D();
+    ped.copy(real);
 
-      // Scale the mario
-      let matrix = new Matrix4();
-      matrix.makeScale(0.001, 0.001, 0.001);
-      obj.applyMatrix(matrix);
-      ped.add(obj);
+    // Scale the mario
+    let matrix = new Matrix4();
+    matrix.makeScale(0.001, 0.001, 0.001);
+    obj.applyMatrix(matrix);
+    ped.add(obj);
 
-      ped.position.set(-140, 1, -75);
-      obj.position.set(0, 15.5, 0);
-      obj.rotation.set(0, Math.degToRad(200), 0);
-      addCollider(ped);
+    ped.position.set(-140, 1, -75);
+    obj.position.set(0, 15.5, 0);
+    obj.rotation.set(0, Math.degToRad(200), 0);
+    addCollider(ped);
 
-      addYRotation(obj);
+    // let spotLight = addSpotlight(new Vector3(50, 40, 0));
+    // ped.add(spotLight);
+    //
+    // //Add a key binding toggle the light. Bidns the light to key "1"
+    // let lightID = addLightingHandler(49, spotLight);
 
-      let text = "TEST, right now you are looking at the cowboy";
-      addPointerTrigger(ped, text, lookCallback, clickCallback);
+    let text = "TEST, right now you are looking at the cowboy";
+    addPointerTrigger(ped, text, lookCallback, clickCallback);
 
-      let spotLight = new SpotLight(0xffffff, 0.5);
-      //ped.add(spotLight);
-      spotLight.intensity = 0;
+    // addTrigger(50, ped.position, () => {
+    //   spotLight.intensity = 1;
+    // }, 0);
+    //
+    // addTrigger(50, ped.position, () => {
+    //   spotLight.intensity = 0;
+    // }, 1);
 
-      spotLight.position.set(50, 40, 0);
+    scene.add(ped);
 
-      spotLight.castShadow = true;
-
-      spotLight.shadow.mapSize.width = 1024;
-      spotLight.shadow.mapSize.height = 1024;
-
-      spotLight.shadow.camera.near = 10;
-      spotLight.shadow.camera.far = 40;
-      spotLight.shadow.camera.fov = 30;
-
-      addTrigger(50, ped.position, () => {
-        spotLight.intensity = 1;
-      }, 0);
-
-      addTrigger(50, ped.position, () => {
-        spotLight.intensity = 0;
-      }, 1);
-
-      scene.add(ped);
-
-      // add Y rotation to the model
-      engine.addUpdate("CowboyUpdate", () => {
-        if(rotationRate !== 0) {
-          addYRotation(obj, rotationRate);
-          rotationRate = 0;
-        }
-      });
+    // add Y rotation to the model
+    engine.addUpdate("amiiboMarioUpdate", () => {
+      if(rotationRate !== 0) {
+        addYRotation(obj, rotationRate);
+        rotationRate = 0;
+      }
     });
   }, (err) => {
     console.log(err);
