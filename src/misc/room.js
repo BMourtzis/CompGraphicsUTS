@@ -2,7 +2,7 @@ import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3, 
 import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
-
+import { promisifyLoad } from "../utils/modelUtils";
 
 function room() {
   let loader = new FBXLoader();
@@ -122,13 +122,13 @@ function room() {
 }
 
 function generateWalls() {
-  let textureLoader = new TextureLoader();
-  let texture = textureLoader.load("textures/large_wood_wall_rotates.png");
-  let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
+  return promisifyLoad("textures/large_wood_wall_rotates.png", new TextureLoader()).then((texture) => {
+    let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
 
-  for(let item of wallList) {
-    wall(material, item.position, item.rotation, item.width);
-  }
+    for(let item of wallList) {
+      wall(material, item.position, item.rotation, item.width);
+    }
+  });
 }
 
 function wall(material, position = new Vector3(0, 0, 0), rotation = 0, width = 20) {

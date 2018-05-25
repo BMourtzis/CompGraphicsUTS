@@ -35,8 +35,8 @@ function addSpotlight(position, colour = 0xffffff, intensity = 1) {
  * @param  {String} url   The location of the model
  * @return {Object3D}     The model loaded by the loader
  */
-function promisifyLoad(url) {
-  let loader = new FBXLoader();
+function promisifyLoad(url, loader = new FBXLoader()) {
+  // let loader = new FBXLoader();
   let promise = new Promise((resolve, reject) => {
     loader.load(url, (obj) => {
       resolve(obj);

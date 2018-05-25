@@ -28,13 +28,13 @@ function init() {
   // initalize objects
   gridFloor();
   // room();
-  generateWalls();
   controls();
   skybox();
 
   // Start loading all the models
   // when done start the update loop and show the blocker
   Promise.all([
+    generateWalls(),
     cowboy(),
     chief(),
     rex(),
