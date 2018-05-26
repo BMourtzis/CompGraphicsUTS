@@ -15,9 +15,12 @@ import { pacman } from "./misc/pacman";
 import { ghost } from "./misc/ghost";
 import { dragonborn } from "./misc/dragonborn";
 import { arthas } from "./misc/arthas";
-import { rexBig } from "./misc/rexBig";
 import { room } from "./misc/room";
 import { initLightManager } from "./utils/lightManager";
+import { Link } from "./misc/Link"
+import { Sonic } from "./misc/Sonic"
+import { Crash } from "./misc/Crash"
+import { RatchetAndClank } from "./misc/RatchetAndClank"
 
 init();
 
@@ -33,6 +36,7 @@ function init() {
   controls();
   skybox();
 
+  //Characters
   cowboy();
   chief();
   rex();
@@ -45,7 +49,9 @@ function init() {
   ghost();
   dragonborn();
   arthas();
+  Link();
+  Crash();
+  Sonic();
+  RatchetAndClank();
 
-  //giant Metal Gear Rex
-  //rexBig();
 }

@@ -1,11 +1,13 @@
 import { Matrix4, Vector3, Math, Object3D } from "three";
-import { scene } from "../utils/engine";
+import { engine, scene } from "../utils/engine";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
 import { addLightingHandler } from "../utils/lightManager";
 import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
 import { wallSwitch } from "./switch";
+
+let rotationRate = 0;
 
 function cowboy() {
   Promise.all([detailedPedestal(), promisifyLoad("models/cowboy.fbx")]).then(([real, obj]) => {
@@ -31,10 +33,7 @@ function cowboy() {
 
     wallSwitch(new Vector3(0, 8, 43), lightID);
 
-    // engine.outlineObject(ped);
-
-    // add Y rotation to the model
-    addYRotation(obj);
+    // engine.outlineObject(ped);// add Y rotation to the model
 
     let text = "TEST, right now you are looking at the cowboy";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
@@ -50,13 +49,21 @@ function cowboy() {
     }, 1);
 
     scene.add(ped);
+
+    // add Y rotation to the model
+    engine.addUpdate("CowboyUpdate", () => {
+      if(rotationRate !== 0) {
+        addYRotation(obj, rotationRate);
+        rotationRate = 0;
+      }
+    });
   }, (err) => {
     console.log(err);
   });
 }
 
 function lookCallback() {
-  // console.log("A lookCallback");
+  rotationRate = 1;
 }
 
 function clickCallback() {
