@@ -3,13 +3,8 @@ import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
-<<<<<<< HEAD
-import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
-=======
 import { addPointerTrigger } from "../utils/pointerTrigger";
 import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
-
->>>>>>> nelson-Test-Branch
 
 function chief() {
 
