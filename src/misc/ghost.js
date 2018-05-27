@@ -3,6 +3,10 @@ import { FBXLoader } from "../loaders/FBXLoader";
 import { scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
+<<<<<<< HEAD
+=======
+import { addPointerTrigger } from "../utils/pointerTrigger";
+>>>>>>> nelson-Test-Branch
 import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
 
 function ghost() {
@@ -40,6 +44,12 @@ function ghost() {
       spotLight.shadow.camera.far = 40;
       spotLight.shadow.camera.fov = 30;
 
+      // add Y rotation to the model
+      addYRotation(obj);
+
+      let text = "Name: Blinky, Pinky, Inky, Clyde<br> First Appearance: 980<br> Model Date: <br> Description: <br>";
+      addPointerTrigger(ped, text, lookCallback, clickCallback);
+
       addTrigger(50, ped.position, () => {
         spotLight.intensity = 1;
       }, 0);
@@ -53,6 +63,14 @@ function ghost() {
   }, (err) => {
     console.log(err);
   });
+}
+
+function lookCallback() {
+  // console.log("A lookCallback");
+}
+
+function clickCallback() {
+  // console.log("A clickCallback");
 }
 
 export {
