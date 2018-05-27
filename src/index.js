@@ -32,14 +32,14 @@ function init() {
   skybox();
 
   cowboy();
-  chief();
-  rex();
-  snake();
-  mario8bit();
-  AmiiboMario();
-  samus();
-  laraCroft();
-  pacman();
-  ghost();
-  dragonborn();
+  //chief();
+  //rex();
+  //snake();
+  //mario8bit();
+  //AmiiboMario();
+  //samus();
+  //laraCroft();
+  //pacman();
+  //ghost();
+  //dragonborn();
 }
