@@ -34,7 +34,7 @@ function AmiiboMario() {
 
     scene.add(spotLight);
 
-    let text = "TEST, right now you are looking at the cowboy";
+    let text = "Name: Mario 1<br> First Appearance: 1981<br> Model Date: <br> Description: <br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

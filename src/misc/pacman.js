@@ -26,15 +26,15 @@ function pacman() {
     obj.rotation.set(0, Math.degToRad(90), 0);
     addCollider(ped);
 
-    let text = "TEST, right now you are looking at the cowboy";
-    addPointerTrigger(ped, text, lookCallback, clickCallback);
-
     scene.add(ped);
 
     let spotLight = addSpotlightTop(ped.position);
     spotLight.target = ped;
 
     scene.add(spotLight);
+
+    let text = "Name: Pac-Man<br> First Appearance: <br> Model Date: 1980<br> Description: <br>";
+    addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {
       spotLight.intensity = 1;

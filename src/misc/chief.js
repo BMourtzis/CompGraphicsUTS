@@ -33,7 +33,7 @@ function chief() {
 
     scene.add(spotLight);
 
-    let text = "TEST, right now you are looking at the cowboy";
+    let text = "Name: Master Chief<br> First Appearance: 2001<br> Model Date: <br> Description: <br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {
