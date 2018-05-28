@@ -33,7 +33,7 @@ function mario8bit() {
 
     scene.add(spotLight);
 
-    let text = "Name: Mario 2<br> First Appearance: 1981<br> Model Date: <br> Description: <br>";
+    let text = "Name: 8-bit Mario<br> First Appearance: 1981<br> Model Date: <br> Description: <br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

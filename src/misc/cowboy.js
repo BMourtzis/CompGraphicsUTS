@@ -42,7 +42,7 @@ function cowboy() {
 
     // engine.outlineObject(ped);// add Y rotation to the model
 
-    let text = "Name: The Cowboy<br> First Appearance: <br> Model Date: <br> Description: <br>";
+    let text = "Name: The Cowboy<br> First Appearance: 2018<br> Model Date: 2016<br> Description: Test Model for the Virtual Museum<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     //Trigger to turn the light on when entering the sphere
