@@ -2,7 +2,6 @@ import { Matrix4, Math, Object3D } from "three";
 import { engine, scene } from "../utils/engine";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
-import { addLightingHandler } from "../utils/lightManager";
 import { addSpotlightTop, promisifyLoad, addYRotation } from "../utils/modelUtils";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 
