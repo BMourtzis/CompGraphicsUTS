@@ -38,7 +38,6 @@ function addLightingHandler(key, light) {
 
   let id = idCount++;
   lights.push({id, key, light});
-  console.log(id);
 
   return id;
 }
