@@ -33,7 +33,7 @@ function pacman() {
 
     scene.add(spotLight);
 
-    let text = "Name: Pac-Man<br> First Appearance: <br> Model Date: 1980<br> Description: <br>";
+    let text = "Name: Pac-Man<br> Model Date: 1980<br> Description: The famous mascot of Namco, Pacman is the protagonist of the Pac-Man series. <br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

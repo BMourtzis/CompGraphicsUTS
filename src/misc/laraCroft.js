@@ -33,7 +33,7 @@ function laraCroft() {
 
     scene.add(spotLight);
 
-    let text = "Name: Lara Croft<br> First Appearance: 1996<br> Model Date: <br> Description: <br>";
+    let text = "Name: Lara Croft<br> First Appearance: 1996<br> Model Date: 1996<br> Description: Lara Croft is a treasure hunter and tomb raider from the Tomb Raider Games/Films<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

@@ -33,7 +33,7 @@ function ghost() {
 
     scene.add(spotLight);
 
-    let text = "Name: Blinky, Pinky, Inky, Clyde<br> First Appearance: 980<br> Model Date: <br> Description: <br>";
+    let text = "Name: Blinky, Pinky, Inky, Clyde<br> First Appearance: 1980<br> Description: Enemy of Pacman. Comes in 4 colours: Red, Pink, Blue and Orange<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {
