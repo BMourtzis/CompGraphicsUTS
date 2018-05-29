@@ -21,9 +21,9 @@ function snake() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -45);
+    ped.position.set(-40, 1, -45);
     obj.position.set(0, 11.4, 0);
-    obj.rotation.set(0, Math.degToRad(90), 0);
+    obj.rotation.set(0, Math.degToRad(-90), 0);
     addCollider(ped);
 
     scene.add(ped);
@@ -33,7 +33,7 @@ function snake() {
 
     scene.add(spotLight);
 
-    let text = "Name: Solid Snake<br> First Appearance: 1987<br> Model Date: <br> Description: <br>";
+    let text = "Name: Solid Snake<br> First Appearance: 1987<br> Model Date: 2004 <br> Description: Solid Snake, the main character of Metal Gear 1/2 and Metal Gear Solid 1/4<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

@@ -21,7 +21,7 @@ function laraCroft() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -105);
+    ped.position.set(-140, 1, -90);
     obj.position.set(-7.8, 18, 0);
     obj.rotation.set(0, Math.degToRad(90), 0);
     addCollider(ped);
@@ -33,7 +33,7 @@ function laraCroft() {
 
     scene.add(spotLight);
 
-    let text = "Name: Lara Croft<br> First Appearance: 1996<br> Model Date: <br> Description: <br>";
+    let text = "Name: Lara Croft<br> First Appearance: 1996<br> Model Date: 1996<br> Description: Lara Croft is a treasure hunter and tomb raider from the Tomb Raider Games/Films<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

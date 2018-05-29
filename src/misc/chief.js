@@ -21,9 +21,9 @@ function chief() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -15);
+    ped.position.set(-40, 1, -165);
     obj.position.set(0, 11.4, 0);
-    obj.rotation.set(0, Math.degToRad(0), 0);
+    obj.rotation.set(0, Math.degToRad(180), 0);
     addCollider(ped);
 
     scene.add(ped);
@@ -33,7 +33,7 @@ function chief() {
 
     scene.add(spotLight);
 
-    let text = "Name: Master Chief<br> First Appearance: 2001<br> Model Date: <br> Description: <br>";
+    let text = "Name: Master Chief<br> First Appearance: 2001<br> Model Date: 2007<br> Description: Protagonist of the Halo series<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

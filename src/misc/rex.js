@@ -33,7 +33,7 @@ function rex() {
 
     scene.add(spotLight);
 
-    let text = "Name: Rex<br> First Appearance: 1998<br> Model Date: 1998<br> Description: <br>";
+    let text = "Name: Metal Gear Rex<br> First Appearance: 1998<br> Model Date: 1998<br> Description: Armoured bipedal tank for launching nuclear warheads from the MetalGear series<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

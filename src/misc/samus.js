@@ -21,9 +21,9 @@ function samus() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -90);
-    obj.position.set(2, 11.4, 3);
-    obj.rotation.set(0, Math.degToRad(90), 0);
+    ped.position.set(-40, 1, -105);
+    obj.position.set(-2, 11.4, -3);
+    obj.rotation.set(0, Math.degToRad(-90), 0);
     addCollider(ped);
 
     scene.add(ped);
@@ -33,7 +33,7 @@ function samus() {
 
     scene.add(spotLight);
 
-    let text = "Name: Samus Aran<br> First Appearance: 1986<br> Model Date: <br> Description: <br>";
+    let text = "Name: Samus Aran<br> First Appearance: 1986<br> Model Date: 2002<br> Description: Samus Aran is an intergalactic bounty hunter and the main protagonist of the Metroid series. <br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

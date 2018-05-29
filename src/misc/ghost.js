@@ -21,9 +21,9 @@ function ghost() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -135);
+    ped.position.set(-40, 1, -135);
     obj.position.set(0, 17, 0);
-    obj.rotation.set(0, Math.degToRad(90), 0);
+    obj.rotation.set(0, Math.degToRad(-90), 0);
     addCollider(ped);
 
     scene.add(ped);
@@ -33,7 +33,7 @@ function ghost() {
 
     scene.add(spotLight);
 
-    let text = "Name: Blinky, Pinky, Inky, Clyde<br> First Appearance: 980<br> Model Date: <br> Description: <br>";
+    let text = "Name: Blinky, Pinky, Inky, Clyde<br> First Appearance: 1980<br> Description: Enemy of Pacman. Comes in 4 colours: Red, Pink, Blue and Orange<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {
