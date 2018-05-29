@@ -1,9 +1,10 @@
-import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3, Math, Object3D } from "three";
+import { Matrix4, TextureLoader, MeshPhongMaterial, BoxGeometry, Mesh, Vector3, Math, SpotLightHelper, Object3D } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
-import { scene } from "../utils/engine";
+import { engine, scene } from "../utils/engine";
 import { addCollider } from "../utils/collider";
 import { promisifyLoad, addSpotlight } from "../utils/modelUtils";
 import { addLightingHandler } from "../utils/lightManager";
+import { wallSwitch } from "./switch";
 
 function room() {
   let loader = new FBXLoader();
@@ -128,7 +129,7 @@ function generateWalls() {
       wall(material, item.position, item.rotation, item.width);
     }
 
-    // addLights();
+    addLights();
   });
 }
 
@@ -161,38 +162,50 @@ function addLights() {
     let ids = [];
 
     for(let position of item.lights) {
-      let spotlight = addSpotlight(position, 40, 0.1);
+      let spotlight = addSpotlight(position, 20, 0);
+
+      if(engine.DEBUG) {
+        let spotLightHelper = new SpotLightHelper(spotlight);
+        scene.add(spotLightHelper);
+      }
 
       let newPosition = new Vector3();
       newPosition.copy(position);
       newPosition.add(new Vector3(0, -30, 0));
 
-      spotlight.target.position.set(newPosition.x, newPosition.y, newPosition.z);
+      let obj = new Object3D();
+      obj.position.set(newPosition.x, newPosition.y, newPosition.z);
+
+      scene.add(obj);
+
+      spotlight.target = obj;
 
       //Add a key binding toggle the light.
-      ids.push(addLightingHandler(item.key, spotlight));
+      ids.push(addLightingHandler(item.key, spotlight, 0.1));
 
       scene.add(spotlight);
     }
+
+    wallSwitch(item.switchPos, item.key);
   }
 }
 
 const lightList = [
   {key: 49, lights: [
-    new Vector3(-45, 30, 10),
-    new Vector3(-45, 30, -160),
-    new Vector3(-45, 30, -250)
-  ]},
+    new Vector3(-80, 50, -20),
+    new Vector3(-80, 50, -140),
+    new Vector3(-80, 50, -250)
+  ], switchPos: new Vector3(-50, 10, 28)},
   {key: 50, lights: [
-    new Vector3(0, 30, 10),
-    new Vector3(0, 30, -160),
-    new Vector3(0, 30, -250)
-  ]},
+    new Vector3(0, 50, -20),
+    new Vector3(0, 50, -140),
+    new Vector3(0, 50, -250)
+  ], switchPos: new Vector3(0, 10, 28)},
   {key: 51, lights: [
-    new Vector3(45, 0, 10),
-    new Vector3(45, 0, -160),
-    new Vector3(45, 0, -250)
-  ]}
+    new Vector3(80, 50, -20),
+    new Vector3(80, 50, -140),
+    new Vector3(80, 50, -250)
+  ], switchPos: new Vector3(50, 10, 28)}
 ];
 
 export {

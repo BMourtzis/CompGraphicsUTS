@@ -37,7 +37,7 @@ function laraCroft() {
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {
-      spotLight.intensity = 1;
+      spotLight.intensity = 0.5;
     }, 0);
 
     addTrigger(40, ped.position, () => {

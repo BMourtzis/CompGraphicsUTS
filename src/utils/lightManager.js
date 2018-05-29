@@ -13,7 +13,7 @@ function initLightManager() {
     if(event.keyCode > 47 && event.keyCode < 58) {
       for(let light of lights) {
         if(event.keyCode === light.key) {
-          toggle(light.light);
+          toggle(light.light, light.intensity);
         }
       }
     }
@@ -25,9 +25,10 @@ function initLightManager() {
  *
  * @param  {Number} key   The key code of the key. Need to be a number 0 - 9 on the keyboard. The keycodes are between (48-57)
  * @param  {Light} light  The light that is registered
+ * @param {Number} intensity The maximum intensity of the light
  * @return {Number}       The ID of the light registered. Used to call outside toggles.
  */
-function addLightingHandler(key, light) {
+function addLightingHandler(key, light, intensity = 1) {
   if(key < 48 || key > 57) {
     throw new Error("Incorrect KeyCode!. You have to use the numbers from 0 (48) to 9 (57)");
   }
@@ -37,7 +38,7 @@ function addLightingHandler(key, light) {
   }
 
   let id = idCount++;
-  lights.push({id, key, light});
+  lights.push({id, key, light, intensity});
 
   return id;
 }
@@ -54,7 +55,15 @@ function outsideToggle(id) {
     throw new Error("The ID doesn't much to any stored light");
   }
 
-  toggle(light.light);
+  toggle(light.light, light.intensity);
+}
+
+function toggleKey(key) {
+  let keyLights = getLightFromKey(key);
+
+  for(let light of keyLights) {
+    toggle(light.light, light.intensity);
+  }
 }
 
 
@@ -74,16 +83,28 @@ function getLight(id) {
   return null;
 }
 
+function getLightFromKey(key) {
+  let keyLights = [];
+  for(let light of lights) {
+    if(light.key === key) {
+      keyLights.push(light);
+    }
+  }
+
+  return keyLights;
+}
+
 
 /**
  * toggle - Toggles the light on and off
  *
  * @param  {Object} light The Light object that will be toggled
+ * @param {Number} intensity The intensity of the light when turned on
  * @return {Null}         null
  */
-function toggle(light) {
-  if(light.intensity < 0.5) {
-    light.intensity = 1;
+function toggle(light, intensity) {
+  if(light.intensity < intensity) {
+    light.intensity = intensity;
   }
   else {
     light.intensity = 0;
@@ -93,5 +114,6 @@ function toggle(light) {
 export {
   initLightManager,
   addLightingHandler,
-  outsideToggle
+  outsideToggle,
+  toggleKey
 };
