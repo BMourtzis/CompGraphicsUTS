@@ -14,8 +14,7 @@ import { laraCroft } from "./misc/laraCroft";
 import { pacman } from "./misc/pacman";
 import { ghost } from "./misc/ghost";
 import { dragonborn } from "./misc/dragonborn";
-import { rexBig } from "./misc/rexBig";
-import { room } from "./misc/room";
+import { room, generateWalls } from "./misc/room";
 import { initLightManager } from "./utils/lightManager";
 
 init();
@@ -28,22 +27,31 @@ function init() {
 
   // initalize objects
   gridFloor();
-  room();
+  // room();
   controls();
   skybox();
 
-  cowboy();
-  chief();
-  rex();
-  snake();
-  mario8bit();
-  AmiiboMario();
-  samus();
-  laraCroft();
-  pacman();
-  ghost();
-  dragonborn();
+  // Start loading all the models
+  // when done start the update loop and show the blocker
+  Promise.all([
+    generateWalls(),
+    cowboy(),
+    chief(),
+    rex(),
+    snake(),
+    mario8bit(),
+    AmiiboMario(),
+    samus(),
+    laraCroft(),
+    pacman(),
+    ghost(),
+    dragonborn()
+  ]).then(() => {
+    //This starts the update loop
+    engine.startUpdateLoop();
 
-  //giant Metal Gear Rex
-  //rexBig();
+    //Remove loading screen and show the blocker
+    document.getElementById('loadingScreen').style.display = "none";
+    document.getElementById('blocker').style.display = "block";
+  });
 }

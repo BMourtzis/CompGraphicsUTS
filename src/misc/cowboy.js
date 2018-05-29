@@ -1,14 +1,17 @@
-import { Matrix4, Vector3, Math, Object3D } from "three";
-import { scene } from "../utils/engine";
+import { Matrix4, Math, Object3D } from "three";
+import { engine, scene } from "../utils/engine";
 import { addPointerTrigger } from "../utils/pointerTrigger";
 import { addCollider, addTrigger } from "../utils/collider";
 import { detailedPedestal } from "./pedestal";
-import { addLightingHandler } from "../utils/lightManager";
-import { addSpotlight, promisifyLoad, addYRotation } from "../utils/modelUtils";
-import { wallSwitch } from "./switch";
+import { addSpotlightTop, promisifyLoad, addYRotation } from "../utils/modelUtils";
+
+let rotationRate = 0;
 
 function cowboy() {
-  Promise.all([detailedPedestal(), promisifyLoad("models/cowboy.fbx")]).then(([real, obj]) => {
+  return Promise.all([
+    detailedPedestal(),
+    promisifyLoad("models/cowboy.fbx")
+  ]).then(([real, obj]) => {
     let ped = new Object3D();
     ped.copy(real);
 
@@ -23,40 +26,42 @@ function cowboy() {
     obj.rotation.set(0, Math.degToRad(90), 0);
     addCollider(ped);
 
-    let spotLight = addSpotlight(new Vector3(50, 40, 0));
-    ped.add(spotLight);
+    scene.add(ped);
 
-    //Add a key binding toggle the light. Bidns the light to key "1"
-    let lightID = addLightingHandler(49, spotLight);
+    let spotLight = addSpotlightTop(ped.position);
+    spotLight.target = ped;
 
-    wallSwitch(new Vector3(0, 8, 43), lightID);
+    scene.add(spotLight);
 
-    // engine.outlineObject(ped);
+    // engine.outlineObject(ped);// add Y rotation to the model
 
-    // add Y rotation to the model
-    addYRotation(obj);
-
-    let text = "TEST, right now you are looking at the cowboy";
+    let text = "Name: The Cowboy<br> First Appearance: 2018<br> Model Date: 2016<br> Description: Test Model for the Virtual Museum<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     //Trigger to turn the light on when entering the sphere
-    addTrigger(50, ped.position, () => {
-      spotLight.intensity = 1;
+    addTrigger(40, ped.position, () => {
+      spotLight.intensity = 0.5;
     }, 0);
 
     //Trigger to turn the light off when leaving the sphere
-    addTrigger(50, ped.position, () => {
+    addTrigger(40, ped.position, () => {
       spotLight.intensity = 0;
     }, 1);
 
-    scene.add(ped);
+    // add Y rotation to the model
+    engine.addUpdate("CowboyUpdate", () => {
+      if(rotationRate !== 0) {
+        addYRotation(obj, rotationRate);
+        rotationRate = 0;
+      }
+    });
   }, (err) => {
     console.log(err);
   });
 }
 
 function lookCallback() {
-  // console.log("A lookCallback");
+  rotationRate = 1;
 }
 
 function clickCallback() {

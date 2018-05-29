@@ -62,8 +62,10 @@ let engine = {
     window.addEventListener( 'resize', onWindowResize, false );
 
     initComposer();
+  },
 
-    //Call the update function. It will create an update loop
+  startUpdateLoop() {
+        // Call the update function. It will create an update loop
     update();
   },
 

@@ -1,154 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Virtual Museum</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
-    <style>
-        html, body {
-            width: 100%;
-            height: 100%;
-        }
-
-        body {
-            background-color: #ffffff;
-            margin: 0;
-            overflow: hidden;
-            font-family: arial;
-        }
-
-        #blocker {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        #HUD {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0);
-            font-weight: bold;
-        }
-        
-        #instructions {
-            width: 100%;
-            height: 100%;
-            display: -webkit-box;
-            display: -moz-box;
-            display: box;
-            -webkit-box-orient: horizontal;
-            -moz-box-orient: horizontal;
-            box-orient: horizontal;
-            -webkit-box-pack: center;
-            -moz-box-pack: center;
-            box-pack: center;
-            -webkit-box-align: center;
-            -moz-box-align: center;
-            box-align: center;
-            color: #ffffff;
-            text-align: center;
-            cursor: pointer;
-        }
-
-
-
-        #demo_HUD {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0);
-        }
-
-        #HUB_text {
-            width: 100%;
-            height: 100%;
-            display: -webkit-box;
-            display: -moz-box;
-            display: box;
-            -webkit-box-orient: horizontal;
-            -moz-box-orient: horizontal;
-            box-orient: horizontal;
-            -webkit-box-pack: center;
-            -moz-box-pack: center;
-            box-pack: center;
-            -webkit-box-align: center;
-            -moz-box-align: center;
-            box-align: center;
-            color: black;
-            text-align: center;
-            cursor: pointer;
-            font-size: 80px;
-        }
-
-        .container {
-            position: relative;
-        }
-     
-        #text {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            z-index: 10;
-        }
-
-        .HUBTitleStyle {
-            text-align: center;
-            color: #585858;
-            font-size: 300%;
-            position: absolute;
-            top: 15px;
-            left: 550px;
-            background-color:transparent;
-        }
-
-        .HUBInfoStyle {
-            text-align: bottom;
-            color: #ffffff;
-            font-size: 200%;
-            position: absolute;
-            top: 500px;
-            left: 10px;
-            background-color:transparent;
-            font-family:arial;
-        }
-
-        /* used to stop the user from highlighting the crosshair and welcome text */
-        *.unselectable {
-        -moz-user-select: -moz-none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-}
-    </style>
+  <title>Virtual Museum</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      background-color: #ffffff;
+      margin: 0;
+      overflow: hidden;
+      font-family: arial;
+    }
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    #blocker {
+      display: none;
+    }
+    #HUD {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0);
+      font-weight: bold;
+    }
+    #instructions {
+      width: 100%;
+      height: 100%;
+      display: -webkit-box;
+      display: -moz-box;
+      display: box;
+      -webkit-box-orient: horizontal;
+      -moz-box-orient: horizontal;
+      box-orient: horizontal;
+      -webkit-box-pack: center;
+      -moz-box-pack: center;
+      box-pack: center;
+      -webkit-box-align: center;
+      -moz-box-align: center;
+      box-align: center;
+      color: #ffffff;
+      text-align: center;
+      cursor: pointer;
+    }
+    #demo_HUD {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0);
+    }
+    #HUB_text {
+      width: 100%;
+      height: 100%;
+      display: -webkit-box;
+      display: -moz-box;
+      display: box;
+      -webkit-box-orient: horizontal;
+      -moz-box-orient: horizontal;
+      box-orient: horizontal;
+      -webkit-box-pack: center;
+      -moz-box-pack: center;
+      box-pack: center;
+      -webkit-box-align: center;
+      -moz-box-align: center;
+      box-align: center;
+      color: black;
+      text-align: center;
+      cursor: pointer;
+      font-size: 80px;
+    }
+    .container {
+      position: relative;
+    }
+    #text {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: 10;
+    }
+    .HUBTitleStyle {
+      text-align: center;
+      color: #585858;
+      font-size: 300%;
+      position: absolute;
+      top: 15px;
+      left: 550px;
+      background-color: transparent;
+    }
+    .HUBInfoStyle {
+      text-align: bottom;
+      color: #ffffff;
+      font-size: 200%;
+      position: fixed;
+      bottom: 10%;
+      left: 10px;
+      background-color: transparent;
+      font: bold 40px/40px arial, serif;
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: black;
+    }
+  </style>
 </head>
+
 <body>
-
-    <div id="blocker">
-
-        <div id="instructions" unselectable="on" class="unselectable">
-            <span style="font-size:40px">WELCOME TO THE VIRTUAL MUSEUM</span>
-            <br />
-            (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
-        </div>
-
+  <div id="blocker" class="overlay">
+    <div id="instructions">
+      <span style="font-size:40px">WELCOME TO THE VIRTUAL MUSEUM</span>
+      <br /> (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
     </div>
-
-    <div id="Title_HUD" unselectable="on" class="unselectable"> UI TEST TEXT </div>
-    <div id="Info_HUD" unselectable="on" class="unselectable"> UI TEST TEXT </div>
-    <div id="HUD" unselectable="on" class="unselectable">Crosshair</div>
-<!-- 
-    <div id="demo_HUD">
-        <div id="HUB_text">
-            <span>UI TEST TEXT </span>
-        </div>
+  </div>
+  <div id="loadingScreen" class="overlay">
+    <div id="instructions">
+      <span style="font-size:40px">LOADING VIRTUAL MUSEUM</span>
     </div>
---> 
+  </div>
+  <div id="Title_HUD"></div>
+  <div id="Info_HUD"></div>
+  <div id="HUD"></div>
 
-    <script src="inflate.min.js"></script>
-    <script src="bundle.js"></script>
+  <script src="inflate.min.js"></script>
+  <script src="bundle.js"></script>
 </body>
+
 </html>

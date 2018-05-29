@@ -1,6 +1,6 @@
-import { SpotLight, Math, Matrix4 } from "three";
+import { SpotLight, SpotLightHelper, Math, Matrix4, Vector3 } from "three";
 import { FBXLoader } from "../loaders/FBXLoader";
-import { engine } from "../utils/engine";
+import { engine, scene } from "../utils/engine";
 
 /**
  * addSpotlight - Adds a new Spotilight to the position you want
@@ -11,9 +11,8 @@ import { engine } from "../utils/engine";
  * @return {Null}                      null
  */
 
-function addSpotlight(position, colour = 0xffffff, intensity = 1) {
+function addSpotlight(position, fov = 20, intensity = 1, colour = 0xffffff) {
   let spotLight = new SpotLight(colour, intensity);
-  spotLight.intensity = 0;
 
   spotLight.position.set(position.x, position.y, position.z);
 
@@ -22,9 +21,25 @@ function addSpotlight(position, colour = 0xffffff, intensity = 1) {
   spotLight.shadow.mapSize.width = 1024;
   spotLight.shadow.mapSize.height = 1024;
 
-  spotLight.shadow.camera.near = 10;
-  spotLight.shadow.camera.far = 40;
-  spotLight.shadow.camera.fov = 30;
+  spotLight.shadow.camera.near = 0;
+  spotLight.shadow.camera.far = 41;
+  spotLight.shadow.camera.fov = fov;
+
+  if(engine.DEBUG) {
+    let spotLightHelper = new SpotLightHelper(spotLight);
+    scene.add(spotLightHelper);
+  }
+
+  return spotLight;
+}
+
+function addSpotlightTop(position, colour = 0xffffff, intensity = 1) {
+  let newPosition = new Vector3();
+  newPosition.copy(position);
+  newPosition.add(new Vector3(0, 40, 0));
+
+  let spotLight = addSpotlight(newPosition, colour, intensity);
+  spotLight.intensity = 0;
 
   return spotLight;
 }
@@ -33,10 +48,11 @@ function addSpotlight(position, colour = 0xffffff, intensity = 1) {
  * promisifyLoad - Creates a new FBXLoader and loads a models as Promise
  *
  * @param  {String} url   The location of the model
+ * @param {Loader} loader A loader type, needs to have a function called load
  * @return {Object3D}     The model loaded by the loader
  */
-function promisifyLoad(url) {
-  let loader = new FBXLoader();
+function promisifyLoad(url, loader = new FBXLoader()) {
+  // let loader = new FBXLoader();
   let promise = new Promise((resolve, reject) => {
     loader.load(url, (obj) => {
       resolve(obj);
@@ -55,17 +71,16 @@ function promisifyLoad(url) {
  * @param  {Number}   rotationRate = 1 A rotation modifier, 1 is normal speed anti-clockwise, -1 is normal clockwise
  * @return {Null}                      null
  */
-function addYRotation(model, rotationRate = 1) {
-  engine.addUpdate("YRotationUpdate", () => {
-    let rotation = Math.degToRad(10) * engine.Delta * rotationRate;
-    let rotationMatrix = new Matrix4();
-    rotationMatrix.makeRotationY(rotation);
-    model.applyMatrix(rotationMatrix);
-  });
+function addYRotation(model, rotationRate = 2) {
+  let rotation = Math.degToRad(10) * engine.Delta * rotationRate;
+  let rotationMatrix = new Matrix4();
+  rotationMatrix.makeRotationY(rotation);
+  model.applyMatrix(rotationMatrix);
 }
 
 export {
   addSpotlight,
+  addSpotlightTop,
   promisifyLoad,
   addYRotation
 };

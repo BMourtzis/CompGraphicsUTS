@@ -1,10 +1,9 @@
 import { engine, scene } from "../utils/engine.js";
 import { BoxGeometry, MeshBasicMaterial, Mesh, Math, Matrix4, Vector3 } from "three";
 import { addPointerTrigger } from "../utils/pointerTrigger";
-import { outsideToggle } from "../utils/lightManager";
+import { outsideToggle, toggleKey } from "../utils/lightManager";
 
-function wallSwitch(position, lightID) {
-  console.log(lightID);
+function wallSwitch(position, key) {
   let baseBox = new BoxGeometry(2, 1, 4);
   let baseMaterial = new MeshBasicMaterial({color: 0x884455});
   let base = new Mesh(baseBox, baseMaterial);
@@ -25,7 +24,7 @@ function wallSwitch(position, lightID) {
 
   //TODO: try to add way to see when the intensity changes, change the positon of the switch
   // NOTE: Maybe by adding the switch from the light manger you can also add a call on the toggle function
-  
+
   let on = true;
 
   base.add(switchMesh);
@@ -44,7 +43,8 @@ function wallSwitch(position, lightID) {
       switchMesh.applyMatrix(rotationMatrix);
     }
 
-    outsideToggle(lightID);
+    // outsideToggle(lightID);
+    toggleKey(key);
     on = !on;
   });
 }
