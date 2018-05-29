@@ -23,7 +23,7 @@ function AmiiboMario() {
 
     ped.position.set(-40, 1, -75);
     obj.position.set(0, 15.5, 0);
-    obj.rotation.set(0, Math.degToRad(200), 0);
+    obj.rotation.set(0, Math.degToRad(45), 0);
     addCollider(ped);
 
     scene.add(ped);

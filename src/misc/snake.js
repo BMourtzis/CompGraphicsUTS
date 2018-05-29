@@ -23,7 +23,7 @@ function snake() {
 
     ped.position.set(-40, 1, -45);
     obj.position.set(0, 11.4, 0);
-    obj.rotation.set(0, Math.degToRad(90), 0);
+    obj.rotation.set(0, Math.degToRad(-90), 0);
     addCollider(ped);
 
     scene.add(ped);
