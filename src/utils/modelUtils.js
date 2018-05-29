@@ -10,7 +10,6 @@ import { engine, scene } from "../utils/engine";
  * @param  {Number}  intensity = 1     The intisity of the light from 0 to 1
  * @return {Null}                      null
  */
-
 function addSpotlight(position, fov = 20, intensity = 1, colour = 0xffffff) {
   let spotLight = new SpotLight(colour, intensity);
 

@@ -58,6 +58,13 @@ function outsideToggle(id) {
   toggle(light.light, light.intensity);
 }
 
+
+/**
+ * toggleKey - Turns lights based on they key they are registed
+ *
+ * @param  {Number} key They keyCode that the lights are registered against
+ * @return {Null}       null
+ */
 function toggleKey(key) {
   let keyLights = getLightFromKey(key);
 
@@ -83,6 +90,13 @@ function getLight(id) {
   return null;
 }
 
+
+/**
+ * getLightFromKey - Gets a list of lights, registered against the keyCode
+ *
+ * @param  {Number} key The keyCode lights are registered against
+ * @return {Array}      The list of lights registered against the keyCode
+ */
 function getLightFromKey(key) {
   let keyLights = [];
   for(let light of lights) {

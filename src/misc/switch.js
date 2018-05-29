@@ -1,8 +1,16 @@
-import { engine, scene } from "../utils/engine.js";
+import { scene } from "../utils/engine.js";
 import { BoxGeometry, MeshBasicMaterial, Mesh, Math, Matrix4, Vector3 } from "three";
 import { addPointerTrigger } from "../utils/pointerTrigger";
-import { outsideToggle, toggleKey } from "../utils/lightManager";
+import { toggleKey } from "../utils/lightManager";
 
+
+/**
+ * wallSwitch - Adds a switch and attaches a clickEvent to a keyCode
+ *
+ * @param  {Vector3} position The position the switch will be placed
+ * @param  {Number}  key      The keyCode to attach the clickEvent to
+ * @return {Null}             null
+ */
 function wallSwitch(position, key) {
   let baseBox = new BoxGeometry(2, 1, 4);
   let baseMaterial = new MeshBasicMaterial({color: 0x884455});

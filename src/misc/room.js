@@ -121,6 +121,12 @@ function room() {
   });
 }
 
+
+/**
+ * generateWalls - Generates wall based on the wallList
+ *
+ * @return {Null}  null
+ */
 function generateWalls() {
   return promisifyLoad("textures/large_wood_wall.png", new TextureLoader()).then((texture) => {
     let material = new MeshPhongMaterial({ map: texture, overdraw: 0.5});
@@ -133,6 +139,16 @@ function generateWalls() {
   });
 }
 
+
+/**
+ * wall - Generates a new wall in the location specified
+ *
+ * @param  {Material} material                      The material of the wall
+ * @param  {Vector3}  position = new Vector3(0,0,0) The postion of the wall
+ * @param  {Number}   rotation = 0                  The rotaion in degrees
+ * @param  {Number}   width = 0                     The width of the wall
+ * @return {Null}                                   null
+ */
 function wall(material, position = new Vector3(0, 0, 0), rotation = 0, width = 20) {
   //Create geometry and mesh
   let box = new BoxGeometry(4, 100, width);
@@ -147,6 +163,9 @@ function wall(material, position = new Vector3(0, 0, 0), rotation = 0, width = 2
   scene.add(mesh);
 }
 
+/**
+ * The location of the walls, with rotations and custom widths
+ */
 const wallList = [
   {position: new Vector3(-150, 5, -120), rotation: 0, width: 300},
   {position: new Vector3(150, 5, -120), rotation: 0, width: 300},
@@ -157,6 +176,12 @@ const wallList = [
   {position: new Vector3(0, 5, 30), rotation: 90, width: 300}
 ];
 
+
+/**
+ * addLights - AddLights using the LightList
+ *
+ * @return {Null}  null
+ */
 function addLights() {
   for(let item of lightList) {
     let ids = [];
@@ -190,6 +215,9 @@ function addLights() {
   }
 }
 
+/**
+ * A list of lights, with their keyCode and Switch Position
+ */
 const lightList = [
   {key: 49, lights: [
     new Vector3(-80, 50, -20),

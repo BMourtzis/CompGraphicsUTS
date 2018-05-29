@@ -63,6 +63,11 @@ let engine = {
     initComposer();
   },
 
+  /**
+   * startUpdateLoop - Starts the update loop and injects the renderer element
+   *
+   * @return {Null}  null
+   */
   startUpdateLoop() {
     document.body.appendChild(renderer.domElement);
     // Call the update function. It will create an update loop
@@ -142,6 +147,12 @@ function update() {
   renderer.render(scene, camera);
 }
 
+
+/**
+ * getDelta - Sets the new Delta
+ *
+ * @return {Null}  null
+ */
 function getDelta() {
   let currentDelta = clock.getDelta();
 
@@ -164,6 +175,12 @@ function onWindowResize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
+
+/**
+ * initComposer - Initliases the composer
+ *
+ * @return {Null}  null
+ */
 function initComposer() {
   composer = new EffectComposer(renderer);
 
