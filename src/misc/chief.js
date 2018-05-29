@@ -21,7 +21,7 @@ function chief() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -15);
+    ped.position.set(-40, 1, -165);
     obj.position.set(0, 11.4, 0);
     obj.rotation.set(0, Math.degToRad(0), 0);
     addCollider(ped);

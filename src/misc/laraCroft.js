@@ -21,7 +21,7 @@ function laraCroft() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -105);
+    ped.position.set(-40, 1, -105);
     obj.position.set(-7.8, 18, 0);
     obj.rotation.set(0, Math.degToRad(90), 0);
     addCollider(ped);

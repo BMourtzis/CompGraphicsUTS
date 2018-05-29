@@ -21,7 +21,7 @@ function snake() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -45);
+    ped.position.set(-40, 1, -45);
     obj.position.set(0, 11.4, 0);
     obj.rotation.set(0, Math.degToRad(90), 0);
     addCollider(ped);

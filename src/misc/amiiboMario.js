@@ -21,7 +21,7 @@ function AmiiboMario() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -75);
+    ped.position.set(-40, 1, -75);
     obj.position.set(0, 15.5, 0);
     obj.rotation.set(0, Math.degToRad(200), 0);
     addCollider(ped);
