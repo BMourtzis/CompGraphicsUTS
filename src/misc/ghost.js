@@ -21,7 +21,7 @@ function ghost() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -135);
+    ped.position.set(-30, 1, -135);
     obj.position.set(0, 17, 0);
     obj.rotation.set(0, Math.degToRad(90), 0);
     addCollider(ped);
