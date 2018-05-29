@@ -56,7 +56,6 @@ let engine = {
     renderer = new WebGLRenderer(rendererSettings);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
 
     //Add a callback for the resize event`
     window.addEventListener( 'resize', onWindowResize, false );
@@ -65,7 +64,8 @@ let engine = {
   },
 
   startUpdateLoop() {
-        // Call the update function. It will create an update loop
+    document.body.appendChild(renderer.domElement);
+    // Call the update function. It will create an update loop
     update();
   },
 
