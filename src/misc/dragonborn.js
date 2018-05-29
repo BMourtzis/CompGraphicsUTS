@@ -33,7 +33,7 @@ function dragonborn() {
 
     scene.add(spotLight);
 
-    let text = "Name: Dragon Born<br> First Appearance: <br> Model Date: <br> Description: <br>";
+    let text = "Name: Dragon Born<br> First Appearance: 2011<br> Model Date: 2011<br> Description: Protagonist of The Elder Scrolls V: Skyrim<br>";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
 
