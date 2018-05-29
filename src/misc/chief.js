@@ -23,7 +23,7 @@ function chief() {
 
     ped.position.set(-40, 1, -165);
     obj.position.set(0, 11.4, 0);
-    obj.rotation.set(0, Math.degToRad(0), 0);
+    obj.rotation.set(0, Math.degToRad(180), 0);
     addCollider(ped);
 
     scene.add(ped);

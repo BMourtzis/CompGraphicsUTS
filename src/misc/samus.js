@@ -21,9 +21,9 @@ function samus() {
     obj.applyMatrix(matrix);
     ped.add(obj);
 
-    ped.position.set(-140, 1, -90);
-    obj.position.set(2, 11.4, 3);
-    obj.rotation.set(0, Math.degToRad(90), 0);
+    ped.position.set(-40, 1, -105);
+    obj.position.set(-2, 11.4, -3);
+    obj.rotation.set(0, Math.degToRad(-90), 0);
     addCollider(ped);
 
     scene.add(ped);
