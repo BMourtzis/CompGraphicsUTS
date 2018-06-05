@@ -33,7 +33,11 @@ function chief() {
 
     scene.add(spotLight);
 
-    let text = "Name: Master Chief<br> First Appearance: 2001<br> Model Date: 2007<br> Description: Protagonist of the Halo series<br>";
+    let text = [
+    "chief",
+    "Name: Master Chief<br> First Appearance: 2001<br> Model Date: 2007<br> Description: Protagonist of the Halo series<br>"
+    ];
+    let modelId = "chief";
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

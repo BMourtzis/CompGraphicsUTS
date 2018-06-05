@@ -109,21 +109,39 @@
       -webkit-text-stroke-width: 2px;
       -webkit-text-stroke-color: black;
     }
+    .ImgStyle {
+      color: #ffffff;
+      font-size: 200%;
+      position: fixed;
+      background-color: transparent;
+      font: bold 40px/40px arial, serif;
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: black;
+    }
+
+
   </style>
 </head>
 
 <body>
+
   <div id="blocker" class="overlay">
     <div id="instructions">
       <span style="font-size:40px">WELCOME TO THE VIRTUAL MUSEUM</span>
       <br /> (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)
     </div>
   </div>
+
+
   <div id="loadingScreen" class="overlay">
     <div id="instructions">
       <span style="font-size:40px">LOADING VIRTUAL MUSEUM</span>
     </div>
   </div>
+
+  <img class="ImgStyle" id="avatarImg" src="textures/img/mario.jpg" alt="avatar" width="220" height="220">
+
+
   <div id="Title_HUD"></div>
   <div id="Info_HUD"></div>
   <div id="HUD"></div>

@@ -33,8 +33,13 @@ function mario8bit() {
 
     scene.add(spotLight);
 
-    let text = "Name: 8-bit Mario<br> First Appearance: 1981<br> Model Date: 1985 <br> Description: The 8-bit plumber who's princess is always in another castle<br>";
-    addPointerTrigger(ped, text, lookCallback, clickCallback);
+    let text = 
+    [
+    "mario8",
+    "Name: 8-bit Mario<br> First Appearance: 1981<br> Model Date: 1985 <br> Description: The 8-bit plumber who's princess is always in another castle<br>"
+    ];
+    let modelId = "mario8";
+    addPointerTrigger(ped, text, lookCallback, clickCallback, modelId);
 
     addTrigger(40, ped.position, () => {
       spotLight.intensity = 0.5;

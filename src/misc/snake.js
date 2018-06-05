@@ -33,7 +33,11 @@ function snake() {
 
     scene.add(spotLight);
 
-    let text = "Name: Solid Snake<br> First Appearance: 1987<br> Model Date: 2004 <br> Description: Solid Snake, the main character of Metal Gear 1/2 and Metal Gear Solid 1/4<br>";
+    let text = 
+    [
+      "snake",
+      "Name: Solid Snake<br> First Appearance: 1987<br> Model Date: 2004 <br> Description: Solid Snake, the main character of Metal Gear 1/2 and Metal Gear Solid 1/4<br>"
+    ];
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

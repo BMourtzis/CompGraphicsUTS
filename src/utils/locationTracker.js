@@ -38,6 +38,9 @@ function PositionManager(){
 
   this.updateUI = function(text){
 
+      //document.getElementById("imageid").src="#";
+      
+
       // check if we are currently in the game 
       // if we are the display the UI else dont show it 
       var element = document.body;
@@ -45,14 +48,18 @@ function PositionManager(){
           // show UI
           //console.log("SHOW SOMETHING!!");
           //HUD_header.innerHTML = '<span class="HUBTitleStyle">' + title_1 + '</span>';
-          HUD_info.innerHTML = '<span class="HUBInfoStyle">' + text + '</span>';
+          HUD_info.innerHTML = '<span class="HUBInfoStyle">' + text[1] + '</span>';
           //HUD_header.style.display = '';
           HUD_info.style.display = '';
+
+          document.getElementById("avatarImg").src="textures/img/" + text[0] + ".jpg";
 
       }else{
           // hide UI
           HUD_header.style.display = 'none';
           HUD_info.style.display = 'none';
+
+          document.getElementById("avatarImg").src="#";
       }
 
       

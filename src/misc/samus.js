@@ -33,7 +33,10 @@ function samus() {
 
     scene.add(spotLight);
 
-    let text = "Name: Samus Aran<br> First Appearance: 1986<br> Model Date: 2002<br> Description: Samus Aran is an intergalactic bounty hunter and the main protagonist of the Metroid series. <br>";
+    let text = [
+    "samus",
+    "Name: Samus Aran<br> First Appearance: 1986<br> Model Date: 2002<br> Description: Samus Aran is an intergalactic bounty hunter and the main protagonist of the Metroid series. <br>"
+    ];
     addPointerTrigger(ped, text, lookCallback, clickCallback);
 
     addTrigger(40, ped.position, () => {

@@ -33,8 +33,12 @@ function pacman() {
 
     scene.add(spotLight);
 
-    let text = "Name: Pac-Man<br> Model Date: 1980<br> Description: The famous mascot of Namco, Pacman is the protagonist of the Pac-Man series. <br>";
-    addPointerTrigger(ped, text, lookCallback, clickCallback);
+    let text = [
+    "pacman",
+    "Name: Pac-Man<br> Model Date: 1980<br> Description: The famous mascot of Namco, Pacman is the protagonist of the Pac-Man series. <br>"
+    ];
+    let modelId = "pacman";
+    addPointerTrigger(ped, text, lookCallback, clickCallback, modelId);
 
     addTrigger(40, ped.position, () => {
       spotLight.intensity = 0.5;
