@@ -2,26 +2,29 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/bmourtzis/compgraphicsuts/badge)](https://www.codefactor.io/repository/github/bmourtzis/compgraphicsuts)
 
 ## Topic
+
 A Museum that goes throw the history of video game characters. The idea is to create models through different eras of video game models, from low poly (like tomb raider) to high poly.
 
 ## Tasks
+
 ### Basic
+
 - [x] Move the code into node.js and configure webpack
 - [x] Add Loader for models
 - [x] Configure Engine Mechanisms
 - [ ] Add shaders
 
 ### Models
-- [ ] Create the museum walls including textures (should be kinda basic)
-- [ ] Add Models for the museum
-  - [ ] Tomb Raider
+
+- [x] Create the museum walls including textures (should be kinda basic)
+- [x] Add Models for the museum
 - [x] Add lights for the exhibits
 - [ ] (Extra) Add Model viewer to see every aspect of the models.
 - [ ] (Extra) Add secret room with extra models
 - [ ] (Extra) Add more rooms to the museum
 
 ### Mechanisms
-- [ ] Create smooth camera mechanisms (To Be discussed)
+
 - [x] Add colliders for the walls and models
   - [x] Add custom colliders
   - [ ] (Extra) Add the ability to use a ramp
@@ -35,6 +38,7 @@ A Museum that goes throw the history of video game characters. The idea is to cr
   - [x] Add switches, animate them and add toggle functionality
 
 ## Getting Started
+
 1. Install Node.js version 9.7.1 or above
 2. Open a Console on the directory where you want to save the repository
 3. Use the " git clone https://github.com/BMourtzis/CompGraphicsUTS.git " (you need to install git if you already haven't. If you find git difficult to use, the install github for Desktop)
